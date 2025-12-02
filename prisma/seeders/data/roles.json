@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "name": "Student",
+      "key": "student"
+    },
+    {
+      "name": "Mentor",
+      "key": "mentor"
+    },
+    {
+      "name": "Manager",
+      "key": "manager"
+    }
+  ]
+}

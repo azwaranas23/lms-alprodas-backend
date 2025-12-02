@@ -1,0 +1,423 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  key         String   @unique @db.VarChar(100)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  users           User[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  resource      String   @db.VarChar(50)
+  key         String   @unique @db.VarChar(50)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           Int      @id @default(autoincrement())
+  roleId       Int      @map("role_id")
+  permissionId Int      @map("permission_id")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique @db.VarChar(255)
+  password          String    @db.VarChar(255)
+  name              String    @map("name") @db.VarChar(255)
+  roleId            Int       @map("role_id")
+  phone             String?   @db.VarChar(20)
+  isVerified        Boolean   @default(false) @map("is_verified")
+  verificationToken String?   @map("verification_token") @db.VarChar(255)
+  isActive          Boolean   @default(true) @map("is_active")
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  role               Role               @relation(fields: [roleId], references: [id])
+  userProfile        UserProfile?
+  coursesAsMentor    Course[]           @relation("CourseMentor")
+  enrollments        Enrollment[]
+  lessonProgress     LessonProgress[]
+  transactions       Transaction[]
+  courseReviews      CourseReview[]
+  withdrawals        Withdrawal[]
+  processedWithdrawals Withdrawal[]     @relation("ProcessedWithdrawals")
+
+  @@index([email])
+  @@index([roleId])
+  @@map("users")
+}
+
+model UserProfile {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique @map("user_id")
+  bio             String?
+  avatar          String?  @db.VarChar(500)
+  gender          Gender?
+  expertise       String?
+  experienceYears Int?     @map("experience_years")
+  linkedinUrl     String?  @map("linkedin_url") @db.VarChar(255)
+  githubUrl       String?  @map("github_url") @db.VarChar(255)
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model Topic {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?
+  image       String?  @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  subjects Subject[]
+
+  @@map("topics")
+}
+
+model Subject {
+  id           Int      @id @default(autoincrement())
+  topicId      Int      @map("topic_id")
+  name         String   @db.VarChar(255)
+  description  String?
+  image        String?  @db.VarChar(500)
+  totalCourses Int      @default(0) @map("total_courses")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  topic   Topic    @relation(fields: [topicId], references: [id])
+  courses Course[]
+
+  @@map("subjects")
+}
+
+model Course {
+  id             Int           @id @default(autoincrement())
+  subjectId      Int           @map("subject_id")
+  mentorId       Int           @map("mentor_id")
+  title          String        @db.VarChar(255)
+  description    String?
+  about          String?
+  tools          String?       @db.Text
+  price          Decimal       @default(0) @db.Decimal(10, 2)
+  status         CourseStatus  @default(DRAFT)
+  totalLessons   Int           @default(0) @map("total_lessons")
+  totalStudents  Int           @default(0) @map("total_students")
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  subject         Subject          @relation(fields: [subjectId], references: [id])
+  mentor          User             @relation("CourseMentor", fields: [mentorId], references: [id])
+  courseSections  CourseSection[]
+  enrollments     Enrollment[]
+  transactions    Transaction[]
+  courseReviews   CourseReview[]
+  courseImages    CourseImage[]
+  courseKeyPoints CourseKeyPoint[]
+  coursePersonas  CoursePersona[]
+  courseResources CourseResource[]
+
+  @@index([subjectId])
+  @@index([mentorId])
+  @@index([status])
+  @@map("courses")
+}
+
+model CourseImage {
+  id          Int      @id @default(autoincrement())
+  courseId    Int      @map("course_id")
+  imagePath   String   @map("image_path") @db.VarChar(500)
+  orderIndex  Int?     @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@map("course_images")
+}
+
+model CourseKeyPoint {
+  id        Int      @id @default(autoincrement())
+  courseId  Int      @map("course_id")
+  keyPoint  String   @db.Text @map("key_point")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@map("course_key_points")
+}
+
+model CoursePersona {
+  id        Int      @id @default(autoincrement())
+  courseId  Int      @map("course_id")
+  persona   String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@map("course_personas")
+}
+
+model CourseResource {
+  id           Int      @id @default(autoincrement())
+  courseId     Int      @map("course_id")
+  resourceType String   @map("resource_type") @db.VarChar(50)
+  resourcePath String   @map("resource_path") @db.VarChar(500)
+  fileName     String   @map("file_name") @db.VarChar(255)
+  fileSize     Int      @map("file_size")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@map("course_resources")
+}
+
+model CourseSection {
+  id           Int      @id @default(autoincrement())
+  courseId     Int      @map("course_id")
+  title        String   @db.VarChar(255)
+  description  String?
+  orderIndex   Int      @map("order_index")
+  totalLessons Int      @default(0) @map("total_lessons")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  @@map("course_sections")
+}
+
+model Lesson {
+  id              Int         @id @default(autoincrement())
+  sectionId       Int         @map("section_id")
+  title           String      @db.VarChar(255)
+  contentType     ContentType @map("content_type")
+  contentUrl      String?     @map("content_url") @db.VarChar(500)
+  contentText     String?     @map("content_text")
+  durationMinutes Int         @default(0) @map("duration_minutes")
+  orderIndex      Int         @map("order_index")
+  isActive        Boolean     @default(true) @map("is_active")
+  createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime    @updatedAt @map("updated_at") @db.Timestamptz
+
+  section        CourseSection    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  lessonProgress LessonProgress[]
+
+  @@index([sectionId])
+  @@index([contentType])
+  @@map("lessons")
+}
+
+model Enrollment {
+  id                 Int              @id @default(autoincrement())
+  studentId          Int              @map("student_id")
+  courseId           Int              @map("course_id")
+  status             EnrollmentStatus @default(ACTIVE)
+  progressPercentage Decimal          @default(0) @map("progress_percentage") @db.Decimal(5, 2)
+  enrolledAt         DateTime         @default(now()) @map("enrolled_at") @db.Timestamptz
+  completedAt        DateTime?        @map("completed_at") @db.Timestamptz
+  certificateId      String?          @map("certificate_id") @db.VarChar(255)
+
+  student User   @relation(fields: [studentId], references: [id])
+  course  Course @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
+  @@index([studentId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model LessonProgress {
+  id          Int       @id @default(autoincrement())
+  studentId   Int       @map("student_id")
+  lessonId    Int       @map("lesson_id")
+  isCompleted Boolean   @default(false) @map("is_completed")
+  completedAt DateTime? @map("completed_at") @db.Timestamptz
+
+  student User   @relation(fields: [studentId], references: [id])
+  lesson  Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([studentId, lessonId])
+  @@index([studentId])
+  @@index([lessonId])
+  @@map("lesson_progress")
+}
+
+model Transaction {
+  id              Int               @id @default(autoincrement())
+  studentId       Int               @map("student_id")
+  courseId        Int               @map("course_id")
+  amount          Decimal           @db.Decimal(10, 2)
+  basePrice       Decimal           @map("base_price") @db.Decimal(10, 2)
+  ppnAmount       Decimal           @map("ppn_amount") @db.Decimal(10, 2)
+  ppnRate         Decimal           @map("ppn_rate") @db.Decimal(5, 4)
+  platformFee     Decimal           @default(0) @map("platform_fee") @db.Decimal(10, 2)
+  platformFeeRate Decimal           @default(0) @map("platform_fee_rate") @db.Decimal(5, 4)
+  mentorNetAmount Decimal           @default(0) @map("mentor_net_amount") @db.Decimal(10, 2)
+  status          TransactionStatus @default(PENDING)
+  paymentMethod   String?           @map("payment_method") @db.VarChar(50)
+  orderId         String            @unique @map("order_id") @db.VarChar(255)
+  snapToken       String?           @map("snap_token") @db.VarChar(500)
+  snapRedirectUrl String?           @map("snap_redirect_url") @db.VarChar(1000)
+  grossAmount     Decimal           @map("gross_amount") @db.Decimal(10, 2)
+  currency        String            @default("IDR") @db.VarChar(3)
+  transactionDate DateTime          @default(now()) @map("transaction_date") @db.Timestamptz
+  paidAt          DateTime?         @map("paid_at") @db.Timestamptz
+  expiredAt       DateTime?         @map("expired_at") @db.Timestamptz
+
+  student              User                   @relation(fields: [studentId], references: [id])
+  course               Course                 @relation(fields: [courseId], references: [id])
+  paymentNotifications PaymentNotification[]
+
+  @@index([studentId])
+  @@index([courseId])
+  @@index([status])
+  @@index([orderId])
+  @@map("transactions")
+}
+
+model PaymentNotification {
+  id                    Int       @id @default(autoincrement())
+  transactionId         Int       @map("transaction_id")
+  orderId               String    @map("order_id") @db.VarChar(255)
+  transactionStatus     String    @map("transaction_status") @db.VarChar(50)
+  midtransTransactionId String?   @map("midtrans_transaction_id") @db.VarChar(255)
+  statusCode            String?   @map("status_code") @db.VarChar(10)
+  grossAmount           Decimal?  @map("gross_amount") @db.Decimal(10, 2)
+  paymentType           String?   @map("payment_type") @db.VarChar(50)
+  transactionTime       DateTime? @map("transaction_time") @db.Timestamptz
+  settlementTime        DateTime? @map("settlement_time") @db.Timestamptz
+  fraudStatus           String?   @map("fraud_status") @db.VarChar(50)
+  signatureKey          String?   @map("signature_key") @db.VarChar(500)
+  rawNotification       Json      @map("raw_notification")
+  isProcessed           Boolean   @default(false) @map("is_processed")
+  processedAt           DateTime? @map("processed_at") @db.Timestamptz
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@index([orderId])
+  @@index([transactionStatus])
+  @@index([isProcessed])
+  @@map("payment_notifications")
+}
+
+model CourseReview {
+  id         Int      @id @default(autoincrement())
+  studentId  Int      @map("student_id")
+  courseId   Int      @map("course_id")
+  rating     Int      @db.SmallInt
+  reviewText String?  @map("review_text")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  student User   @relation(fields: [studentId], references: [id])
+  course  Course @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
+  @@index([courseId])
+  @@index([rating])
+  @@map("course_reviews")
+}
+
+model Withdrawal {
+  id                   Int              @id @default(autoincrement())
+  userId               Int              @map("user_id")
+  amount               Decimal          @db.Decimal(10, 2)
+  status               WithdrawalStatus @default(PENDING)
+  withdrawalCode       String           @unique @map("withdrawal_code") @db.VarChar(50)
+  bankName             String           @map("bank_name") @db.VarChar(100)
+  accountNumber        String           @map("account_number") @db.VarChar(50)
+  accountHolderName    String           @map("account_holder_name") @db.VarChar(255)
+  processedBy          Int?             @map("processed_by")
+  proofPaymentWithdrawal String?        @map("proof_payment_withdrawl") @db.VarChar(255)
+  requestedAt          DateTime         @default(now()) @map("requested_at") @db.Timestamptz
+  processedAt          DateTime?        @map("processed_at") @db.Timestamptz
+  createdAt            DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+
+  user        User  @relation(fields: [userId], references: [id])
+  processedByUser User? @relation("ProcessedWithdrawals", fields: [processedBy], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([processedBy])
+  @@index([requestedAt])
+  @@index([accountNumber])
+  @@index([withdrawalCode])
+  @@map("withdrawals")
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentType {
+  VIDEO
+  ARTICLE
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+  EXPIRED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  REJECTED
+  CANCELLED
+}

@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "sectionTitle": "Introduction to Web Development",
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "What is Web Development?",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 15,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Introduction to Web Development",
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "Setting up Development Environment",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 2
+    },
+    {
+      "sectionTitle": "HTML & CSS Fundamentals",
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "HTML Basics",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 30,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "HTML & CSS Fundamentals",
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "CSS Styling",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 35,
+      "orderIndex": 2
+    },
+    {
+      "sectionTitle": "React Native Setup",
+      "courseTitle": "React Native Mobile App Development",
+      "title": "Installing React Native CLI",
+      "contentType": "ARTICLE",
+      "contentText": "Step-by-step guide to install React Native CLI and set up your development environment.",
+      "durationMinutes": 10,
+      "orderIndex": 1
+    }
+  ]
+}

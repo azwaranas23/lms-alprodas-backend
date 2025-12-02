@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "topicName": "Technology",
+      "name": "Web Development",
+      "description": "Frontend and Backend web development"
+    },
+    {
+      "topicName": "Technology",
+      "name": "Mobile Development",
+      "description": "iOS and Android mobile app development"
+    },
+    {
+      "topicName": "Technology",
+      "name": "Data Science",
+      "description": "Data analysis and machine learning"
+    },
+    {
+      "topicName": "Business",
+      "name": "Digital Marketing",
+      "description": "Online marketing and social media strategies"
+    },
+    {
+      "topicName": "Business",
+      "name": "Entrepreneurship",
+      "description": "Starting and growing your own business"
+    },
+    {
+      "topicName": "Design",
+      "name": "UI/UX Design",
+      "description": "User interface and user experience design"
+    },
+    {
+      "topicName": "Technology",
+      "name": "DevOps",
+      "description": "Development operations and infrastructure automation"
+    }
+  ]
+}

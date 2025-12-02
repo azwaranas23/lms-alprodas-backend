@@ -1,0 +1,199 @@
+{
+  "data": [
+    {
+      "name": "Read Courses",
+      "key": "courses.read",
+      "resource": "courses"
+    },
+    {
+      "name": "Create Course",
+      "key": "courses.create",
+      "resource": "courses"
+    },
+    {
+      "name": "Update Course",
+      "key": "courses.update",
+      "resource": "courses"
+    },
+    {
+      "name": "Delete Course",
+      "key": "courses.delete",
+      "resource": "courses"
+    },
+    {
+      "name": "Create Transaction",
+      "key": "transactions.create",
+      "resource": "transactions"
+    },
+    {
+      "name": "Read Transactions",
+      "key": "transactions.read",
+      "resource": "transactions"
+    },
+    {
+      "name": "Update Transaction",
+      "key": "transactions.update",
+      "resource": "transactions"
+    },
+    {
+      "name": "Delete Transaction",
+      "key": "transactions.delete",
+      "resource": "transactions"
+    },
+    {
+      "name": "Read Students",
+      "key": "students.read",
+      "resource": "students"
+    },
+    {
+      "name": "Read Mentors",
+      "key": "mentors.read",
+      "resource": "mentors"
+    },
+    {
+      "name": "Read Roles",
+      "key": "roles.read",
+      "resource": "roles"
+    },
+    {
+      "name": "Create Role",
+      "key": "roles.create",
+      "resource": "roles"
+    },
+    {
+      "name": "Update Role",
+      "key": "roles.update",
+      "resource": "roles"
+    },
+    {
+      "name": "Delete Role",
+      "key": "roles.delete",
+      "resource": "roles"
+    },
+    {
+      "name": "Read Permissions",
+      "key": "permissions.read",
+      "resource": "permissions"
+    },
+    {
+      "name": "Create Permission",
+      "key": "permissions.create",
+      "resource": "permissions"
+    },
+    {
+      "name": "Update Permission",
+      "key": "permissions.update",
+      "resource": "permissions"
+    },
+    {
+      "name": "Delete Permission",
+      "key": "permissions.delete",
+      "resource": "permissions"
+    },
+    {
+      "name": "Read Topics",
+      "key": "topics.read",
+      "resource": "topics"
+    },
+    {
+      "name": "Create Topic",
+      "key": "topics.create",
+      "resource": "topics"
+    },
+    {
+      "name": "Update Topic",
+      "key": "topics.update",
+      "resource": "topics"
+    },
+    {
+      "name": "Delete Topic",
+      "key": "topics.delete",
+      "resource": "topics"
+    },
+    {
+      "name": "Read Subjects",
+      "key": "subjects.read",
+      "resource": "subjects"
+    },
+    {
+      "name": "Create Subject",
+      "key": "subjects.create",
+      "resource": "subjects"
+    },
+    {
+      "name": "Update Subject",
+      "key": "subjects.update",
+      "resource": "subjects"
+    },
+    {
+      "name": "Delete Subject",
+      "key": "subjects.delete",
+      "resource": "subjects"
+    },
+    {
+      "name": "Read Sections",
+      "key": "sections.read",
+      "resource": "sections"
+    },
+    {
+      "name": "Create Section",
+      "key": "sections.create",
+      "resource": "sections"
+    },
+    {
+      "name": "Update Section",
+      "key": "sections.update",
+      "resource": "sections"
+    },
+    {
+      "name": "Delete Section",
+      "key": "sections.delete",
+      "resource": "sections"
+    },
+    {
+      "name": "Read Lessons",
+      "key": "lessons.read",
+      "resource": "lessons"
+    },
+    {
+      "name": "Create Lesson",
+      "key": "lessons.create",
+      "resource": "lessons"
+    },
+    {
+      "name": "Update Lesson",
+      "key": "lessons.update",
+      "resource": "lessons"
+    },
+    {
+      "name": "Delete Lesson",
+      "key": "lessons.delete",
+      "resource": "lessons"
+    },
+    {
+      "name": "Read Dashboard",
+      "key": "dashboard.read",
+      "resource": "dashboard"
+    },
+    {
+      "name": "Read Withdrawals",
+      "key": "withdrawals.read",
+      "resource": "withdrawals"
+    },
+    {
+      "name": "Create Withdrawal",
+      "key": "withdrawals.create",
+      "resource": "withdrawals"
+    },
+    {
+      "name": "Update Withdrawal",
+      "key": "withdrawals.update",
+      "resource": "withdrawals"
+    },
+    {
+      "name": "Delete Withdrawal",
+      "key": "withdrawals.delete",
+      "resource": "withdrawals"
+    }
+  ]
+}

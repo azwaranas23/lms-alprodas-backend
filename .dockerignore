@@ -1,0 +1,121 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+*.lcov
+test-results
+**/*.test.ts
+**/*.spec.ts
+
+# Documentation
+*.md
+!README.md
+docs
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.circleci
+azure-pipelines.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.temp
+*.log
+logs
+
+# Uploads (will be mounted as volume)
+uploads/*
+!uploads/.gitkeep
+
+# Scripts (except necessary ones)
+scripts/*
+!scripts/start.sh
+
+# Database
+*.sqlite
+*.db
+prisma/migrations/*/migration_lock.toml
+
+# Package manager files
+.npm
+.yarn
+.pnpm-store
+yarn-integrity
+*.tgz
+
+# OS Files
+Thumbs.db
+Desktop.ini
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache
+.cache
+.parcel-cache
+
+# Next.js/Nuxt/Gatsby (if used)
+.next
+.nuxt
+public
+.out
+.storybook-out
+
+# Optional REPL history
+.node_repl_history

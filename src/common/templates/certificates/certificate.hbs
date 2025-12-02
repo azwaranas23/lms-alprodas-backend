@@ -1,0 +1,360 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Certificate of Completion</title>
+    <style>
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Helvetica Neue', Arial, sans-serif;
+        background: #ffffff;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+          Cantarell, 'Helvetica Neue', Arial, sans-serif;
+        background: #ffffff;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        line-height: 1;
+      }
+
+      /* LEFT BAR 1 - Navy */
+      .bar-left-1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 185px;
+        width: 35px;
+        background-color: #242857;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* LEFT BAR 2 - Blue */
+      .bar-left-2 {
+        position: absolute;
+        left: 35px;
+        top: 0;
+        bottom: 385px;
+        width: 35px;
+        background-color: #335ef7;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* LEFT BAR 3 - Cyan */
+      .bar-left-3 {
+        position: absolute;
+        left: 70px;
+        top: 0;
+        bottom: 300px;
+        width: 35px;
+        background-color: #33bcf7;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* RIGHT BAR 1 - Cyan */
+      .bar-right-1 {
+        position: absolute;
+        right: 70px;
+        top: 285px;
+        bottom: 0;
+        width: 35px;
+        background-color: #33bcf7;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* RIGHT BAR 2 - Blue */
+      .bar-right-2 {
+        position: absolute;
+        right: 35px;
+        top: 385px;
+        bottom: 0;
+        width: 35px;
+        background-color: #335ef7;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* RIGHT BAR 3 - Navy */
+      .bar-right-3 {
+        position: absolute;
+        right: 0;
+        top: 185px;
+        bottom: 0;
+        width: 35px;
+        background-color: #242857;
+        margin: 0;
+        padding: 0;
+        border: none;
+        display: block;
+      }
+
+      /* Main content container */
+      .container {
+        position: absolute;
+        left: 140px;
+        right: 140px;
+        top: 60px;
+        bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        position: relative;
+        height: 60px;
+        width: 100%;
+      }
+
+      .header-wrapper {
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(to bottom right, #5b8def, #335ef7);
+        border-radius: 50%;
+        float: left;
+        position: relative;
+        margin-right: 15px;
+      }
+
+      .logo svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -17.5px;
+        margin-left: -17.5px;
+        color: #ffffff;
+      }
+
+      .brand-text {
+        float: left;
+        padding-top: 10px;
+      }
+
+      .brand-name {
+        font-size: 32px;
+        font-weight: bold;
+        color: #242857;
+        margin-bottom: 0;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+
+      .tagline {
+        font-size: 16px;
+        color: #6b7280;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+
+      /* Certificate body */
+      .cert-body {
+        text-align: center;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0;
+      }
+
+      .cert-title {
+        font-size: 25px;
+        color: #1f2937;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        margin-top: -60px;
+      }
+
+      .student-name {
+        font-size: 58px;
+        font-weight: bold;
+        color: #335ef7;
+        margin-bottom: 30px;
+      }
+
+      .completion-text {
+        font-size: 20px;
+        color: #9ca3af;
+        margin-bottom: 10px;
+      }
+
+      .course-name {
+        font-size: 25px;
+        font-weight: 700;
+        color: #242857;
+        margin-bottom: 20px;
+      }
+
+      .completion-date {
+        font-size: 20px;
+        color: #a8b1c7;
+        margin-bottom: 6px;
+      }
+
+      .cert-id {
+        font-size: 15px;
+        color: #a8b1c7;
+      }
+
+      /* Signature section */
+      .signature {
+        text-align: center;
+      }
+
+      .sig-svg {
+        width: 120px;
+        height: auto;
+        margin: 0 auto 10px auto;
+      }
+
+      .sig-name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 4px;
+      }
+
+      .sig-title {
+        font-size: 18px;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Left Decoration Bars -->
+    <div class='bar-left-1'></div>
+    <div class='bar-left-2'></div>
+    <div class='bar-left-3'></div>
+
+    <!-- Right Decoration Bars -->
+    <div class='bar-right-1'></div>
+    <div class='bar-right-2'></div>
+    <div class='bar-right-3'></div>
+
+    <!-- Main Content -->
+    <div class='container'>
+      <!-- Header -->
+      <div class='header'>
+        <div class='header-wrapper'>
+          <div class='logo'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='35'
+              height='35'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              class='lucide lucide-graduation-cap w-5 h-5 text-white relative z-10'
+              aria-hidden='true'
+            ><path
+                d='M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z'
+              ></path><path d='M22 10v6'></path><path
+                d='M6 12.5V16a6 3 0 0 0 12 0v-3.5'
+              ></path></svg>
+          </div>
+          <div class='brand-text'>
+            <div class='brand-name'>LMS Alprodas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Body -->
+      <div class='cert-body'>
+        <div class='cert-title'>
+          Sertifikat kelulusan kelas dengan<br />bangga diberikan kepada
+        </div>
+
+        <div class='student-name'>{{studentName}}</div>
+
+        <div class='completion-text'>Menyelesaikan dengan baik dan penuh
+          semangat kelas</div>
+
+        <div class='course-name'>"{{courseName}}"</div>
+
+        <div class='completion-date'>{{completedDate}}</div>
+        <div class='cert-id'>{{certificateId}}</div>
+      </div>
+
+      <!-- Signature -->
+      <div class='signature'>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          xmlns:xlink='http://www.w3.org/1999/xlink'
+          width='158'
+          height='64'
+          viewBox='0 0 158 64'
+          fill='none'
+        >
+          <rect width='158' height='64' fill='url(#pattern0_2_123)' />
+          <defs>
+            <pattern
+              id='pattern0_2_123'
+              patternContentUnits='objectBoundingBox'
+              width='1'
+              height='1'
+            >
+              <use
+                xlink:href='#image0_2_123'
+                transform='matrix(0.00632911 0 0 0.015625 -1.0736 -0.547968)'
+              />
+            </pattern>
+            <image
+              id='image0_2_123'
+              width='500'
+              height='150'
+              preserveAspectRatio='none'
+              xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAACWCAYAAAAonXpvAAAQAElEQVR4AeydB5Q0S1mGW6+YcwZzxixGFDEhmLOioqAYMIJiBsx6MGNOmDAHTJgVI0YwHVHJOeec8/vMmW+pf/6Z2dnd6d4Ozz31TVVXd1d3P3X3f7uqvqp+xc7/JCABCUhAAhKYPAEFffJV6ANIQAISkIAEuq5fQZewBCQgAQlIQAKDEFDQB8HsRSQgAQlIQAL9EpiyoPdLxtIlIAEJSEACEyKgoE+osrxVCUhAAhKQwC4CCvouMuZLQAISkIAEJkRAQZ9QZXmrEpCABCQggV0EFPRdZPrNt3QJSEACEpDAUQko6EfFaWESkIAEJCCByyGgoF8O936vaukSkIAEJLA4Agr64qrcB5aABCQggTkSUNDnWKv9PpOlS0ACEpDACAko6COsFG9JAhKQgAQkcFYCCvpZiXl8vwQsXQISkIAEzkVAQT8XNk+SgAQkIAEJjIuAgj6u+vBu+iVg6RKQgARmS0BBn23V+mASkIAEJLAkAgr6kmrbZ+2XgKVLQAISuEQCCvolwvfSEpCABCQggWMRUNCPRdJyJNAvAUuXgAQksJeAgr4XjzslIAEJSEAC0yCgoE+jnrxLCfRLwNIlIIHJE1DQJ1+FPoAEJCABCUig6xR0/y+QgAT6JmD5EpDAAAQU9AEgewkJSEACEpBA3wQU9L4JW74EJNAvAUuXgARWBBT0FQZ/JCABCUhAAtMmoKBPu/68ewlIoF8Cli6ByRBQ0CdTVd6oBCQgAQlIYDcBBX03G/dIQAIS6JeApUvgiAQU9CPCtCgJSEACEpDAZRFQ0C+LvNeVgAQk0C8BS18YAQV9YRXu40pAAhKQwDwJKOjzrFefSgISkEC/BCx9dAQU9NFViTckAQlIQAISODsBBf3szDxDAhKQgAT6JWDp5yCgoJ8DmqdIQAISkIAExkZAQR9bjXg/EpCABCTQL4GZlq6gz7RifSwJSEACElgWAQV9WfXt00pAAhKQQL8ELq10Bf3S0HthCUhAAhKQwPEIKOjHY2lJEpCABCQggX4J7CldQd8Dx10SkIAEJCCBqRBQ0KdSU96nBCQgAQlIYA+BIwj6ntLdJQEJSEACEpDAIAQU9EEwexEJSEACEpBAvwRGL+j9Pr6lS0ACEpCABOZBQEGfRz36FBKQgAQksHACCxf0hde+jy8BCUhAArMhoKDPpip9EAlIQAISWDIBBb3H2rdoCUhAAhKQwFAEFPShSHsdCYyfwDvnFt8vdk3MIAEJTIyAgj6xCnv57ZqSwEEErpujvjn2d7Ffj31a7JVibWD755Nxn9i9Yo+JfXvsFWIGCUhgIgQU9IlUlLcpgXMQ+KCcc9/Yd8XeJ/YJsd+N3T7Whu/IxhfGKrxxEt8W+/iYQQISmAgBBX0iFTX0bXq9cxN41Zz5erHXjb1K7LLCu+bC/xwjPCE/dKV/TWJCK9SIfivw/5gDvjxGeA9+NAlIYBoEFPRp1JN3OQ4CdEG/U27lU2JfG/vp2N/EHhx7RuylsefGnhJ7aux5MfLY9/9J/3aMrmzOf+2k+ww/1BT+OUnfP3btGOFR/MR4nh9JXAHh/6RsvFeM8A/8aBKQwDQIKOjTqKeZ3eVkHoe/j3fJ3X5xjPHnxyW+X+z3Yz8Y+9LYR8TeNvZaMYSScWhaxojj3ZP3W7F/iT079r4xurI5/+lJ/1nss2KMYSc6WqB7/aPWpf1q4r+OERhPJ/4jfmK8WNByT3IVPju/rx67VeyZsXvGDBKQwEQI8A/WRG7V25TAYATeLlf61tjDY7Ss75z4ZjHGlhN1D8kPQv2NiT8m9uYxWrtvkfjjYk+KceyNE39L7KNj7x+jXIT/Rkkj7G+V+Ddj/xl7z9ixwlc2Bd1hI8093GWd9/XrmIjn+dskcKBL1PH8LyQRe/cYPRGJDBKQwFgJKOhjrRnv69wELnDidXIu3t4PSoyjGEKd5Co8IL+3i719DFGkNfv9Sf9F7NExwifn56Exuq0TdbTU8RgnXfasJBDO70yMiH9F4reJMXb9JokvGhi7//x1IbyIPHKdJnpYfngZSdTRMr8+ibV9U2Ja8PQ6cMxPZZvASwotfP+tgIYmgRET8I90xJXjrQ1K4Aa5GsLcensnq/uB/Lx3jLHz703MeHmiqwJj6n/Q5CLmtN6f0+RtJl+UDISTa9Jy/9RsXzS0ZfzcnsJu3ez74aQZLuAFIMnuNvl5QYwXHF5Y6G1wPD1ADBIYMwEFfcy1470NSaDErK7J2DNd4t+QjP+OrcPWCO9xxtRrZ4k549CVty/+q/XOm67ji0Q4wHE+PQr/QWKL4Rx38yb/TknTMr9h4l+L/WnsejGeGx+CJDt8CIg1CUhgpAQU9JFWjLc1OAGmm3FRxJiu6Ftk4xGx0wJd761HOU5xzPc+VMwp/0P4OYK9acrASS9R90v87LBbNvk/kzTT634iMV3tNf5OFzwt82R3P5afB8YMEpDAiAko6COuHG9tUAJ0uTNd64Nz1UO9u3F0+40cX4FuaxzhmLJWeafFjJvX1LF7nXbwKftZBa4O+b1KbImrFc8uWuf4DZDG4x7ve9KfmZ83iyHqX5X4sgI+Aa9zWRf3uhKYEgEFfUq15b32SYApaf9zhgsgMq1o0iL/sJy/6QSXrJ2BBWjobmfaGwf9Ij8b9kbZZipZoqvCayaHrvHXSIyXPWPfSXbcC855pJkSx/nc7xsmA0e86kb/5WzjyMd94/H+79luA8/yxDajhzT3xn1tKxrfBV6Onpad94jRc5LoqoBT4Scml94JnjdJgwSWR0BBX16d+8QXI0BXPC1a5pi3XvBMTdvlMLftirTu/y07ajU2nOpY/CVZHYvOfF8SeKgzn5057Kyxjlc9Ipddq4A3/X8lhec8LyTvmDQBBzumnLGoDTHnP63rOsSZqXYcgzEljzIZM6elTh4C+z1JsAgOS8by0pDNVUAwWYGOFwBa87TccRRkGhwvJv+Uo1hsh1kASe4NN8le5uFzb9zX47PNNVml7pWTJjCGX2P9jO9vG8dnaIChgrvlBK7NMydpkMDyCCjoy6tzn/hiBGjV4pXOtK8q6fOSYPGYRKcGxuoRSrr1S4BxvCtBReARMvLqhQHRxuucVjRz1hFVLsRxxBhd48TbDAc/xvURa6bdcQyteFr0OM99bjJeEiPgHIdI4qDHnHS8+8mnZc9c9P/LBh96Yf48QwW8IPD8DDUwbMH5TPuj1ZxDrwq0oHn+v8weZgEkWvUo0DvCi8JPJuNnYwTEmZcN0hg9GXX/bOO/wMsHaYx7eTEJTQJLJKCgL7HWfeaLEKBl3p7PtLZfaTN2pOle/7rsY7EahDLJjtY3Xd6UwTYvCQgbwsX2vfPDmD4rvxHTQk5WR+uWGAc8RJV0a4j1LySDNdsRcXoV/iTbdN9zjSQ7WvF0w3MMXdrkYV/Cz9qYG88LBJssLkO8aXTTcw+3yI4PiNU9tgvaJHsVGBaglV3PTybz8Rmr55mI4Vvz6NnPPHjiMl5seCZEv/VfoIX+h3WQsQSWSEBBX2Kt+8wXIUBruT0fD/B2u03TdYwHO/O8Wd8d4aYljeDSIqf1ixBxDs5xiC5p7I/zw4dT8Lp/h6RZuY0ueFqltXRrsrvb5gdRTLQKiOXrJ/VFMVq3rC2f5CqU2K428vPpsdZ7nReH6jXIro5V7ogxehTwGfjxbLA0LMvYvlrSDB1wD/QCsCxuedDXi0MOOQn0OtDyr4yPTYIV8+BBy/4zss19f0HiCvVywzYvQNckwUsEHJI8CbTOTzZMSGCJBBT0Jda6z3xeAnhcM8bbns+SqThr0RWMiOGcxTG/k4OeH2NBlq9OTKD1iRAxvYwx82oZXys7KQexT7JD5FkghvFlRJNPnrJyHeKLqG2O1bfd23SFs2AN5WwarfzK454Y965t4tb7nRcJ7p18jGvzAkA3PQvW0HLn4zPsw3j5YAigxrzpXSC/jBY44+21zb38+XqD8XjGv2lxM90OW+/qeCHqum61STc9rXB8DOgNQNjZwbBB+R+wrUlgkQQU9EVWuw99TgKIGV3V7emMG/9rMhA8HNcQY8aBcZJDcBApxqQRXUQN4d5cPQ4HOMaPU0xHDwDCWqLMgjWMq7Nvm9H93IooDmLbjiOvPtiCE9uPktEYvQm0jiuLLu1K74s5j5cNXgCqNf33OYHx/kSrgJMcLyWrjfwg4ByfZMeLEC8hpDHmxBOXsTZ+pXlOOH5kMu4bqxcCehVgmyyDBJZLQEFfbt375GcjgHAyBs5ZjF3jGEe6jJYkrU6cx2jJ04qkOxpxRrBZR72ObWMc0uiyJo+uZ1r4tMzZpkVMa580hgiyDjzpsnIsY5teAeJthoMdxj5a2MSt4dTWvqzQEm73b0u/WzJ5mWE4IMlVoJuesvC6J4MpdXxdrsq+YzLxZk/U4SBINz7pMj4vW+m3TAKxTnQSGDao1jhcWaXvrtlbC+IkefbgGRKYAwEFfQ616DMMQYBPjZYo0V3OnHFa43VtusgRXLqaa3GW2rcrpkXL2HPtpzue9eTZplXLNUiXMV2u0hVzTqXbMfjKq5hhgUrTuq10xTjOVRqHOl4uanszZhybl5D/zY6aRseiOh+Y7e+OVe9Ckh1+A9XDAJ9WsBHk2sexlIEHPWkM8SYu+7Ik2uVs6enAP4FxeV6EstsggeUSUNCXW/c++dkIVHc03cl8sISz8Qgv4WNMmhY6+Yda68jFEqw4sXEu3uc4vtULBHlY+/EXtukJqNXhEENeJsjfZjjgkc9xLNZCurVDW/qsb8/X13Dqq/PpwmcqHfPqK4+Y7nFEmDTG9DbmxZPGk50hDNJlvEi0085wmqt9+B8cOgxQ54wk9jYkMAwBBX0Yzl5l2gToPq8x7nbeM4uhtC1b5qhvivCuJ3/r7MBbPNFqHjbe6aSZp83ULlZzo3VLHsZY/GbLnyln7MM4h3nbpLcZ3dfks5gMcWtvkI32vpmulqyrAsMHtMqLBS8ztI7xbH/GVUd3HV7tlU23fDnzMTyB4xvObG0vR3XFcw5DHHi9k8bwQ9j3fByjSWDRBBT0RVe/D38ggRusj2PsnJbienMVMdZMNzMbdKEj6of8XbHQC+dgeH8/mUQMEccRjLHlVljbruYctgqMv68S+dlsvSfrikBrmYy6DukypsVVmnLaqW7k46jGZ175ElsJP2P5tMoZv+aYTaNbnheAymeuOmmc4GpogOGCui/21dg46Q/lZ21cC2fB9aZRS8C0BIrAIf/w1LHGElgqgeuuH5w52NtaicylLmFjrP326+M3o9YTu+2ep8uav0U82um6Z2oa87Lba+FF35bHvPXyWud4POrb/ZtpuufJ22zlk9cKeg0nkI8h4AwztF3ndO3zIsMHXOhZYOU3xsNJI9icBzPOJc2X3GjN0+vAODr5t8uOVqQps1ary66u7W7f5+zHsZoEJBAC/COSyCABCewhwLxxdjOuTbxpCBFjwiWqCBxi1x6HADOPmq5kv+WnoQAACHJJREFU8msOOkJHi5jxY5zt2Mca7U9KgmlwiVahdTQjg2OIMVrO3APpXUZ57KtnIV1Gz0Klq5XM/Hcc83hRaR3qOA5HNhbUoTeBZ0XI6V4nzYsHYs/68hyLsVzsjZJgjJ259vQ+cG6yOlrfxMzZJy5rBZ1FdirfeFACXmxKBBT0KdWW93pZBBhDpzXJ18d23QMe14gsLU2OYb45Hy8hjbGyGjFj5MQIJTGtVVaR44WAbZzcED7StLwZZybNdDjisra7HYGs/F0xwwXsY/iAVnT7t992w/OCgQMg0+xYHa56ATi3jHtCiPHQp2WOXwGtcFryHAMHVqujNc42Dn840vGsPBt+B+X8VsMKLMpTLzssk1svGadxp3xNAhIIgfaPOpsGCUhgCwGc31h2dcuuK7Iemy0cvmiJJ9kxbkyrHocwlmdFBMt5DPGrFn2X/xBSFkxhznY2TwKtXjYYZ6c7nL9ZWs58fYx8FpJhLjjpfVZT4Ggh04quFjLnINzEGCvAMU+d6+IsRx4vKQwjsJ4767HjMU+LG2HGWY19t86BHx6jJwIRxkeAIYRknQQc+3hGXn4qkw++cDzb9A7wQkNrvV5A6r7Zr82MgI9zXAL843DcEi1NAvMjgHc2rU5a6qc9HWPUiBktV44lzUpqLKLSrlFOFzrijzAiztfJwYhboisC3el4xCOmjDvTtV6teQ68c37asfZsbg0IJC8CeMbjPV73x8GIOPPoWX6VhWEQfdJMM6OlTO8ArXC6zjl+n9GrwMsPY/Z0vTM+j4jjQIeTXC2aU2XAi14DxtdZQY6XHgSf42HGqnt1rLEEJLCHgIK+B467JLAmQMsSZzdap+usvRFzrWm5Mp8cAaU7+Xo5gy+tJToJrIWOgPEd8XbM+eSAdYLzEFPWSuelou3KZ7ra+rBTI1rzzHVnGVaEt07gJQHvdlalw2Of75PTJc5X5B5aBx0YM6TAAjPV+8CnVHlR4YViVxFwYLEbuujbOfK01HedY74ETiGwvN0K+vLq3Cc+OwHEjdYmrcmznE33OgLKlDM++3mWc3cdy/g2Y9HsZy1zFoohPRaj54HlWtv12cdyb96HBGZNQEGfdfX6cDMjQBd0u7oc0+jG+IhnffEZ4zN4TxLYS2CMOxX0MdaK9ySB7QRulmzGtxN1dGGX8x3bmgQksHACCvrC/wfw8SdD4Fq50zvEKuCkxth3bRtLQAKzIXC+B1HQz8fNsyQwNAEWncHjnOsybu7qaZDQJCCBEwIK+gkKExIYLQGmcNEirxtkzvexnOyqTGMJSGDiBA4V9Ik/prcvgdERQJRZEe20G2MaGF8mq+PwbMfjvraNJSABCawIKOgrDP5IYHACN84V2w+eZHNrYJU55rHXzttUwlgCEpBAS2Acgt7ekWkJLIMAq7OxQEwtr7r51Nck404xVm5LtAosbsNCLasNfyQgAQm0BBT0loZpCQxHgI+VMAXtbrkky74mOgl82IQlX297ktN1eLjb1d4AMSkBCVxJYAmCfuUTuyWBcRBgmVOWWWUd80fnllhmlQ+w3CNpvn7GuuZJrsKt8nvHmEECEpDATgIK+k407pBA7wT4aAvT0bjQzfPDKnA3TFzh7klcP8bXzxIZJCABCewmoKDvZnPYHo+SwPkJsO454+TXThE3jfE1NbrWb5k0Xzi7SeJ7xgwSkIAETiWgoJ+KyAMk0DuBx+UKd43R5U7X+l2SvnfMIAEJSOBgAgr6wagu5UAvKgEJSEACEjiIgIJ+ECYPkoAEJCABCYybgII+7vrp9+4sXQISkIAEZkNAQZ9NVfogEpCABCSwZAIK+pJrv99nt3QJSEACEhiQgII+IGwvJQEJSEACEuiLgILeF1nL7ZeApUtAAhKQwBUEFPQrcLghAQlIQAISmCYBBX2a9eZd90vA0iUgAQlMjoCCPrkq84YlIAEJSEACVxNQ0K9mYo4E+iVg6RKQgAR6IKCg9wDVIiUgAQlIQAJDE1DQhybu9STQLwFLl4AEFkpAQV9oxfvYEpCABCQwLwIK+rzq06eRQL8ELF0CEhgtAQV9tFXjjUlAAhKQgAQOJ6CgH87KIyUggX4JWLoEJHABAgr6BeB5qgQkIAEJSGAsBBT0sdSE9yEBCfRLwNIlMHMCCvrMK9jHk4AEJCCBZRBQ0JdRzz6lBCTQLwFLl8ClE1DQL70KvAEJSEACEpDAxQko6BdnaAkSkIAE+iVg6RI4gICCfgAkD5GABCQgAQmMnYCCPvYa8v4kIAEJ9EvA0mdCQEGfSUX6GBKQgAQksGwCCvqy69+nl4AEJNAvAUsfjICCPhhqLyQBCUhAAhLoj4CC3h9bS5aABCQggX4JWHpDQEFvYJiUgAQkIAEJTJWAgj7VmvO+JSABCUigXwITK11Bn1iFebsSkIAEJCCBbQQU9G1UzJOABCQgAQn0S+DopSvoR0dqgRKQgAQkIIHhCSjowzP3ihKQgAQkIIGjE7hC0I9eugVKQAISkIAEJDAIAQV9EMxeRAISkIAEJNAvgQEFvd8HsXQJSEACEpDAkgko6EuufZ9dAhKQgARmQ2A2gj6bGvFBJCABCUhAAucgoKCfA5qnSEACEpCABMZGQEE/qEY8SAISkIAEJDBuAgr6uOvHu5OABCQgAQkcREBBPwhTvwdZugQkIAEJSOCiBBT0ixL0fAlIQAISkMAICCjoI6iEfm/B0iUgAQlIYAkEFPQl1LLPKAEJSEACsyegoM++ivt9QEuXgAQkIIFxEFDQx1EP3oUEJCABCUjgQgQU9Avh8+R+CVi6BCQgAQkcSkBBP5SUx0lAAhKQgARGTEBBH3HleGv9ErB0CUhAAnMioKDPqTZ9FglIQAISWCwBBX2xVe+D90vA0iUgAQkMS+BlAAAA//9QRXr/AAAABklEQVQDADjuqkuVZ4rxAAAAAElFTkSuQmCC'
+            />
+          </defs>
+        </svg>
+        <div class='sig-name'>Raflizar Deswandi Yahya</div>
+        <div class='sig-title'>CEO LMS Alprodas</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "data": [
+    {
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "Introduction to Web Development",
+      "description": "Getting started with web development basics and setup",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "HTML & CSS Fundamentals",
+      "description": "Learn HTML structure and CSS styling",
+      "orderIndex": 2
+    },
+    {
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "JavaScript Programming",
+      "description": "Master JavaScript programming language",
+      "orderIndex": 3
+    },
+    {
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "React.js Framework",
+      "description": "Build dynamic user interfaces with React",
+      "orderIndex": 4
+    },
+    {
+      "courseTitle": "Complete Web Development Bootcamp",
+      "title": "Backend Development",
+      "description": "Server-side development with Node.js and Express",
+      "orderIndex": 5
+    },
+    {
+      "courseTitle": "React Native Mobile App Development",
+      "title": "React Native Setup",
+      "description": "Setting up development environment for React Native",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "React Native Mobile App Development",
+      "title": "React Native Fundamentals",
+      "description": "Core concepts and components of React Native",
+      "orderIndex": 2
+    },
+    {
+      "courseTitle": "React Native Mobile App Development",
+      "title": "Navigation & Routing",
+      "description": "Implementing navigation between screens",
+      "orderIndex": 3
+    },
+    {
+      "courseTitle": "React Native Mobile App Development",
+      "title": "State Management",
+      "description": "Managing application state effectively",
+      "orderIndex": 4
+    },
+    {
+      "courseTitle": "React Native Mobile App Development",
+      "title": "API Integration",
+      "description": "Connecting to REST APIs and handling data",
+      "orderIndex": 5
+    },
+    {
+      "courseTitle": "Modern UI/UX Design with Figma",
+      "title": "Design Fundamentals",
+      "description": "Basic principles of good design",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Modern UI/UX Design with Figma",
+      "title": "Figma Mastery",
+      "description": "Advanced Figma tools and techniques",
+      "orderIndex": 2
+    },
+    {
+      "courseTitle": "Modern UI/UX Design with Figma",
+      "title": "User Research",
+      "description": "Understanding users and their needs",
+      "orderIndex": 3
+    },
+    {
+      "courseTitle": "Modern UI/UX Design with Figma",
+      "title": "Prototyping & Testing",
+      "description": "Creating interactive prototypes and user testing",
+      "orderIndex": 4
+    }
+  ]
+}

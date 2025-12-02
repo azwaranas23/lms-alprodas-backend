@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "name": "Technology",
+      "description": "Technology related courses and programming"
+    },
+    {
+      "name": "Business",
+      "description": "Business and entrepreneurship courses"
+    },
+    {
+      "name": "Design",
+      "description": "Design and creative courses"
+    }
+  ]
+}

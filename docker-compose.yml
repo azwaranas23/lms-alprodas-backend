@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lms_alprodas_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lms_alprodas_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      TZ: Asia/Jakarta
+      PGTZ: Asia/Jakarta
+    command: >
+      postgres
+      -c timezone='Asia/Jakarta'
+      -c log_timezone='Asia/Jakarta'
+    ports:
+      - "35432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: lms_alprodas_redis
+    restart: unless-stopped
+    ports:
+      - "36379:6379"
+    volumes:
+      - redis_data:/data
+
+  # NestJS Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: lms_alprodas-app
+    restart: unless-stopped
+    ports:
+      - "3005:3000"
+    env_file:
+      - .env.production
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - postgres
+      - redis
+
+  # Database Migration and Seeder (runs once)
+  migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: lms_alprodas-migrator
+    env_file:
+      - .env.production
+    command: >
+      sh -c "
+        npx prisma migrate deploy &&
+        npx prisma db seed
+      "
+    depends_on:
+      - postgres
+    restart: "no"
+
+volumes:
+  postgres_data:
+  redis_data:

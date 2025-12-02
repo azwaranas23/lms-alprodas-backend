@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "name": "Manager",
+      "email": "manager@mail.com",
+      "password": "password123",
+      "roleKey": "manager"
+    },
+    {
+      "name": "Mentor",
+      "email": "mentor@mail.com",
+      "password": "password123",
+      "roleKey": "mentor"
+    },
+    {
+      "name": "Student",
+      "email": "student@mail.com",
+      "password": "password123",
+      "roleKey": "student"
+    }
+  ]
+}

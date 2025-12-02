@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "subjectName": "Web Development",
+      "mentorEmail": "mentor@mail.com",
+      "title": "Complete Web Development Bootcamp",
+      "description": "Learn full-stack web development from scratch",
+      "about": "This comprehensive course covers HTML, CSS, JavaScript, React, Node.js, and database management. Perfect for beginners who want to become professional web developers.",
+      "price": 299000,
+      "status": "PUBLISHED",
+      "keyPoints": [
+        "Master HTML5, CSS3, and modern JavaScript",
+        "Build responsive websites and web applications",
+        "Learn React.js and component-based architecture",
+        "Understand Node.js and Express.js backend development",
+        "Work with databases (MongoDB/PostgreSQL)",
+        "Deploy applications to cloud platforms"
+      ],
+      "personas": [
+        "Beginners with no programming experience",
+        "Career changers entering tech field",
+        "Students looking to build portfolio projects",
+        "Freelancers wanting to expand skill set"
+      ],
+      "images": ["/placeholder-course-1-1.jpg", "/placeholder-course-1-2.jpg"],
+      "reviews": [
+        {
+          "studentEmail": "student@mail.com",
+          "rating": 5,
+          "comment": "Excellent course! Very comprehensive and well-structured."
+        }
+      ]
+    },
+    {
+      "subjectName": "Mobile Development",
+      "mentorEmail": "mentor@mail.com",
+      "title": "React Native Mobile App Development",
+      "description": "Build mobile apps for iOS and Android using React Native",
+      "about": "Learn to create cross-platform mobile applications using React Native framework. Covers navigation, state management, API integration, and deployment to app stores.",
+      "price": 399000,
+      "status": "PUBLISHED",
+      "keyPoints": [
+        "Build cross-platform mobile apps with React Native",
+        "Master navigation and state management",
+        "Integrate with REST APIs and handle data",
+        "Implement push notifications and device features",
+        "Test and debug mobile applications",
+        "Deploy to iOS App Store and Google Play Store"
+      ],
+      "personas": [
+        "React developers moving to mobile",
+        "Mobile app enthusiasts",
+        "Entrepreneurs building MVP apps",
+        "Developers seeking high-demand skills"
+      ],
+      "images": [
+        "/placeholder-course-2-1.jpg",
+        "/placeholder-course-2-2.jpg",
+        "/placeholder-course-2-3.jpg"
+      ],
+      "reviews": [
+        {
+          "studentEmail": "student@mail.com",
+          "rating": 4,
+          "comment": "Great course for mobile development. Very practical approach."
+        }
+      ]
+    },
+    {
+      "subjectName": "UI/UX Design",
+      "mentorEmail": "mentor@mail.com",
+      "title": "Modern UI/UX Design with Figma",
+      "description": "Design beautiful and user-friendly interfaces",
+      "about": "Learn the principles of user interface and user experience design using Figma. Master design systems, prototyping, user research, and create stunning digital products.",
+      "price": 199000,
+      "status": "PUBLISHED",
+      "keyPoints": [
+        "Master Figma for professional design workflow",
+        "Create responsive and accessible designs",
+        "Build comprehensive design systems",
+        "Conduct user research and usability testing",
+        "Design interactive prototypes and animations",
+        "Collaborate effectively with development teams"
+      ],
+      "personas": [
+        "Aspiring UI/UX designers",
+        "Graphic designers transitioning to digital",
+        "Product managers understanding design",
+        "Developers improving design skills"
+      ],
+      "images": ["/placeholder-course-3-1.jpg"],
+      "reviews": [
+        {
+          "studentEmail": "student@mail.com",
+          "rating": 5,
+          "comment": "Amazing design course! Really improved my UI/UX skills."
+        }
+      ]
+    }
+  ]
+}
