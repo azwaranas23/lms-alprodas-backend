@@ -15,7 +15,6 @@ import { AuthResponseDto } from '../dto/auth-response.dto';
 import { LoginDto } from 'src/modules/users/dto/login.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploadService } from 'src/common/services/file-upload.service';
-import { file } from 'zod';
 import { RegisterResponseDto } from '../dto/register-response.dto';
 import { RegisterDto } from 'src/modules/users/dto/register.dto';
 import { VerifyEmailDto } from '../dto/verify-email.dto';

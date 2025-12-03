@@ -44,7 +44,7 @@ import { EnrollmentModule } from './modules/enrollments/enrollment.module';
       {
         name: 'short',
         ttl: 1000, // 1 second
-        limit: 20, // 20 requests per second
+        limit: 50, // 50 requests per second
       },
       {
         name: 'medium',
