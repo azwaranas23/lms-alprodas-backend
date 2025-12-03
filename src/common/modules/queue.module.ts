@@ -3,8 +3,6 @@ import { BullModule } from '@nestjs/bull';
 import { EmailService } from '../services/email.service';
 import { EmailProcessor } from '../queues/email.queue';
 import { QueueService } from '../services/queue.service';
-import { TransactionExpiryQueue } from '../queues/transaction-expiry.queue';
-import { TransactionRepository } from 'src/modules/transactions/repositories/transaction.repository';
 
 @Global()
 @Module({
@@ -16,13 +14,7 @@ import { TransactionRepository } from 'src/modules/transactions/repositories/tra
       name: 'transaction-expiry',
     }),
   ],
-  providers: [
-    EmailService,
-    EmailProcessor,
-    QueueService,
-    TransactionExpiryQueue,
-    TransactionRepository,
-  ],
+  providers: [EmailService, EmailProcessor, QueueService],
   exports: [QueueService],
 })
 export class QueueModule {}

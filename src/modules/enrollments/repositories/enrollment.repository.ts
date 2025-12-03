@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Enrollment, EnrollmentStatus } from '@prisma/client';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import * as crypto from 'crypto';
+import { CompleteCourseResponseDto } from 'src/modules/courses/dto/complete-course-response.dto';
 import {
   CompleteCourseEnrollment,
   completeCourseEnrollmentInclude,
 } from '../types/enrollment.types';
-import { CompleteCourseResponseDto } from 'src/modules/courses/dto/complete-course-response.dto';
 
 @Injectable()
 export class EnrollmentRepository {

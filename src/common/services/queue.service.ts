@@ -2,17 +2,12 @@ import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { JobOptions, Queue } from 'bull';
 import { EmailJobData } from '../queues/email.queue';
-import { TransactionExpiryJobData } from '../queues/transaction-expiry.queue';
 
 @Injectable()
 export class QueueService {
   private readonly logger = new Logger(QueueService.name);
 
-  constructor(
-    @InjectQueue('email') private emailQueue: Queue<EmailJobData>,
-    @InjectQueue('transaction-expiry')
-    private transactionExpiryQueue: Queue<TransactionExpiryJobData>,
-  ) {}
+  constructor(@InjectQueue('email') private emailQueue: Queue<EmailJobData>) {}
 
   async addEmailJob(
     jobData: EmailJobData,
@@ -49,33 +44,5 @@ export class QueueService {
         timestamp: new Date().toISOString(),
       },
     });
-  }
-
-  async addTransactionExpiryJob(
-    data: TransactionExpiryJobData,
-    delayMs: number,
-  ): Promise<void> {
-    try {
-      const job = await this.transactionExpiryQueue.add(
-        'expire-transaction',
-        data,
-        {
-          delay: delayMs,
-          removeOnComplete: true,
-          removeOnFail: false,
-          attempts: 3,
-        },
-      );
-
-      this.logger.log(
-        `Added transaction expiry job ${job.id} for orderId ${data.orderId} to the queue with ${delayMs}ms delay`,
-      );
-    } catch (error) {
-      this.logger.error(
-        'Failed to add transaction expiry job to the queue:',
-        error,
-      );
-      throw error;
-    }
   }
 }

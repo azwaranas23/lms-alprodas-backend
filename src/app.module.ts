@@ -4,8 +4,6 @@ import { AppService } from './app.service';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { JwtTokenService } from './modules/auth/services/jwt.service';
-import { AuthService } from './modules/auth/services/auth.service';
 import { EmailService } from './common/services/email.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullModule } from '@nestjs/bull';
@@ -19,12 +17,12 @@ import { SubjectsModule } from './modules/subjects/subjects.module';
 import { CourseModule } from './modules/courses/course.module';
 import { SectionsModule } from './modules/sections/sections.module';
 import { LessonsModule } from './modules/lessons/lesson.module';
-import { TransactionModule } from './modules/transactions/transaction.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { WithdrawalsModule } from './modules/withdrawals/withdrawals.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CertificatesModule } from './modules/certificates/certificates.module';
+import { EnrollmentModule } from './modules/enrollments/enrollment.module';
 
 @Module({
   imports: [
@@ -67,11 +65,11 @@ import { CertificatesModule } from './modules/certificates/certificates.module';
     CourseModule,
     SectionsModule,
     LessonsModule,
-    TransactionModule,
     DashboardModule,
     UsersModule,
     WithdrawalsModule,
     CertificatesModule,
+    EnrollmentModule,
   ],
   controllers: [AppController],
   providers: [

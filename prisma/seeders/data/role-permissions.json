@@ -59,6 +59,7 @@
     ],
     "student": [
       "courses.read",
+      "courses.enroll",
       "topics.read",
       "subjects.read",
       "sections.read",

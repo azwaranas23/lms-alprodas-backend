@@ -21,6 +21,11 @@
       "resource": "courses"
     },
     {
+      "name": "Enroll Course",
+      "key": "courses.enroll",
+      "resource": "courses"
+    },
+    {
       "name": "Create Transaction",
       "key": "transactions.create",
       "resource": "transactions"

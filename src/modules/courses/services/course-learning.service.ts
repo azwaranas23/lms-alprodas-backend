@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CoursesLearningRepository } from '../repositories/courses-learning.repository';
-import { EnrollmentRepository } from 'src/modules/transactions/repositories/enrollment.repository';
+import { EnrollmentRepository } from 'src/modules/enrollments/repositories/enrollment.repository';
 import { BaseResponse } from 'src/common/interface/base-response.interface';
 import {
   CourseProgressResponseDto,

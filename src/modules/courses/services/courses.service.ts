@@ -27,7 +27,7 @@ import {
   CourseImageType,
 } from '../constants/course.constants';
 import { UserFromToken } from 'src/common/utils/jwt.util';
-import { EnrollmentService } from 'src/modules/transactions/services/enrollment.service';
+import { EnrollmentService } from 'src/modules/enrollments/services/enrollment.service';
 import { MyCourseResponseDto } from '../dto/my-course-response.dto';
 import { CompleteCourseResponseDto } from '../dto/complete-course-response.dto';
 import { generateCourseToken } from 'src/common/utils/course-token.util';
