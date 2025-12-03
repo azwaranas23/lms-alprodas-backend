@@ -151,7 +151,7 @@ export class CoursesRepository {
         status: data.status,
         subjectId: data.subject_id,
         mentorId: data.mentor_id,
-        enrollmentToken: data.enrollment_token ?? null,
+        courseToken: data.course_token ?? null,
       },
     });
   }
@@ -171,9 +171,9 @@ export class CoursesRepository {
         tools: data.tools,
         price: data.price,
         status: data.status,
-        enrollmentToken: data.enrollment_token ?? null,
-        ...(data.enrollment_token && {
-          enrollmentToken: data.enrollment_token,
+        courseToken: data.course_token ?? null,
+        ...(data.course_token && {
+          courseToken: data.course_token,
         }),
       },
     });
@@ -362,7 +362,7 @@ export class CoursesRepository {
       description: course.description || null,
       about: course.about || null,
       tools: course.tools || null,
-      enrollmentToken: course.enrollmentToken || null,
+      courseToken: course.courseToken || null,
       price: Number(course.price),
       status: course.status,
       totalLessons: course.totalLessons,
@@ -634,9 +634,9 @@ export class CoursesRepository {
     );
   }
 
-  async findByEnrollmentToken(token: string): Promise<Course | null> {
+  async findByCourseToken(token: string): Promise<Course | null> {
     return this.prisma.course.findFirst({
-      where: { enrollmentToken: token },
+      where: { courseToken: token },
     });
   }
 }

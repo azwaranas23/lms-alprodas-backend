@@ -121,20 +121,20 @@ model Subject {
 }
 
 model Course {
-  id              Int          @id @default(autoincrement())
-  subjectId       Int          @map("subject_id")
-  mentorId        Int          @map("mentor_id")
-  title           String       @db.VarChar(255)
-  description     String?
-  about           String?
-  tools           String?      @db.Text
-  price           Decimal      @default(0) @db.Decimal(10, 2)
-  enrollmentToken String?      @unique
-  status          CourseStatus @default(DRAFT)
-  totalLessons    Int          @default(0) @map("total_lessons")
-  totalStudents   Int          @default(0) @map("total_students")
-  createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+  id            Int          @id @default(autoincrement())
+  subjectId     Int          @map("subject_id")
+  mentorId      Int          @map("mentor_id")
+  title         String       @db.VarChar(255)
+  description   String?
+  about         String?
+  tools         String?      @db.Text
+  price         Decimal      @default(0) @db.Decimal(10, 2)
+  courseToken   String?      @unique
+  status        CourseStatus @default(DRAFT)
+  totalLessons  Int          @default(0) @map("total_lessons")
+  totalStudents Int          @default(0) @map("total_students")
+  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime     @updatedAt @map("updated_at") @db.Timestamptz
 
   subject         Subject          @relation(fields: [subjectId], references: [id])
   mentor          User             @relation("CourseMentor", fields: [mentorId], references: [id])

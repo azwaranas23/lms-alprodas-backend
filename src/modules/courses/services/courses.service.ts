@@ -41,10 +41,10 @@ export class CoursesService {
     private readonly enrollmentService: EnrollmentService,
   ) {}
 
-  private async generateUniqueEnrollmentToken(): Promise<string> {
+  private async generateUniqueCourseToken(): Promise<string> {
     while (true) {
       const token = generateCourseToken();
-      const exists = await this.coursesRepository.findByEnrollmentToken(token);
+      const exists = await this.coursesRepository.findByCourseToken(token);
       if (!exists) return token;
     }
   }
@@ -106,9 +106,8 @@ export class CoursesService {
 
     try {
       // ⬇️ generate token kalau DTO belum punya
-      if (!createCourseDto.enrollment_token) {
-        createCourseDto.enrollment_token =
-          await this.generateUniqueEnrollmentToken();
+      if (!createCourseDto.course_token) {
+        createCourseDto.course_token = await this.generateUniqueCourseToken();
       }
 
       const course = await this.prisma.$transaction(async (tx) => {

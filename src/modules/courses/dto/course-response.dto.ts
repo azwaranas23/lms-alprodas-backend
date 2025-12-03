@@ -93,7 +93,7 @@ export interface CourseResponseDto {
   about: string | null;
   tools: string | null;
   price: number;
-  enrollmentToken: string | null;
+  courseToken: string | null;
   status: CourseStatus;
   totalLessons: number;
   totalStudents: number;
