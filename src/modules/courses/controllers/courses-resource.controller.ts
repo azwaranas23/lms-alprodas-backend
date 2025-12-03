@@ -44,9 +44,11 @@ export class CoursesResourceController {
       'file',
       FileUploadService.getMulterConfig({
         destination: './uploads/courses/resources',
-        allowedTypes: /\.(pdf|docx|pptx|xlsx|zip|rar|jpg|jpeg|png|webp)$/,
-        maxSize: 2 * 1024 * 1024, // 2MB
-        allowedTypesMessage: 'Only document and image files are allowed',
+        // HANYA doc/docx/xls/xlsx/ppt/pptx/pdf/txt
+        allowedTypes: /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i,
+        maxSize: 20 * 1024 * 1024, // misal 20MB, silakan sesuaikan
+        allowedTypesMessage:
+          'Only document files are allowed (pdf, doc, docx, xls, xlsx, ppt, pptx, txt)',
       }),
     ),
   )
@@ -65,9 +67,10 @@ export class CoursesResourceController {
       'file',
       FileUploadService.getMulterConfig({
         destination: './uploads/courses/resources',
-        allowedTypes: /\.(pdf|docx|pptx|xlsx|zip|rar|jpg|jpeg|png|webp)$/,
-        maxSize: 2 * 1024 * 1024, // 2MB
-        allowedTypesMessage: 'Only document and image files are allowed',
+        allowedTypes: /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i,
+        maxSize: 20 * 1024 * 1024,
+        allowedTypesMessage:
+          'Only document files are allowed (pdf, doc, docx, xls, xlsx, ppt, pptx, txt)',
       }),
     ),
   )
