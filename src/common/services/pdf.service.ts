@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import * as hbs from 'hbs';
+import * as hbs from 'handlebars';
 import * as puppeteer from 'puppeteer';
 
 export interface CertificateData {

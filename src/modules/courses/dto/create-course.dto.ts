@@ -46,6 +46,7 @@ export const CreateCourseSchema = z.object({
       (val) => !isNaN(val) && val > 0,
       'Mentor ID must be a positive integer',
     ),
+  enrollment_token: z.string().optional(),
 });
 
 export class CreateCourseDto {
@@ -61,4 +62,5 @@ export class CreateCourseDto {
   status?: CourseStatus;
   subject_id: number;
   mentor_id: number;
+  enrollment_token?: string;
 }

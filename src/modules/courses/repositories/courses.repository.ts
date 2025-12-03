@@ -10,7 +10,6 @@ import { CourseResponseDto } from '../dto/course-response.dto';
 import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
 import { CourseResourceResponseDto } from '../dto/course-resource/course-resource-response.dto';
-import { UpdateCourseResourceDto } from '../dto/course-resource/update-course-resource.dto';
 import { UpdateCourseResourceData } from '../types/course-resource.types';
 import { MyCourseResponseDto } from '../dto/my-course-response.dto';
 
@@ -152,6 +151,7 @@ export class CoursesRepository {
         status: data.status,
         subjectId: data.subject_id,
         mentorId: data.mentor_id,
+        enrollmentToken: data.enrollment_token ?? null,
       },
     });
   }
@@ -171,7 +171,10 @@ export class CoursesRepository {
         tools: data.tools,
         price: data.price,
         status: data.status,
-        ...(data.subject_id && { subjectId: data.subject_id }),
+        enrollmentToken: data.enrollment_token ?? null,
+        ...(data.enrollment_token && {
+          enrollmentToken: data.enrollment_token,
+        }),
       },
     });
   }
@@ -359,6 +362,7 @@ export class CoursesRepository {
       description: course.description || null,
       about: course.about || null,
       tools: course.tools || null,
+      enrollmentToken: course.enrollmentToken || null,
       price: Number(course.price),
       status: course.status,
       totalLessons: course.totalLessons,
@@ -628,5 +632,11 @@ export class CoursesRepository {
     return enrollments.map((enrollment) =>
       this.toMyCourseResponseDto(enrollment),
     );
+  }
+
+  async findByEnrollmentToken(token: string): Promise<Course | null> {
+    return this.prisma.course.findFirst({
+      where: { enrollmentToken: token },
+    });
   }
 }

@@ -30,6 +30,7 @@ import { UserFromToken } from 'src/common/utils/jwt.util';
 import { EnrollmentService } from 'src/modules/transactions/services/enrollment.service';
 import { MyCourseResponseDto } from '../dto/my-course-response.dto';
 import { CompleteCourseResponseDto } from '../dto/complete-course-response.dto';
+import { generateCourseToken } from 'src/common/utils/course-token.util';
 
 @Injectable()
 export class CoursesService {
@@ -39,6 +40,14 @@ export class CoursesService {
     private readonly fileUploadService: FileUploadService,
     private readonly enrollmentService: EnrollmentService,
   ) {}
+
+  private async generateUniqueEnrollmentToken(): Promise<string> {
+    while (true) {
+      const token = generateCourseToken();
+      const exists = await this.coursesRepository.findByEnrollmentToken(token);
+      if (!exists) return token;
+    }
+  }
 
   async findAll(
     query: QueryCourseDto,
@@ -96,6 +105,12 @@ export class CoursesService {
     }
 
     try {
+      // ⬇️ generate token kalau DTO belum punya
+      if (!createCourseDto.enrollment_token) {
+        createCourseDto.enrollment_token =
+          await this.generateUniqueEnrollmentToken();
+      }
+
       const course = await this.prisma.$transaction(async (tx) => {
         const createdCourse = await this.coursesRepository.create(
           createCourseDto,

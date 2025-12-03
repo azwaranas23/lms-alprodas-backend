@@ -40,6 +40,7 @@ export const UpdateCourseSchema = z.object({
       'Subject ID must be a positive integer',
     )
     .optional(),
+  enrollment_token: z.string().optional(), // ⬅️ baru
 });
 
 export class UpdateCourseDto {
@@ -54,4 +55,5 @@ export class UpdateCourseDto {
   price?: number;
   status?: CourseStatus;
   subject_id?: number;
+  enrollment_token?: string; // ⬅️ baru
 }

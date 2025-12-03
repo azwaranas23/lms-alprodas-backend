@@ -4,7 +4,7 @@ import { Transporter } from 'nodemailer';
 import * as nodemailer from 'nodemailer';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as hbs from 'hbs';
+import * as hbs from 'handlebars';
 
 export interface EmailOptions {
   to: string | string[];
