@@ -6,7 +6,6 @@ import { CurrentUser } from 'src/modules/auth/decorators/current-user.decorator'
 import { UsersResponseDto } from 'src/modules/users/dto/users-response.dto';
 import { BaseResponse } from 'src/common/interface/base-response.interface';
 import { DashboardResponseDto } from '../dto/dashboard-response.dto';
-import { LatestTransactionData } from '../interfaces/dashboard.interface';
 import {
   LatestCourseDto,
   LatestTransactionDto,
