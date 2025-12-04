@@ -13,6 +13,7 @@ import { CourseLearningController } from './controllers/course-learning.controll
 import { CourseLearningService } from './services/course-learning.service';
 import { CoursesLearningRepository } from './repositories/courses-learning.repository';
 import { LessonsRepository } from '../lessons/repositories/lessons.repository';
+import { StudentCourseResourcesController } from './controllers/student-course-resources.controller';
 
 @Module({
   imports: [AuthModule],
@@ -21,6 +22,7 @@ import { LessonsRepository } from '../lessons/repositories/lessons.repository';
     CoursesResourceController,
     FrontCoursesController,
     CourseLearningController,
+    StudentCourseResourcesController,
   ],
   providers: [
     CoursesService,
