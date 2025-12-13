@@ -39,7 +39,7 @@ services:
     ports:
       - "3005:3000"
     env_file:
-      - .env
+      - .env.production
     volumes:
       - ./uploads:/app/uploads
     depends_on:
@@ -53,7 +53,7 @@ services:
       target: builder
     container_name: lms_alprodas-migrator
     env_file:
-      - .env
+      - .env.production
     command: >
       sh -c "
         npx prisma migrate deploy &&
@@ -67,9 +67,8 @@ services:
     image: dpage/pgadmin4
     container_name: lms_alprodas_pgadmin
     restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
+    env_file:
+      - .env.production
     ports:
       - "5050:80"
     depends_on:

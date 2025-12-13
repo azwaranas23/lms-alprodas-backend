@@ -50,6 +50,7 @@
       "sections.read",
       "sections.create",
       "sections.update",
+      "sections.delete",
       "lessons.read",
       "lessons.create",
       "lessons.update",
