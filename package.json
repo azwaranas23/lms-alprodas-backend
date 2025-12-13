@@ -52,7 +52,10 @@
     "prisma": "^6.15.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "zod": "^4.1.4"
+    "zod": "^4.1.4",
+    "lodash": "^4.17.21",
+    "handlebars": "^4.7.8",
+    "puppeteer": "^22.10.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
