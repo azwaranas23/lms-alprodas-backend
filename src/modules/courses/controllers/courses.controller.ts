@@ -36,7 +36,7 @@ export class CoursesController {
   constructor(
     private readonly coursesService: CoursesService,
     private readonly fileUploadService: FileUploadService,
-  ) {}
+  ) { }
 
   @Get()
   @Permissions('courses.read')
@@ -149,5 +149,18 @@ export class CoursesController {
     @CurrentUser() user: UsersResponseDto,
   ): Promise<BaseResponse<CompleteCourseResponseDto>> {
     return this.coursesService.enrollmentDetail(user.id, id);
+  }
+
+  @Get('mentor/students')
+  @Permissions('courses.read')
+  async getMentorStudents(
+    @CurrentUser() user: UsersResponseDto,
+    @Query() query: QueryCourseDto,
+  ): Promise<BaseResponse<PaginatedResponse<any>>> {
+    return this.coursesService.getMentorStudents(user.id, {
+      page: query.page,
+      limit: query.limit,
+      search: query.search,
+    });
   }
 }

@@ -129,7 +129,6 @@ export class EnrollmentRepository {
         description: completedEnrollment.course.description,
         about: completedEnrollment.course.about,
         tools: completedEnrollment.course.tools,
-        price: Number(completedEnrollment.course.price),
         status: completedEnrollment.course.status,
         totalLessons: completedEnrollment.course.totalLessons,
         totalStudents: completedEnrollment.course.totalStudents,
@@ -151,8 +150,6 @@ export class EnrollmentRepository {
             ? {
                 bio: completedEnrollment.course.mentor.userProfile.bio,
                 avatar: completedEnrollment.course.mentor.userProfile.avatar,
-                expertise:
-                  completedEnrollment.course.mentor.userProfile.expertise,
               }
             : null,
         },

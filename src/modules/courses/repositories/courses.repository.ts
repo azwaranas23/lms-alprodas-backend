@@ -22,68 +22,50 @@ interface PaginatedCoursesResponse {
 
 @Injectable()
 export class CoursesRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
+  // FIXED: Prisma SortOrder enum digunakan
   private readonly includeCourseRelations = {
-    subject: {
-      include: {
-        topic: true,
-      },
-    },
-    mentor: {
-      include: {
-        userProfile: true,
-      },
-    },
+    subject: { include: { topic: true } },
+
+    mentor: { include: { userProfile: true } },
+
     courseImages: {
-      orderBy: {
-        orderIndex: Prisma.SortOrder.asc,
-      },
+      orderBy: { orderIndex: Prisma.SortOrder.asc },
     },
+
     courseKeyPoints: {
-      orderBy: {
-        createdAt: Prisma.SortOrder.asc,
-      },
+      orderBy: { createdAt: Prisma.SortOrder.asc },
     },
+
     coursePersonas: {
-      orderBy: {
-        id: Prisma.SortOrder.asc,
-      },
+      orderBy: { id: Prisma.SortOrder.asc },
     },
+
     courseResources: {
-      orderBy: {
-        createdAt: Prisma.SortOrder.asc,
-      },
+      orderBy: { createdAt: Prisma.SortOrder.asc },
     },
+
     courseSections: {
       include: {
         lessons: {
-          orderBy: {
-            orderIndex: Prisma.SortOrder.asc,
-          },
+          orderBy: { orderIndex: Prisma.SortOrder.asc },
         },
       },
-      orderBy: {
-        orderIndex: Prisma.SortOrder.asc,
-      },
+      orderBy: { orderIndex: Prisma.SortOrder.asc },
     },
+
     courseReviews: {
       include: {
         student: {
           select: {
             id: true,
             name: true,
-            userProfile: {
-              select: {
-                avatar: true,
-              },
-            },
+            userProfile: { select: { avatar: true } },
           },
         },
       },
-      orderBy: {
-        createdAt: Prisma.SortOrder.desc,
-      },
+      orderBy: { createdAt: Prisma.SortOrder.desc },
     },
   };
 
@@ -94,7 +76,7 @@ export class CoursesRepository {
     const { page = 1, limit = 10, search, status, subjectId, topicId } = query;
     const skip = (page - 1) * limit;
 
-    const where = {
+    const where: any = {
       ...(search && {
         title: { contains: search, mode: Prisma.QueryMode.insensitive },
       }),
@@ -110,19 +92,12 @@ export class CoursesRepository {
         skip,
         take: limit,
         include: this.includeCourseRelations,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        orderBy: { createdAt: 'desc' },
       }),
       this.prisma.course.count({ where }),
     ]);
 
-    return {
-      courses: courses as unknown as CourseWithRelations[],
-      total,
-      page,
-      limit,
-    };
+    return { courses: courses as CourseWithRelations[], total, page, limit };
   }
 
   async findById(id: number): Promise<Course | null> {
@@ -130,10 +105,10 @@ export class CoursesRepository {
   }
 
   async findByIdWithRelations(id: number): Promise<CourseWithRelations | null> {
-    return this.prisma.course.findUnique({
+    return (await this.prisma.course.findUnique({
       where: { id },
       include: this.includeCourseRelations,
-    }) as unknown as CourseWithRelations | null;
+    })) as CourseWithRelations | null;
   }
 
   async create(
@@ -141,13 +116,13 @@ export class CoursesRepository {
     tx?: Prisma.TransactionClient,
   ): Promise<Course> {
     const prisma = tx ?? this.prisma;
+
     return prisma.course.create({
       data: {
         title: data.title,
         description: data.description,
         about: data.about,
         tools: data.tools,
-        price: data.price,
         status: data.status,
         subjectId: data.subject_id,
         mentorId: data.mentor_id,
@@ -162,6 +137,7 @@ export class CoursesRepository {
     tx?: Prisma.TransactionClient,
   ): Promise<Course> {
     const prisma = tx ?? this.prisma;
+
     return prisma.course.update({
       where: { id },
       data: {
@@ -169,22 +145,18 @@ export class CoursesRepository {
         description: data.description,
         about: data.about,
         tools: data.tools,
-        price: data.price,
         status: data.status,
         courseToken: data.course_token ?? null,
-        ...(data.course_token && {
-          courseToken: data.course_token,
-        }),
       },
     });
   }
 
   async delete(id: number, tx?: Prisma.TransactionClient): Promise<Course> {
     const prisma = tx ?? this.prisma;
-    return prisma.course.delete({
-      where: { id },
-    });
+    return prisma.course.delete({ where: { id } });
   }
+
+  /** ---------------- IMAGES ---------------- */
 
   async createCourseImages(
     courseId: number,
@@ -195,50 +167,23 @@ export class CoursesRepository {
       certificate?: string;
     },
     tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    const imageData: {
-      courseId: number;
-      imagePath: string;
-      orderIndex: number;
-    }[] = [];
+  ) {
+    const prisma = tx ?? this.prisma;
 
-    if (images.main) {
-      imageData.push({
-        courseId,
-        imagePath: images.main,
-        orderIndex: 1,
-      });
-    }
+    const data: { courseId: number; imagePath: string; orderIndex: number }[] =
+      [];
 
-    if (images.preview) {
-      imageData.push({
-        courseId,
-        imagePath: images.preview,
-        orderIndex: 2,
-      });
-    }
+    if (images.main)
+      data.push({ courseId, imagePath: images.main, orderIndex: 1 });
+    if (images.preview)
+      data.push({ courseId, imagePath: images.preview, orderIndex: 2 });
+    if (images.sample)
+      data.push({ courseId, imagePath: images.sample, orderIndex: 3 });
+    if (images.certificate)
+      data.push({ courseId, imagePath: images.certificate, orderIndex: 4 });
 
-    if (images.sample) {
-      imageData.push({
-        courseId,
-        imagePath: images.sample,
-        orderIndex: 3,
-      });
-    }
-
-    if (images.certificate) {
-      imageData.push({
-        courseId,
-        imagePath: images.certificate,
-        orderIndex: 4,
-      });
-    }
-
-    if (imageData.length > 0) {
-      await prisma.courseImage.createMany({
-        data: imageData,
-      });
+    if (data.length > 0) {
+      await prisma.courseImage.createMany({ data });
     }
   }
 
@@ -247,298 +192,140 @@ export class CoursesRepository {
     orderIndex: number,
     imagePath: string,
     tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
+  ) {
+    const prisma = tx ?? this.prisma;
 
-    const existingImage = await prisma.courseImage.findFirst({
-      where: {
-        courseId,
-        orderIndex,
-      },
+    const existing = await prisma.courseImage.findFirst({
+      where: { courseId, orderIndex },
     });
 
-    if (existingImage) {
+    if (existing) {
       await prisma.courseImage.update({
-        where: { id: existingImage.id },
+        where: { id: existing.id },
         data: { imagePath },
       });
     } else {
       await prisma.courseImage.create({
-        data: {
-          courseId,
-          imagePath,
-          orderIndex,
-        },
+        data: { courseId, imagePath, orderIndex },
       });
     }
   }
 
-  async deleteCourseImages(
-    courseId: number,
-    tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    await prisma.courseImage.deleteMany({
-      where: { courseId },
-    });
+  async deleteCourseImages(courseId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ?? this.prisma;
+    await prisma.courseImage.deleteMany({ where: { courseId } });
   }
 
-  async updateSubjectCourseCount(
-    subjectId: number,
-    tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-
-    const courseCount = await prisma.course.count({
-      where: { subjectId },
-    });
-
-    await prisma.subject.update({
-      where: { id: subjectId },
-      data: { totalCourses: courseCount },
-    });
-  }
+  /** ---------------- KEYPOINTS ---------------- */
 
   async createCourseKeyPoints(
     courseId: number,
     keyPoints: string[],
     tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    const keyPointData = keyPoints.map((keyPoint) => ({
-      courseId,
-      keyPoint,
-    }));
+  ) {
+    const prisma = tx ?? this.prisma;
 
-    if (keyPointData.length > 0) {
-      await prisma.courseKeyPoint.createMany({
-        data: keyPointData,
-      });
-    }
-  }
-
-  async deleteCourseKeyPoints(
-    courseId: number,
-    tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    await prisma.courseKeyPoint.deleteMany({
-      where: { courseId },
+    await prisma.courseKeyPoint.createMany({
+      data: keyPoints.map((k) => ({ courseId, keyPoint: k })),
     });
   }
+
+  async deleteCourseKeyPoints(courseId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ?? this.prisma;
+    await prisma.courseKeyPoint.deleteMany({ where: { courseId } });
+  }
+
+  /** ---------------- PERSONAS ---------------- */
 
   async createCoursePersonas(
     courseId: number,
     personas: string[],
     tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    const personaData = personas.map((persona) => ({
-      courseId,
-      persona,
-    }));
+  ) {
+    const prisma = tx ?? this.prisma;
 
-    if (personaData.length > 0) {
-      await prisma.coursePersona.createMany({
-        data: personaData,
-      });
-    }
-  }
-
-  async deleteCoursePersonas(
-    courseId: number,
-    tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
-    await prisma.coursePersona.deleteMany({
-      where: { courseId },
+    await prisma.coursePersona.createMany({
+      data: personas.map((p) => ({ courseId, persona: p })),
     });
   }
 
-  toResponseDto(course: CourseWithRelations): CourseResponseDto {
-    return {
-      id: course.id,
-      title: course.title,
-      description: course.description || null,
-      about: course.about || null,
-      tools: course.tools || null,
-      courseToken: course.courseToken || null,
-      price: Number(course.price),
-      status: course.status,
-      totalLessons: course.totalLessons,
-      totalStudents: course.totalStudents,
-      createdAt: course.createdAt,
-      updatedAt: course.updatedAt,
-      subject: {
-        id: course.subject.id,
-        name: course.subject.name,
-        topic: {
-          id: course.subject.topic.id,
-          name: course.subject.topic.name,
-        },
-      },
-      mentor: {
-        id: course.mentor.id,
-        email: course.mentor.email,
-        name: course.mentor.name,
-        profile: course.mentor.userProfile
-          ? {
-              bio: course.mentor.userProfile.bio || null,
-              avatar: course.mentor.userProfile.avatar || null,
-              expertise: course.mentor.userProfile.expertise || null,
-            }
-          : null,
-      },
-      images: course.courseImages.map((image) => ({
-        id: image.id,
-        imagePath: image.imagePath || null,
-        orderIndex: image.orderIndex || 0,
-      })),
-      keyPoints: course.courseKeyPoints.map((keyPoint) => ({
-        id: keyPoint.id,
-        keyPoint: keyPoint.keyPoint,
-      })),
-      personas: course.coursePersonas.map((persona) => ({
-        id: persona.id,
-        persona: persona.persona,
-      })),
-      resources: course.courseResources.map((resource) => ({
-        id: resource.id,
-        resourceType: resource.resourceType,
-        resourcePath: resource.resourcePath,
-        fileName: resource.fileName,
-        fileSize: resource.fileSize,
-      })),
-      sections: course.courseSections.map((section) => ({
-        id: section.id,
-        title: section.title,
-        description: section.description || null,
-        orderIndex: section.orderIndex,
-        totalLessons: section.totalLessons,
-        lessons: section.lessons.map((lesson) => ({
-          id: lesson.id,
-          title: lesson.title,
-          contentType: lesson.contentType,
-          contentUrl: lesson.contentUrl || null,
-          contentText: lesson.contentText || null,
-          durationMinutes: lesson.durationMinutes,
-          orderIndex: lesson.orderIndex,
-          isActive: lesson.isActive,
-        })),
-      })),
-      reviews: course.courseReviews.map((review) => ({
-        id: review.id,
-        rating: review.rating,
-        reviewText: review.reviewText || null,
-        createdAt: review.createdAt,
-        student: {
-          id: review.student.id,
-          name: review.student.name,
-          profile: review.student.userProfile
-            ? {
-                avatar: review.student.userProfile.avatar || null,
-              }
-            : null,
-        },
-      })),
-    };
+  async deleteCoursePersonas(courseId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ?? this.prisma;
+    await prisma.coursePersona.deleteMany({ where: { courseId } });
   }
 
-  toResponseDtos(courses: CourseWithRelations[]): CourseResponseDto[] {
-    return courses.map((course) => this.toResponseDto(course));
-  }
-
-  toResourceResponseDto(resource: CourseResource): CourseResourceResponseDto {
-    return {
-      id: resource.id,
-      courseId: resource.courseId,
-      resourceType: resource.resourceType,
-      resourcePath: resource.resourcePath,
-      fileName: resource.fileName,
-      fileSize: resource.fileSize,
-    };
-  }
+  /** ---------------- RESOURCES ---------------- */
 
   async createCourseResource(
     courseId: number,
-    resourceData: {
+    data: {
       resourceType: string;
       resourcePath: string;
       fileName: string;
       fileSize: number;
     },
-  ): Promise<CourseResource> {
+  ) {
     return this.prisma.courseResource.create({
-      data: {
-        courseId,
-        resourceType: resourceData.resourceType,
-        resourcePath: resourceData.resourcePath,
-        fileName: resourceData.fileName,
-        fileSize: resourceData.fileSize,
-      },
+      data: { courseId, ...data },
     });
   }
 
-  async findCourseResourceById(id: number): Promise<CourseResource | null> {
-    return this.prisma.courseResource.findUnique({
-      where: { id },
-    });
+  async findCourseResourceById(id: number) {
+    return this.prisma.courseResource.findUnique({ where: { id } });
   }
 
-  async updateCourseResource(
-    id: number,
-    data: UpdateCourseResourceData,
-  ): Promise<CourseResource> {
+  async updateCourseResource(id: number, data: UpdateCourseResourceData) {
     return this.prisma.courseResource.update({
       where: { id },
       data,
     });
   }
 
-  async deleteCourseResource(id: number): Promise<CourseResource> {
-    return this.prisma.courseResource.delete({
-      where: { id },
-    });
+  async deleteCourseResource(id: number) {
+    return this.prisma.courseResource.delete({ where: { id } });
   }
 
-  async findMostJoined(limit: number = 3): Promise<CourseWithRelations[]> {
-    return this.prisma.course.findMany({
-      take: limit,
-      where: {
-        status: CourseStatus.PUBLISHED,
-      },
-      orderBy: {
-        totalStudents: 'desc',
-      },
-      include: this.includeCourseRelations,
-    }) as unknown as CourseWithRelations[];
+  toResourceResponseDto(res: CourseResource): CourseResourceResponseDto {
+    return {
+      id: res.id,
+      courseId: res.courseId,
+      resourceType: res.resourceType,
+      resourcePath: res.resourcePath,
+      fileName: res.fileName,
+      fileSize: res.fileSize,
+    };
   }
+
+  /** ---------------- MOST JOINED ---------------- */
+
+  async findMostJoined(limit = 3): Promise<CourseWithRelations[]> {
+    return (await this.prisma.course.findMany({
+      where: { status: CourseStatus.PUBLISHED },
+      take: limit,
+      orderBy: { totalStudents: Prisma.SortOrder.desc },
+      include: this.includeCourseRelations,
+    })) as CourseWithRelations[];
+  }
+
+  /** ---------------- UPDATE STUDENTS ---------------- */
 
   async updateCourseStudentCount(
     courseId: number,
     tx?: Prisma.TransactionClient,
-  ): Promise<void> {
-    const prisma = tx || this.prisma;
+  ) {
+    const prisma = tx ?? this.prisma;
 
-    const studentCount = await prisma.enrollment.count({
-      where: { courseId },
-    });
+    const count = await prisma.enrollment.count({ where: { courseId } });
 
     await prisma.course.update({
       where: { id: courseId },
-      data: { totalStudents: studentCount },
+      data: { totalStudents: count },
     });
   }
 
-  async findEnrolledCourses(
-    studentId: number,
-    query: QueryCourseDto,
-  ): Promise<{
-    courses: MyCourseResponseDto[];
-    total: number;
-    page: number;
-    limit: number;
-  }> {
+  /** ---------------- ENROLLED COURSES ---------------- */
+
+  async findEnrolledCourses(studentId: number, query: QueryCourseDto) {
     const { page = 1, limit = 10, search } = query;
     const skip = (page - 1) * limit;
 
@@ -559,39 +346,237 @@ export class CoursesRepository {
         include: {
           course: {
             include: {
-              mentor: {
-                include: {
-                  userProfile: true,
-                },
-              },
-              subject: {
-                include: {
-                  topic: true,
-                },
-              },
-              courseImages: {
-                orderBy: {
-                  orderIndex: Prisma.SortOrder.asc,
-                },
-              },
+              mentor: { include: { userProfile: true } },
+              subject: { include: { topic: true } },
+              courseImages: { orderBy: { orderIndex: Prisma.SortOrder.asc } },
             },
           },
         },
-        orderBy: {
-          enrolledAt: 'desc',
-        },
+        orderBy: { enrolledAt: Prisma.SortOrder.desc },
       }),
       this.prisma.enrollment.count({ where }),
     ]);
 
-    const courses = this.toMyCourseResponseDtos(enrollments);
-
     return {
-      courses,
+      courses: this.toMyCourseResponseDtos(
+        enrollments as EnrollmentWithCourse[],
+      ),
       total,
       page,
       limit,
     };
+  }
+
+  async updateSubjectCourseCount(
+    subjectId: number,
+    tx?: Prisma.TransactionClient,
+  ) {
+    const prisma = tx ?? this.prisma;
+    const count = await prisma.course.count({ where: { subjectId } });
+
+    await prisma.subject.update({
+      where: { id: subjectId },
+      data: { totalCourses: count },
+    });
+  }
+
+  /** ---------------- MENTOR STUDENTS ---------------- */
+
+  async findMentorStudents(
+    mentorId: number,
+    query: { page?: number; limit?: number; search?: string },
+  ) {
+    const { page = 1, limit = 10, search } = query;
+    const skip = (page - 1) * limit;
+
+    // Get all courses by this mentor
+    const mentorCourses = await this.prisma.course.findMany({
+      where: { mentorId },
+      select: { id: true },
+    });
+
+    const courseIds = mentorCourses.map((c) => c.id);
+
+    if (courseIds.length === 0) {
+      return { students: [], total: 0, page, limit };
+    }
+
+    const where = {
+      courseId: { in: courseIds },
+      ...(search && {
+        student: {
+          OR: [
+            { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+            { email: { contains: search, mode: Prisma.QueryMode.insensitive } },
+          ],
+        },
+      }),
+    };
+
+    // Get unique students enrolled in mentor's courses
+    const [enrollments, total] = await Promise.all([
+      this.prisma.enrollment.findMany({
+        where,
+        skip,
+        take: limit,
+        distinct: ['studentId'],
+        include: {
+          student: {
+            include: {
+              userProfile: true,
+            },
+          },
+          course: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+        orderBy: { enrolledAt: Prisma.SortOrder.desc },
+      }),
+      this.prisma.enrollment.groupBy({
+        by: ['studentId'],
+        where,
+      }).then((result) => result.length),
+    ]);
+
+    // Transform to student list with enrolled courses count
+    const studentMap = new Map<number, any>();
+
+    for (const enrollment of enrollments) {
+      if (!studentMap.has(enrollment.studentId)) {
+        // Count all courses from this mentor that the student is enrolled in
+        const enrolledCoursesCount = await this.prisma.enrollment.count({
+          where: {
+            studentId: enrollment.studentId,
+            courseId: { in: courseIds },
+          },
+        });
+
+        studentMap.set(enrollment.studentId, {
+          id: enrollment.student.id,
+          name: enrollment.student.name,
+          email: enrollment.student.email,
+          is_active: enrollment.student.isActive,
+          enrolled_courses_count: enrolledCoursesCount,
+          user_profile: enrollment.student.userProfile
+            ? {
+              avatar: enrollment.student.userProfile.avatar,
+            }
+            : null,
+          latest_enrollment: enrollment.enrolledAt,
+        });
+      }
+    }
+
+    return {
+      students: Array.from(studentMap.values()),
+      total,
+      page,
+      limit,
+    };
+  }
+
+  /** ---------------- TOKEN ---------------- */
+
+  async findByCourseToken(token: string) {
+    return this.prisma.course.findFirst({ where: { courseToken: token } });
+  }
+
+  /** ---------------- DTO MAPPING ---------------- */
+
+  toResponseDto(course: CourseWithRelations): CourseResponseDto {
+    return {
+      id: course.id,
+      title: course.title,
+      description: course.description,
+      about: course.about,
+      tools: course.tools,
+      courseToken: course.courseToken,
+      status: course.status,
+      totalLessons: course.totalLessons,
+      totalStudents: course.totalStudents,
+      createdAt: course.createdAt,
+      updatedAt: course.updatedAt,
+
+      subject: {
+        id: course.subject.id,
+        name: course.subject.name,
+        topic: {
+          id: course.subject.topic.id,
+          name: course.subject.topic.name,
+        },
+      },
+
+      mentor: {
+        id: course.mentor.id,
+        email: course.mentor.email,
+        name: course.mentor.name,
+        profile: course.mentor.userProfile
+          ? {
+            bio: course.mentor.userProfile.bio,
+            avatar: course.mentor.userProfile.avatar,
+          }
+          : null,
+      },
+
+      images: course.courseImages.map((img) => ({
+        id: img.id,
+        imagePath: img.imagePath,
+        orderIndex: img.orderIndex ?? 0,
+      })),
+
+      keyPoints: course.courseKeyPoints.map((kp) => ({
+        id: kp.id,
+        keyPoint: kp.keyPoint,
+      })),
+
+      personas: course.coursePersonas.map((p) => ({
+        id: p.id,
+        persona: p.persona,
+      })),
+
+      resources: course.courseResources.map((r) =>
+        this.toResourceResponseDto(r),
+      ),
+
+      sections: course.courseSections.map((sec) => ({
+        id: sec.id,
+        title: sec.title,
+        description: sec.description,
+        orderIndex: sec.orderIndex,
+        totalLessons: sec.totalLessons,
+        lessons: sec.lessons.map((ls) => ({
+          id: ls.id,
+          title: ls.title,
+          contentType: ls.contentType,
+          contentUrl: ls.contentUrl,
+          contentText: ls.contentText,
+          durationMinutes: ls.durationMinutes,
+          orderIndex: ls.orderIndex,
+          isActive: ls.isActive,
+        })),
+      })),
+
+      reviews: course.courseReviews.map((r) => ({
+        id: r.id,
+        rating: r.rating,
+        reviewText: r.reviewText,
+        createdAt: r.createdAt,
+        student: {
+          id: r.student.id,
+          name: r.student.name,
+          profile: {
+            avatar: r.student.userProfile?.avatar || null,
+          },
+        },
+      })),
+    };
+  }
+
+  toResponseDtos(courses: CourseWithRelations[]): CourseResponseDto[] {
+    return courses.map((c) => this.toResponseDto(c));
   }
 
   toMyCourseResponseDto(enrollment: EnrollmentWithCourse): MyCourseResponseDto {
@@ -599,22 +584,19 @@ export class CoursesRepository {
       id: enrollment.course.id,
       title: enrollment.course.title,
       description: enrollment.course.description,
-      price: Number(enrollment.course.price),
       status: enrollment.course.status,
       totalLessons: enrollment.course.totalLessons,
       progressPercentage: Number(enrollment.progressPercentage),
       enrolledAt: enrollment.enrolledAt,
       certificateId: enrollment.certificateId,
-      image:
-        enrollment.course.courseImages.length > 0
-          ? enrollment.course.courseImages[0].imagePath
-          : null,
+      image: enrollment.course.courseImages[0]?.imagePath || null,
+
       mentor: {
         id: enrollment.course.mentor.id,
         name: enrollment.course.mentor.name,
         avatar: enrollment.course.mentor.userProfile?.avatar || null,
-        expertise: enrollment.course.mentor.userProfile?.expertise || null,
       },
+
       subject: {
         id: enrollment.course.subject.id,
         name: enrollment.course.subject.name,
@@ -629,14 +611,6 @@ export class CoursesRepository {
   toMyCourseResponseDtos(
     enrollments: EnrollmentWithCourse[],
   ): MyCourseResponseDto[] {
-    return enrollments.map((enrollment) =>
-      this.toMyCourseResponseDto(enrollment),
-    );
-  }
-
-  async findByCourseToken(token: string): Promise<Course | null> {
-    return this.prisma.course.findFirst({
-      where: { courseToken: token },
-    });
+    return enrollments.map((en) => this.toMyCourseResponseDto(en));
   }
 }

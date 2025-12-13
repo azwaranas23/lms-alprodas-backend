@@ -19,14 +19,6 @@ export const CreateCourseSchema = z.object({
     .min(4, 'Must have exactly 4 personas')
     .max(4, 'Must have exactly 4 personas')
     .describe('Array of target personas for the course (must be exactly 4)'),
-  price: z
-    .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseFloat(val) : val))
-    .refine(
-      (val) => !isNaN(val) && val >= 0,
-      'Price must be a non-negative number',
-    )
-    .default(0),
   status: z
     .enum([CourseStatus.PUBLISHED, CourseStatus.DRAFT])
     .optional()
@@ -58,7 +50,6 @@ export class CreateCourseDto {
   tools?: string;
   key_points: string[];
   personas: string[];
-  price: number;
   status?: CourseStatus;
   subject_id: number;
   mentor_id: number;

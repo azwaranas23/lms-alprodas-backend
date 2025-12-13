@@ -29,6 +29,38 @@ async function main() {
   await courseSectionsSeed();
   await lessonsSeed();
 
+  // 5. Enroll Student to Algoritma Course (Real Data Scenario)
+  const studentEmail = 'student@mail.com';
+  const courseTitle = 'Algoritma dan Pemrograman Dasar';
+
+  const student = await prisma.user.findUnique({ where: { email: studentEmail } });
+  const course = await prisma.course.findFirst({ where: { title: courseTitle } });
+
+  if (student && course) {
+    const enrollment = await prisma.enrollment.findUnique({
+      where: {
+        studentId_courseId: {
+          studentId: student.id,
+          courseId: course.id,
+        },
+      },
+    });
+
+    if (!enrollment) {
+      await prisma.enrollment.create({
+        data: {
+          studentId: student.id,
+          courseId: course.id,
+          status: 'ACTIVE',
+          progressPercentage: 0,
+        },
+      });
+      console.log(`✅ Student ${studentEmail} enrolled to ${courseTitle}`);
+    } else {
+      console.log(`ℹ️ Student ${studentEmail} already enrolled to ${courseTitle}`);
+    }
+  }
+
   console.log('🎉 Seeding selesai!');
 }
 

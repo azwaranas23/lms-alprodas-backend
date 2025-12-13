@@ -8,7 +8,6 @@ import {
   TransactionWithCourseAndStudent,
   UserWithRole,
 } from '../interfaces/dashboard.interface';
-import { TransactionStatus, WithdrawalStatus } from '@prisma/client';
 import { UserRole } from 'src/common/enums/user-role.enum';
 import {
   LatestCourseDto,
@@ -17,216 +16,84 @@ import {
 
 @Injectable()
 export class DashboardRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
+  /** ============= MENTOR DASHBOARD ============= */
   async getMentorStatistics(mentorId: number): Promise<DashboardStatistics> {
-    const [
-      revenueResult,
-      transactionsResult,
-      studentsResult,
-      coursesResult,
-      lessonsResult,
-      withdrawalsResult,
-    ] = await Promise.all([
-      this.prisma.transaction.aggregate({
+    const [studentsResult, coursesResult, lessonsResult, enrollmentsResult] = await Promise.all([
+      this.prisma.user.count({
         where: {
-          course: { mentorId },
-          status: TransactionStatus.PAID,
-        },
-        _sum: {
-          mentorNetAmount: true,
+          role: { key: UserRole.STUDENT },
+          enrollments: { some: { course: { mentorId } } },
         },
       }),
-      this.prisma.transaction.count({
+      this.prisma.course.count({ where: { mentorId } }),
+      this.prisma.lesson.count({
+        where: { section: { course: { mentorId } } },
+      }),
+      // Count all enrollments in mentor's courses
+      this.prisma.enrollment.count({
         where: { course: { mentorId } },
       }),
-      this.prisma.user.count({
-        where: {
-          role: {
-            key: UserRole.STUDENT,
-          },
-          enrollments: {
-            some: {
-              course: { mentorId },
-            },
-          },
-        },
-      }),
-      this.prisma.course.count({
-        where: {
-          mentorId,
-        },
-      }),
-      this.prisma.lesson.count({
-        where: {
-          section: {
-            course: { mentorId },
-          },
-        },
-      }),
-      this.prisma.withdrawal.aggregate({
-        where: {
-          userId: mentorId,
-          status: WithdrawalStatus.COMPLETED,
-        },
-        _sum: {
-          amount: true,
-        },
-      }),
     ]);
 
     return {
-      totalRevenue: Number(revenueResult._sum.mentorNetAmount) || 0,
-      totalTransactions: Number(transactionsResult) || 0,
-      totalStudents: Number(studentsResult) || 0,
-      totalCourses: Number(coursesResult) || 0,
-      totalLessons: Number(lessonsResult) || 0,
-      totalWithdrawals: Number(withdrawalsResult._sum.amount) || 0,
+      totalRevenue: 0, // transaksi sudah dihapus
+      totalTransactions: enrollmentsResult, // now uses enrollment count
+      totalStudents: studentsResult,
+      totalCourses: coursesResult,
+      totalLessons: lessonsResult,
+      totalWithdrawals: 0, // withdrawal sudah dihapus
     };
   }
 
+  /** ============= ADMIN DASHBOARD ============= */
   async getAdminStatistics(): Promise<DashboardStatistics> {
-    const [
-      revenueResult,
-      transactionsResult,
-      studentsResult,
-      coursesResult,
-      lessonsResult,
-      withdrawalsResult,
-    ] = await Promise.all([
-      this.prisma.transaction.aggregate({
-        where: {
-          status: TransactionStatus.PAID,
-        },
-        _sum: {
-          amount: true,
-        },
-      }),
-      this.prisma.transaction.count(),
-      this.prisma.user.count({
-        where: {
-          role: {
-            key: UserRole.STUDENT,
-          },
-        },
-      }),
+    const [studentsResult, coursesResult, lessonsResult] = await Promise.all([
+      this.prisma.user.count({ where: { role: { key: UserRole.STUDENT } } }),
       this.prisma.course.count(),
-      this.prisma.lesson.count({
-        where: {
-          isActive: true,
-        },
-      }),
-      this.prisma.withdrawal.aggregate({
-        where: {
-          status: WithdrawalStatus.COMPLETED,
-        },
-        _sum: {
-          amount: true,
-        },
-      }),
+      this.prisma.lesson.count({ where: { isActive: true } }),
     ]);
 
     return {
-      totalRevenue: Number(revenueResult._sum.amount) || 0,
-      totalTransactions: Number(transactionsResult) || 0,
-      totalStudents: Number(studentsResult) || 0,
-      totalCourses: Number(coursesResult) || 0,
-      totalLessons: Number(lessonsResult) || 0,
-      totalWithdrawals: Number(withdrawalsResult._sum.amount) || 0,
+      totalRevenue: 0,
+      totalTransactions: 0,
+      totalStudents: studentsResult,
+      totalCourses: coursesResult,
+      totalLessons: lessonsResult,
+      totalWithdrawals: 0,
     };
   }
 
+  /** ============= LATEST TRANSACTIONS (Mocked) ============= */
   async findLatestTransaction(
     limit: number = 5,
     mentorId?: number,
   ): Promise<LatestTransactionData[]> {
-    const transactions = await this.prisma.transaction.findMany({
-      where: {
-        ...(mentorId ? { course: { mentorId } } : {}),
-      },
-      take: limit,
-      orderBy: {
-        transactionDate: 'desc',
-      },
-      include: {
-        course: {
-          select: {
-            id: true,
-            title: true,
-            courseImages: {
-              select: {
-                id: true,
-                imagePath: true,
-              },
-              orderBy: {
-                id: 'asc',
-              },
-            },
-          },
-        },
-        student: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
-    });
-
-    return this.toTransactionResponseDtos(transactions);
+    // Karena modul transaksi tidak ada, return array kosong
+    return [];
   }
 
   private toTransactionResponseDtos(
     transactions: TransactionWithCourseAndStudent[],
   ): LatestTransactionData[] {
-    return transactions.map((transaction) => ({
-      id: transaction.id,
-      orderId: transaction.orderId,
-      amount: Number(transaction.amount),
-      status: transaction.status,
-      paymentMethod: transaction.paymentMethod,
-      transactionDate: transaction.transactionDate,
-      course: {
-        id: transaction.course.id,
-        title: transaction.course.title,
-        image: transaction.course.courseImages[0]?.imagePath || null,
-      },
-      student: {
-        id: transaction.student.id,
-        name: transaction.student.name,
-        email: transaction.student.email,
-      },
-    }));
+    return []; // tidak digunakan lagi
   }
 
+  /** ============= LATEST COURSES ============= */
   async findLatestCourses(
     limit: number = 5,
     mentorId?: number,
   ): Promise<LatestCourseData[]> {
     const courses = await this.prisma.course.findMany({
-      where: {
-        ...(mentorId ? { mentorId } : {}),
-      },
+      where: mentorId ? { mentorId } : {},
       take: limit,
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { createdAt: 'desc' },
       include: {
-        subject: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
+        subject: { select: { id: true, name: true } },
         courseImages: {
-          select: {
-            id: true,
-            imagePath: true,
-          },
-          orderBy: {
-            id: 'asc',
-          },
+          select: { id: true, imagePath: true },
+          orderBy: { id: 'asc' },
           take: 1,
         },
       },
@@ -241,7 +108,6 @@ export class DashboardRepository {
     return courses.map((course) => ({
       id: course.id,
       title: course.title,
-      price: Number(course.price),
       status: course.status,
       totalLessons: course.totalLessons,
       createdAt: course.createdAt,
@@ -253,25 +119,14 @@ export class DashboardRepository {
     }));
   }
 
+  /** ============= LATEST USERS ============= */
   async findLatestUsers(limit: number = 5): Promise<LatestUserDto[]> {
     const users = await this.prisma.user.findMany({
       take: limit,
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { createdAt: 'desc' },
       include: {
-        role: {
-          select: {
-            id: true,
-            name: true,
-            key: true,
-          },
-        },
-        userProfile: {
-          select: {
-            avatar: true,
-          },
-        },
+        role: { select: { id: true, name: true, key: true } },
+        userProfile: { select: { avatar: true } },
       },
     });
 

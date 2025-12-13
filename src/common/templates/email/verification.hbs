@@ -1,66 +1,73 @@
 <html>
-  <head>
-    <meta charset='utf-8' />
-    <title>Email Verification</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      .header {
-        text-align: center;
-        background-color: #007bff;
-        color: white;
-        padding: 20px;
-        border-radius: 5px;
-      }
-      .content {
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        margin-top: 20px;
-      }
-      .verify-button {
-        display: inline-block;
-        background-color: #28a745;
-        color: white;
-        padding: 12px 24px;
-        text-decoration: none;
-        border-radius: 4px;
-        margin: 20px 0;
-      }
-      .footer {
-        text-align: center;
-        margin-top: 20px;
-        color: #666;
-        font-size: 12px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class='header'>
-      <h1>Email Verification</h1>
+
+<head>
+  <meta charset='utf-8' />
+  <title>Email Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .content {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .verify-button {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='header'>
+    <h1>Email Verification</h1>
+  </div>
+
+  <div class='content'>
+    <h2>Hello {{name}}!</h2>
+    <p>Please verify your email address to complete your registration.</p>
+
+    <div style='text-align: center;'>
+      <a href='{{verificationUrl}}' class='verify-button'>Verify Email</a>
     </div>
 
-    <div class='content'>
-      <h2>Hello {{name}}!</h2>
-      <p>Please verify your email address to complete your registration.</p>
+    <p>Or copy this link: {{verificationUrl}}</p>
+    <p>This link will expire in 24 hours.</p>
+  </div>
 
-      <div style='text-align: center;'>
-        <a href='{{verificationUrl}}' class='verify-button'>Verify Email</a>
-      </div>
+  <div class='footer'>
+    <p>Alprodas LMS Team</p>
+    <p>{{timestamp}}</p>
+  </div>
+</body>
 
-      <p>Or copy this link: {{verificationUrl}}</p>
-      <p>This link will expire in 24 hours.</p>
-    </div>
-
-    <div class='footer'>
-      <p>LMS Alprodas Team</p>
-      <p>{{timestamp}}</p>
-    </div>
-  </body>
 </html>

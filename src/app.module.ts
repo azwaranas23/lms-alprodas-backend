@@ -18,7 +18,6 @@ import { CourseModule } from './modules/courses/course.module';
 import { SectionsModule } from './modules/sections/sections.module';
 import { LessonsModule } from './modules/lessons/lesson.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
-import { WithdrawalsModule } from './modules/withdrawals/withdrawals.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CertificatesModule } from './modules/certificates/certificates.module';
@@ -67,7 +66,6 @@ import { EnrollmentModule } from './modules/enrollments/enrollment.module';
     LessonsModule,
     DashboardModule,
     UsersModule,
-    WithdrawalsModule,
     CertificatesModule,
     EnrollmentModule,
   ],

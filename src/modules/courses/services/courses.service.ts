@@ -39,7 +39,7 @@ export class CoursesService {
     private readonly prisma: PrismaService,
     private readonly fileUploadService: FileUploadService,
     private readonly enrollmentService: EnrollmentService,
-  ) {}
+  ) { }
 
   private async generateUniqueCourseToken(): Promise<string> {
     while (true) {
@@ -292,27 +292,27 @@ export class CoursesService {
     return {
       main: images[0]
         ? this.fileUploadService.getFileUrl(
-            images[0].filename,
-            'uploads/courses',
-          )
+          images[0].filename,
+          'uploads/courses',
+        )
         : undefined,
       preview: images[1]
         ? this.fileUploadService.getFileUrl(
-            images[1].filename,
-            'uploads/courses',
-          )
+          images[1].filename,
+          'uploads/courses',
+        )
         : undefined,
       sample: images[2]
         ? this.fileUploadService.getFileUrl(
-            images[2].filename,
-            'uploads/courses',
-          )
+          images[2].filename,
+          'uploads/courses',
+        )
         : undefined,
       certificate: images[3]
         ? this.fileUploadService.getFileUrl(
-            images[3].filename,
-            'uploads/courses',
-          )
+          images[3].filename,
+          'uploads/courses',
+        )
         : undefined,
     };
   }
@@ -410,5 +410,29 @@ export class CoursesService {
     }
 
     return this.enrollmentService.getEnrollmentDetail(userId, courseId);
+  }
+
+  async getMentorStudents(
+    mentorId: number,
+    query: { page?: number; limit?: number; search?: string },
+  ): Promise<BaseResponse<PaginatedResponse<any>>> {
+    const result = await this.coursesRepository.findMentorStudents(
+      mentorId,
+      query,
+    );
+
+    const { students, total, page, limit } = result;
+
+    const paginatedData = PaginationUtil.createResponse(
+      students,
+      page,
+      limit,
+      total,
+    );
+
+    return {
+      message: 'Mentor students retrieved successfully',
+      data: paginatedData,
+    };
   }
 }

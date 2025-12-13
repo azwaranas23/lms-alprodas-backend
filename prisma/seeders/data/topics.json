@@ -1,16 +1,24 @@
 {
   "data": [
     {
-      "name": "Technology",
-      "description": "Technology related courses and programming"
+      "name": "Dasar Komputer & Pemrograman",
+      "description": "Fondasi ilmu komputer dan logika pemrograman dasar sesuai kurikulum JTIK UNM.",
+      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80"
     },
     {
-      "name": "Business",
-      "description": "Business and entrepreneurship courses"
+      "name": "Rekayasa Perangkat Lunak",
+      "description": "Pengembangan aplikasi berbasis web, mobile, dan desktop.",
+      "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80"
     },
     {
-      "name": "Design",
-      "description": "Design and creative courses"
+      "name": "Jaringan & Keamanan",
+      "description": "Infrastruktur jaringan komputer dan keamanan siber.",
+      "image": "https://images.unsplash.com/photo-1558494949-efc535b5c496?auto=format&fit=crop&w=1000&q=80"
+    },
+    {
+      "name": "Multimedia & Grafis",
+      "description": "Pengolahan media digital, grafis, dan animasi.",
+      "image": "https://images.unsplash.com/photo-1626785774573-4b799314346d?auto=format&fit=crop&w=1000&q=80"
     }
   ]
 }

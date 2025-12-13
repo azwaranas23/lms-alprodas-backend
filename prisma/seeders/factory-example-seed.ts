@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import { UserFactory } from '../factories/user.factory';
 import { CourseFactory } from '../factories/course.factory';
 import { EnrollmentFactory } from '../factories/enrollment.factory';
-import { TransactionFactory } from '../factories/transaction.factory';
 import { ReviewFactory } from '../factories/review.factory';
 import { SectionFactory } from '../factories/section.factory';
 import { LessonFactory } from '../factories/lesson.factory';
@@ -22,18 +21,20 @@ export async function factoryExampleSeed() {
   let mentorRole = await prisma.role.findUnique({ where: { key: 'mentor' } });
 
   if (!studentRole || !mentorRole) {
-    console.log('⚠️  Role tidak ditemukan, pastikan sudah menjalankan seed roles terlebih dahulu');
+    console.log(
+      '⚠️  Role tidak ditemukan, pastikan sudah menjalankan seed roles terlebih dahulu',
+    );
     return;
   }
 
   // 2. Generate 6 topics
   console.log('📂 Membuat 6 topics...');
   const topicNames = [
-    'Web Development',
-    'Mobile Development',
-    'Data Science',
-    'Machine Learning',
-    'DevOps',
+    'Videography dan Multimedia',
+    'Rekayasa Perangkat Lunak',
+    'Jaringan Komputer',
+    'Embedded System',
+    'Sistem Cerdas',
     'Cloud Computing',
   ];
 
@@ -78,7 +79,9 @@ export async function factoryExampleSeed() {
 
   // 4. Generate 20 students dengan profile
   console.log('👥 Membuat 20 students...');
-  const students: NonNullable<Awaited<ReturnType<typeof UserFactory.createWithProfile>>>[] = [];
+  const students: NonNullable<
+    Awaited<ReturnType<typeof UserFactory.createWithProfile>>
+  >[] = [];
   for (let i = 0; i < 20; i++) {
     const student = await UserFactory.createWithProfile({
       roleId: studentRole.id,
@@ -90,7 +93,9 @@ export async function factoryExampleSeed() {
 
   // 5. Generate 5 mentors dengan profile
   console.log('👨‍🏫 Membuat 5 mentors...');
-  const mentors: NonNullable<Awaited<ReturnType<typeof UserFactory.createWithProfile>>>[] = [];
+  const mentors: NonNullable<
+    Awaited<ReturnType<typeof UserFactory.createWithProfile>>
+  >[] = [];
   for (let i = 0; i < 5; i++) {
     const mentor = await UserFactory.createWithProfile({
       roleId: mentorRole.id,
@@ -100,12 +105,13 @@ export async function factoryExampleSeed() {
 
   // 6. Generate 15 courses dengan details (images, key points, personas)
   console.log('📚 Membuat 15 courses...');
-  const courses: NonNullable<Awaited<ReturnType<typeof CourseFactory.createWithDetails>>>[] = [];
+  const courses: NonNullable<
+    Awaited<ReturnType<typeof CourseFactory.createWithDetails>>
+  >[] = [];
   for (let i = 0; i < 15; i++) {
     const course = await CourseFactory.createWithDetails({
       subjectId: subjects[i % subjects.length].id,
       mentorId: mentors[i % mentors.length].id,
-      price: Math.floor(Math.random() * 4900000) + 100000,
     });
     if (course) courses.push(course);
   }
@@ -117,12 +123,18 @@ export async function factoryExampleSeed() {
 
   for (const course of courses) {
     // Each course gets 3-4 sections
-    const sections = await SectionFactory.createMany(course.id, faker.number.int({ min: 3, max: 4 }));
+    const sections = await SectionFactory.createMany(
+      course.id,
+      faker.number.int({ min: 3, max: 4 }),
+    );
     totalSections += sections.length;
 
     for (const section of sections) {
       // Each section gets 5-7 lessons
-      const lessons = await LessonFactory.createMany(section.id, faker.number.int({ min: 5, max: 7 }));
+      const lessons = await LessonFactory.createMany(
+        section.id,
+        faker.number.int({ min: 5, max: 7 }),
+      );
       totalLessons += lessons.length;
 
       // Update section totalLessons
@@ -132,14 +144,18 @@ export async function factoryExampleSeed() {
       });
     }
   }
-  console.log(`✅ Created ${totalSections} sections and ${totalLessons} lessons`);
+  console.log(
+    `✅ Created ${totalSections} sections and ${totalLessons} lessons`,
+  );
 
   // 8. Generate enrollments untuk students
   console.log('📝 Membuat enrollments...');
   for (const student of students.slice(0, 15)) {
     // Setiap student enroll ke 2-5 courses
     const enrollCount = Math.floor(Math.random() * 4) + 2;
-    const selectedCourses = courses.sort(() => 0.5 - Math.random()).slice(0, enrollCount);
+    const selectedCourses = courses
+      .sort(() => 0.5 - Math.random())
+      .slice(0, enrollCount);
 
     for (const course of selectedCourses) {
       await EnrollmentFactory.create({
@@ -155,15 +171,6 @@ export async function factoryExampleSeed() {
     include: { course: true },
   });
 
-  for (const enrollment of enrollments) {
-    await TransactionFactory.create({
-      studentId: enrollment.studentId,
-      courseId: enrollment.courseId,
-      basePrice: Number(enrollment.course.price),
-      status: Math.random() > 0.3 ? 'PAID' : 'PENDING',
-    });
-  }
-
   // 10. Generate reviews untuk beberapa course
   console.log('⭐ Membuat reviews...');
   for (const course of courses.slice(0, 10)) {
@@ -173,16 +180,18 @@ export async function factoryExampleSeed() {
     });
 
     if (enrolledStudents.length > 0) {
-      const reviewCount = Math.min(Math.floor(Math.random() * 5) + 3, enrolledStudents.length);
+      const reviewCount = Math.min(
+        Math.floor(Math.random() * 5) + 3,
+        enrolledStudents.length,
+      );
       await ReviewFactory.createMany(
         reviewCount,
         course.id,
-        enrolledStudents.map((e) => e.studentId)
+        enrolledStudents.map((e) => e.studentId),
       );
     }
   }
 
-  const transactions = await prisma.transaction.findMany();
   const reviews = await prisma.courseReview.findMany();
 
   // 11. Update totalCourses for each subject
@@ -219,7 +228,9 @@ export async function factoryExampleSeed() {
       },
     });
   }
-  console.log(`✅ Updated totalStudents and totalLessons for ${courses.length} courses`);
+  console.log(
+    `✅ Updated totalStudents and totalLessons for ${courses.length} courses`,
+  );
 
   console.log('\n✅ Factory seeding selesai!');
   console.log(`   - Topics: ${topics.length}`);
@@ -230,7 +241,6 @@ export async function factoryExampleSeed() {
   console.log(`   - Sections: ${totalSections}`);
   console.log(`   - Lessons: ${totalLessons}`);
   console.log(`   - Enrollments: ${enrollments.length}`);
-  console.log(`   - Transactions: ${transactions.length}`);
   console.log(`   - Reviews: ${reviews.length}`);
 }
 

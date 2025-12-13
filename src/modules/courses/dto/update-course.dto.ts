@@ -21,14 +21,6 @@ export const UpdateCourseSchema = z.object({
     .array(z.string().min(1, 'Persona cannot be empty'))
     .optional()
     .describe('Array of target personas for the course'),
-  price: z
-    .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseFloat(val) : val))
-    .refine(
-      (val) => !isNaN(val) && val >= 0,
-      'Price must be a non-negative number',
-    )
-    .optional(),
   status: z
     .enum([CourseStatus.DRAFT, CourseStatus.PUBLISHED, CourseStatus.ARCHIVED])
     .optional(),
@@ -40,7 +32,7 @@ export const UpdateCourseSchema = z.object({
       'Subject ID must be a positive integer',
     )
     .optional(),
-  course_token: z.string().optional(), // ⬅️ baru
+  course_token: z.string().optional(),
 });
 
 export class UpdateCourseDto {
@@ -52,8 +44,7 @@ export class UpdateCourseDto {
   tools?: string;
   key_points?: string[];
   personas?: string[];
-  price?: number;
   status?: CourseStatus;
   subject_id?: number;
-  course_token?: string; // ⬅️ baru
+  course_token?: string;
 }

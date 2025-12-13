@@ -44,7 +44,6 @@ export type EnrollmentWithCourse = {
     id: number;
     title: string;
     description: string | null;
-    price: Prisma.Decimal;
     status: CourseStatus;
     totalLessons: number;
     mentor: {

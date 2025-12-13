@@ -1,100 +1,251 @@
 {
   "data": [
     {
-      "subjectName": "Web Development",
-      "mentorEmail": "mentor@mail.com",
-      "title": "Complete Web Development Bootcamp",
-      "description": "Learn full-stack web development from scratch",
-      "about": "This comprehensive course covers HTML, CSS, JavaScript, React, Node.js, and database management. Perfect for beginners who want to become professional web developers.",
-      "price": 299000,
+      "title": "Algoritma dan Pemrograman Dasar",
+      "description": "Pengenalan algoritma, flowchart, pseudocode, dan dasar bahasa pemrograman C++.",
+      "about": "Mata kuliah ini membahas konsep dasar algoritma dan pemrograman komputer.",
       "status": "PUBLISHED",
+      "subjectName": "Algoritma & Pemrograman",
+      "mentorEmail": "mentor@mail.com",
+      "courseToken": "ALPRO-2024",
       "keyPoints": [
-        "Master HTML5, CSS3, and modern JavaScript",
-        "Build responsive websites and web applications",
-        "Learn React.js and component-based architecture",
-        "Understand Node.js and Express.js backend development",
-        "Work with databases (MongoDB/PostgreSQL)",
-        "Deploy applications to cloud platforms"
+        "Logika Pemrograman",
+        "Flowchart",
+        "C++ Basics"
       ],
       "personas": [
-        "Beginners with no programming experience",
-        "Career changers entering tech field",
-        "Students looking to build portfolio projects",
-        "Freelancers wanting to expand skill set"
-      ],
-      "images": ["/placeholder-course-1-1.jpg", "/placeholder-course-1-2.jpg"],
-      "reviews": [
-        {
-          "studentEmail": "student@mail.com",
-          "rating": 5,
-          "comment": "Excellent course! Very comprehensive and well-structured."
-        }
-      ]
-    },
-    {
-      "subjectName": "Mobile Development",
-      "mentorEmail": "mentor@mail.com",
-      "title": "React Native Mobile App Development",
-      "description": "Build mobile apps for iOS and Android using React Native",
-      "about": "Learn to create cross-platform mobile applications using React Native framework. Covers navigation, state management, API integration, and deployment to app stores.",
-      "price": 399000,
-      "status": "PUBLISHED",
-      "keyPoints": [
-        "Build cross-platform mobile apps with React Native",
-        "Master navigation and state management",
-        "Integrate with REST APIs and handle data",
-        "Implement push notifications and device features",
-        "Test and debug mobile applications",
-        "Deploy to iOS App Store and Google Play Store"
-      ],
-      "personas": [
-        "React developers moving to mobile",
-        "Mobile app enthusiasts",
-        "Entrepreneurs building MVP apps",
-        "Developers seeking high-demand skills"
+        "Mahasiswa Tingkat 1"
       ],
       "images": [
-        "/placeholder-course-2-1.jpg",
-        "/placeholder-course-2-2.jpg",
-        "/placeholder-course-2-3.jpg"
-      ],
-      "reviews": [
-        {
-          "studentEmail": "student@mail.com",
-          "rating": 4,
-          "comment": "Great course for mobile development. Very practical approach."
-        }
+        "https://images.unsplash.com/photo-1516116216624-53e697fedbea"
       ]
     },
     {
-      "subjectName": "UI/UX Design",
-      "mentorEmail": "mentor@mail.com",
-      "title": "Modern UI/UX Design with Figma",
-      "description": "Design beautiful and user-friendly interfaces",
-      "about": "Learn the principles of user interface and user experience design using Figma. Master design systems, prototyping, user research, and create stunning digital products.",
-      "price": 199000,
+      "title": "Struktur Data",
+      "description": "Konsep penyimpanan data seperti Array, Stack, Queue, Linked List, dan Tree.",
+      "about": "Lanjutan dari algoritma, fokus pada efisiensi pengelolaan data di memori.",
       "status": "PUBLISHED",
+      "subjectName": "Algoritma & Pemrograman",
+      "mentorEmail": "mentor@mail.com",
       "keyPoints": [
-        "Master Figma for professional design workflow",
-        "Create responsive and accessible designs",
-        "Build comprehensive design systems",
-        "Conduct user research and usability testing",
-        "Design interactive prototypes and animations",
-        "Collaborate effectively with development teams"
+        "Array & Linked List",
+        "Stack & Queue",
+        "Trees & Graphs"
       ],
       "personas": [
-        "Aspiring UI/UX designers",
-        "Graphic designers transitioning to digital",
-        "Product managers understanding design",
-        "Developers improving design skills"
+        "Mahasiswa Tingkat 2"
       ],
-      "images": ["/placeholder-course-3-1.jpg"],
-      "reviews": [
-        {
-          "studentEmail": "student@mail.com",
-          "rating": 5,
-          "comment": "Amazing design course! Really improved my UI/UX skills."
-        }
+      "images": [
+        "https://images.unsplash.com/photo-1504639725590-34d0984388bd"
+      ]
+    },
+    {
+      "title": "Organisasi & Arsitektur Komputer",
+      "description": "Struktur internal komputer, unit pemrosesan, memori, dan I/O.",
+      "about": "Mempelajari bagaimana komponen komputer saling berinteraksi.",
+      "status": "PUBLISHED",
+      "subjectName": "Dasar Sistem Komputer",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "CPU Architecture",
+        "Memory Hierarchy",
+        "Assembly"
+      ],
+      "personas": [
+        "Mahasiswa Teknik"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1518770660439-4636190af475"
+      ]
+    },
+    {
+      "title": "Sistem Operasi",
+      "description": "Manajemen proses, memori, dan file system dalam OS Modern.",
+      "about": "Konsep dasar kernel, scheduling, dan concurrency.",
+      "status": "PUBLISHED",
+      "subjectName": "Dasar Sistem Komputer",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "Process Management",
+        "Memory Management",
+        "File Systems"
+      ],
+      "personas": [
+        "System Administrator"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1629654297299-c8506221ca97"
+      ]
+    },
+    {
+      "title": "Pemrograman Web",
+      "description": "Dasar HTML, CSS, JavaScript dan PHP untuk web dinamis.",
+      "about": "Membangun website responsif dan interaktif.",
+      "status": "PUBLISHED",
+      "subjectName": "Web Development",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "HTML5 & CSS3",
+        "JavaScript DOM",
+        "PHP & MySQL"
+      ],
+      "personas": [
+        "Web Developer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1547658719-da2b51169166"
+      ]
+    },
+    {
+      "title": "E-Learning",
+      "description": "Pengembangan sistem pembelajaran elektronik dan manajemen konten.",
+      "about": "Fokus pada LMS dan teknologi edukasi.",
+      "status": "PUBLISHED",
+      "subjectName": "Web Development",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "LMS Concepts",
+        "Moodle",
+        "Content Management"
+      ],
+      "personas": [
+        "EdTech Developer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1501504905252-473c47e087f8"
+      ]
+    },
+    {
+      "title": "Pemrograman Berorientasi Objek",
+      "description": "Konsep Class, Object, Inheritance, Polymorphism.",
+      "about": "Paradigma OOP menggunakan bahasa Java.",
+      "status": "PUBLISHED",
+      "subjectName": "Software Engineering",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "Classes & Objects",
+        "Inheritance",
+        "Polymorphism"
+      ],
+      "personas": [
+        "Software Engineer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1607799275518-d58665d099db"
+      ]
+    },
+    {
+      "title": "Rekayasa Perangkat Lunak",
+      "description": "SDLC, Agile, Waterfall, dan pemodelan sistem (UML).",
+      "about": "Manajemen proyek perangkat lunak dari analisis hingga testing.",
+      "status": "PUBLISHED",
+      "subjectName": "Software Engineering",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "SDLC",
+        "Agile & Scrum",
+        "UML Modeling"
+      ],
+      "personas": [
+        "Project Manager"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+      ]
+    },
+    {
+      "title": "Komunikasi Data",
+      "description": "Transmisi sinyal, protokol, dan media komunikasi.",
+      "about": "Dasar teori bagaimana data berpindah antar device.",
+      "status": "PUBLISHED",
+      "subjectName": "Fundamental Jaringan",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "OSI Model",
+        "TCP/IP",
+        "Signal Modulation"
+      ],
+      "personas": [
+        "Network Engineer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1544197150-b99a580bb7a8"
+      ]
+    },
+    {
+      "title": "Jaringan Komputer",
+      "description": "Routing, switching, IP addressing, dan konfigurasi LAN/WAN.",
+      "about": "Praktek membangun jaringan komputer skala kecil hingga menengah.",
+      "status": "PUBLISHED",
+      "subjectName": "Fundamental Jaringan",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "IP Addressing",
+        "Routing Protocols",
+        "VLANs"
+      ],
+      "personas": [
+        "Network Administrator"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1558494949-efc535b5c496"
+      ]
+    },
+    {
+      "title": "Keamanan Komputer",
+      "description": "Kriptografi, ancaman keamanan, dan proteksi sistem.",
+      "about": "Mekanisme pengamanan sistem dari serangan siber.",
+      "status": "PUBLISHED",
+      "subjectName": "Cyber Security",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "Cryptography",
+        "Network Security",
+        "Ethical Hacking"
+      ],
+      "personas": [
+        "Security Analyst"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1614064641938-3bbee52942c7"
+      ]
+    },
+    {
+      "title": "Komputer Grafis",
+      "description": "Algoritma pembentukan grafik 2D dan 3D.",
+      "about": "Teori dan praktek rendering grafik komputer.",
+      "status": "PUBLISHED",
+      "subjectName": "Desain & Pengolahan Citra",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "2D/3D Rendering",
+        "OpenGL",
+        "Shading"
+      ],
+      "personas": [
+        "Graphics Programmer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1626785774573-4b799314346d"
+      ]
+    },
+    {
+      "title": "Pengolahan Citra Digital",
+      "description": "Manipulasi sinyal citra digital untuk perbaikan kualitas atau ekstraksi informasi.",
+      "about": "Teknik filtering, segmentasi, dan restorasi citra.",
+      "status": "PUBLISHED",
+      "subjectName": "Desain & Pengolahan Citra",
+      "mentorEmail": "mentor@mail.com",
+      "keyPoints": [
+        "Image Filtering",
+        "Edge Detection",
+        "Morphology"
+      ],
+      "personas": [
+        "Computer Vision Engineer"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113"
       ]
     }
   ]

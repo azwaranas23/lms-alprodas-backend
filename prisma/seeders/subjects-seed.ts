@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 interface SubjectData {
   name: string;
   description?: string;
+  image?: string;
   topicName: string;
 }
 
@@ -44,6 +45,7 @@ export async function subjectsSeed() {
         data: {
           name: subject.name,
           description: subject.description,
+          image: subject.image,
           topicId: topic.id,
         },
       });

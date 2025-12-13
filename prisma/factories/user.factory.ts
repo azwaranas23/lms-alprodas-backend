@@ -9,7 +9,6 @@ export class UserFactory {
     email?: string;
     name?: string;
     roleId?: number;
-    phone?: string;
     isVerified?: boolean;
     isActive?: boolean;
   }) {
@@ -17,11 +16,10 @@ export class UserFactory {
 
     return prisma.user.create({
       data: {
-        email: data?.email || faker.internet.email(),
+        email: data?.email || faker.internet.email().toLowerCase(),
         password: hashedPassword,
         name: data?.name || faker.person.fullName(),
         roleId: data?.roleId || 1,
-        phone: data?.phone || faker.phone.number().slice(0, 20),
         isVerified: data?.isVerified ?? true,
         isActive: data?.isActive ?? true,
       },
@@ -51,10 +49,6 @@ export class UserFactory {
         bio: data?.bio || faker.lorem.paragraph(),
         avatar: faker.image.avatar(),
         gender: data?.gender || faker.helpers.arrayElement(['MALE', 'FEMALE']),
-        expertise: faker.person.jobTitle(),
-        experienceYears: faker.number.int({ min: 1, max: 20 }),
-        linkedinUrl: `https://linkedin.com/in/${faker.internet.username()}`,
-        githubUrl: `https://github.com/${faker.internet.username()}`,
       },
     });
 

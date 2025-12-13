@@ -8,9 +8,8 @@ import {
 import { UsersResponseDto } from '../dto/users-response.dto';
 import { UserRole } from 'src/common/enums/user-role.enum';
 import { QueryUsersDto } from '../dto/query-users.dto';
-import { Prisma, TransactionStatus, User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { UsersListResponseDto } from '../dto/users-list-response.dto';
-import { id } from 'zod/locales';
 
 interface PaginatedUsersResponse {
   users: UserWithRoleAndPermissions[];
@@ -48,7 +47,7 @@ export class UsersRepository {
       id: user.id,
       email: user.email,
       name: user.name,
-      phone: user.phone || null,
+      phone: null, // phone sudah tidak ada di schema
       isVerified: user.isVerified,
       isActive: user.isActive,
       createdAt: user.createdAt,
@@ -70,10 +69,6 @@ export class UsersRepository {
             bio: user.userProfile.bio,
             avatar: user.userProfile.avatar,
             gender: user.userProfile.gender,
-            expertise: user.userProfile.expertise,
-            experienceYears: user.userProfile.experienceYears,
-            linkedInUrl: user.userProfile.linkedinUrl,
-            githubUrl: user.userProfile.githubUrl,
           }
         : null,
     };
@@ -120,21 +115,12 @@ export class UsersRepository {
         include: this.usersInclude,
         skip,
         take: limit,
-        orderBy: {
-          createdAt: 'desc',
-        },
+        orderBy: { createdAt: 'desc' },
       }),
-      this.prisma.user.count({
-        where,
-      }),
+      this.prisma.user.count({ where }),
     ]);
 
-    return {
-      users,
-      total,
-      page,
-      limit,
-    };
+    return { users, total, page, limit };
   }
 
   async toListResponseDto(
@@ -146,7 +132,7 @@ export class UsersRepository {
       email: user.email,
       isVerified: user.isVerified,
       isActive: user.isActive,
-      phone: user.phone || null,
+      phone: null,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       roleName: user.role.name,
@@ -155,11 +141,7 @@ export class UsersRepository {
             id: user.userProfile.id,
             bio: user.userProfile.bio,
             avatar: user.userProfile.avatar,
-            expertise: user.userProfile.expertise,
             gender: user.userProfile.gender,
-            experienceYears: user.userProfile.experienceYears,
-            linkedinUrl: user.userProfile.linkedinUrl,
-            githubUrl: user.userProfile.githubUrl,
           }
         : null,
       enrolledCoursesCount: null,
@@ -171,34 +153,18 @@ export class UsersRepository {
       const enrolledCoursesCount = await this.prisma.enrollment.count({
         where: { studentId: user.id },
       });
-      return {
-        ...baseDto,
-        enrolledCoursesCount,
-      };
+      return { ...baseDto, enrolledCoursesCount };
     }
 
     if (user.role.key === UserRole.MENTOR) {
-      const [createdCoursesCount, revenueResult] = await Promise.all([
-        this.prisma.course.count({
-          where: { mentorId: user.id },
-        }),
-        this.prisma.transaction.aggregate({
-          where: {
-            status: TransactionStatus.PAID,
-            course: {
-              mentorId: user.id,
-            },
-          },
-          _sum: {
-            amount: true,
-          },
-        }),
-      ]);
+      const createdCoursesCount = await this.prisma.course.count({
+        where: { mentorId: user.id },
+      });
 
       return {
         ...baseDto,
         createdCoursesCount,
-        totalRevenue: Number(revenueResult._sum.amount) || 0,
+        totalRevenue: 0, // transaksi sudah dihapus
       };
     }
 
@@ -206,8 +172,6 @@ export class UsersRepository {
   }
 
   async findByIdWithPassword(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { id },
-    });
+    return this.prisma.user.findUnique({ where: { id } });
   }
 }

@@ -8,7 +8,6 @@ export class CourseFactory {
     subjectId?: number;
     mentorId?: number;
     title?: string;
-    price?: number;
     status?: CourseStatus;
   }) {
     return prisma.course.create({
@@ -23,7 +22,6 @@ export class CourseFactory {
           faker.company.buzzNoun(),
           faker.company.buzzNoun(),
         ]),
-        price: data?.price || faker.number.float({ min: 100000, max: 5000000 }),
         status: data?.status || 'PUBLISHED',
         totalLessons: 0,
         totalStudents: 0,
@@ -35,7 +33,6 @@ export class CourseFactory {
     subjectId?: number;
     mentorId?: number;
     title?: string;
-    price?: number;
   }) {
     const course = await this.create(data);
 
@@ -81,7 +78,11 @@ export class CourseFactory {
     });
   }
 
-  static async createMany(count: number, subjectId?: number, mentorId?: number) {
+  static async createMany(
+    count: number,
+    subjectId?: number,
+    mentorId?: number,
+  ) {
     const courses: Awaited<ReturnType<typeof this.create>>[] = [];
     for (let i = 0; i < count; i++) {
       courses.push(await this.create({ subjectId, mentorId }));

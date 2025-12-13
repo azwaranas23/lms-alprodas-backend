@@ -4,7 +4,6 @@ export interface MyCourseResponseDto {
   id: number;
   title: string;
   description: string | null;
-  price: number;
   status: CourseStatus;
   totalLessons: number;
   progressPercentage: number;
@@ -15,7 +14,6 @@ export interface MyCourseResponseDto {
     id: number;
     name: string;
     avatar: string | null;
-    expertise: string | null;
   };
   subject: {
     id: number;

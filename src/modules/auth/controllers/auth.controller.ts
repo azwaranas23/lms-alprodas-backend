@@ -88,4 +88,8 @@ export class AuthController {
   ): Promise<BaseResponse<null>> {
     return this.authService.resendVerificationEmail(body.email);
   }
+  @Get('test-email')
+  async testEmail() {
+    return this.authService.sendTestEmail();
+  }
 }

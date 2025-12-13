@@ -14,7 +14,6 @@ interface SubjectDto {
 interface MentorProfileDto {
   bio: string | null;
   avatar: string | null;
-  expertise: string | null;
 }
 
 interface MentorDto {
@@ -92,7 +91,6 @@ export interface CourseResponseDto {
   description: string | null;
   about: string | null;
   tools: string | null;
-  price: number;
   courseToken: string | null;
   status: CourseStatus;
   totalLessons: number;

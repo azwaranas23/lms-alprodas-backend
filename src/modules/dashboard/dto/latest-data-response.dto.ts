@@ -20,7 +20,6 @@ export class LatestTransactionDto {
 export class LatestCourseDto {
   id: number;
   title: string;
-  price: number;
   status: string;
   totalLessons: number;
   createdAt: Date;

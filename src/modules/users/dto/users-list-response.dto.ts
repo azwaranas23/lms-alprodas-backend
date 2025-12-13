@@ -18,9 +18,5 @@ interface UserProfileResponse {
   id: number;
   bio: string | null;
   avatar: string | null;
-  expertise: string | null;
   gender: string | null;
-  experienceYears: number | null;
-  linkedinUrl: string | null;
-  githubUrl: string | null;
 }

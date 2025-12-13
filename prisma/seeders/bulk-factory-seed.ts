@@ -5,91 +5,86 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 /**
- * Bulk seeding untuk generate data dalam jumlah besar
- * Target: ~10,000+ records
- * Jalankan dengan: npx ts-node prisma/seeders/bulk-factory-seed.ts
+ * Bulk seeding untuk generate data besar
  */
 async function bulkFactorySeed() {
   console.log('🚀 Starting bulk seeding...');
   const startTime = Date.now();
 
-  // 1. Get existing roles
-  const studentRole = await prisma.role.findUnique({ where: { key: 'student' } });
+  // 1. Roles
+  const studentRole = await prisma.role.findUnique({
+    where: { key: 'student' },
+  });
   const mentorRole = await prisma.role.findUnique({ where: { key: 'mentor' } });
 
   if (!studentRole || !mentorRole) {
-    console.log('⚠️  Roles not found. Please run roles seed first.');
+    console.log('⚠️  Roles not found. Seed roles first.');
     return;
   }
 
-  // 2. Bulk create students (5000 students)
+  // 2. Students
   console.log('👥 Creating 5000 students...');
   const hashedPassword = await bcrypt.hash('password123', 10);
-  const studentsData = Array.from({ length: 5000 }, (_, i) => ({
+
+  const studentsData = Array.from({ length: 5000 }).map(() => ({
     email: faker.internet.email().toLowerCase(),
     password: hashedPassword,
     name: faker.person.fullName(),
     roleId: studentRole.id,
-    phone: faker.phone.number().slice(0, 20),
     isVerified: true,
     isActive: true,
   }));
 
-  await prisma.user.createMany({
-    data: studentsData,
-    skipDuplicates: true,
-  });
+  await prisma.user.createMany({ data: studentsData, skipDuplicates: true });
 
   const students = await prisma.user.findMany({
     where: { roleId: studentRole.id },
     select: { id: true },
   });
+
   console.log(`✅ Created ${students.length} students`);
 
-  // 3. Bulk create mentors (100 mentors)
+  // 3. Mentors
   console.log('👨‍🏫 Creating 100 mentors...');
-  const mentorsData = Array.from({ length: 100 }, (_, i) => ({
+
+  const mentorsData = Array.from({ length: 100 }).map(() => ({
     email: faker.internet.email().toLowerCase(),
     password: hashedPassword,
     name: faker.person.fullName(),
     roleId: mentorRole.id,
-    phone: faker.phone.number().slice(0, 20),
     isVerified: true,
     isActive: true,
   }));
 
-  await prisma.user.createMany({
-    data: mentorsData,
-    skipDuplicates: true,
-  });
+  await prisma.user.createMany({ data: mentorsData, skipDuplicates: true });
 
   const mentors = await prisma.user.findMany({
     where: { roleId: mentorRole.id },
     select: { id: true },
   });
+
   console.log(`✅ Created ${mentors.length} mentors`);
 
-  // 4. Create user profiles for mentors (important for mentor display)
-  console.log('📝 Creating profiles for mentors...');
-  const mentorProfilesData = mentors.map((mentor) => ({
-    userId: mentor.id,
+  // 4. Mentor Profiles (sesuai schema)
+  console.log('📝 Creating mentor profiles...');
+
+  const mentorProfilesData = mentors.map((m) => ({
+    userId: m.id,
     bio: faker.lorem.paragraph(),
     avatar: faker.image.avatar(),
     gender: faker.helpers.arrayElement(['MALE', 'FEMALE'] as const),
-    expertise: faker.person.jobTitle(),
-    experienceYears: faker.number.int({ min: 1, max: 20 }),
-    linkedinUrl: `https://linkedin.com/in/${faker.internet.username()}`,
-    githubUrl: `https://github.com/${faker.internet.username()}`,
   }));
 
   await prisma.userProfile.createMany({
     data: mentorProfilesData,
     skipDuplicates: true,
   });
-  console.log(`✅ Created profiles for ${mentorProfilesData.length} mentors`);
 
-  // 5. Create topics (9 topics)
-  console.log('📂 Creating 9 topics...');
+  console.log(`✅ Profiles created: ${mentorProfilesData.length}`);
+
+  // 5. Topics
+  console.log('📂 Creating topics...');
+
   const topicNames = [
     'Web Development',
     'Mobile Development',
@@ -104,124 +99,92 @@ async function bulkFactorySeed() {
 
   const topicsData = topicNames.map((name) => ({
     name,
-    description: faker.lorem.paragraph(2),
+    description: faker.lorem.paragraph(),
     image: faker.image.url(),
   }));
 
-  await prisma.topic.createMany({
-    data: topicsData,
-    skipDuplicates: true,
-  });
+  await prisma.topic.createMany({ data: topicsData, skipDuplicates: true });
 
   const topics = await prisma.topic.findMany();
-  console.log(`✅ Created ${topics.length} topics`);
+  console.log(`✅ Topics created: ${topics.length}`);
 
-  // 6. Create subjects (18 subjects - 2 per topic)
-  console.log('📚 Creating 18 subjects...');
+  // 6. Subjects
+  console.log('📚 Creating subjects...');
+
   const subjectsData = topics.flatMap((topic) => [
     {
       topicId: topic.id,
       name: `${topic.name} - Beginner`,
-      description: faker.lorem.paragraph(2),
+      description: faker.lorem.paragraph(),
       image: faker.image.url(),
     },
     {
       topicId: topic.id,
       name: `${topic.name} - Advanced`,
-      description: faker.lorem.paragraph(2),
+      description: faker.lorem.paragraph(),
       image: faker.image.url(),
     },
   ]);
 
-  await prisma.subject.createMany({
-    data: subjectsData,
-    skipDuplicates: true,
-  });
-
+  await prisma.subject.createMany({ data: subjectsData });
   const subjects = await prisma.subject.findMany();
-  console.log(`✅ Created ${subjects.length} subjects`);
 
-  // 6. Bulk create courses (500 courses)
-  console.log('📚 Creating 500 courses...');
-  const coursesData = Array.from({ length: 500 }, (_, i) => ({
+  console.log(`✅ Subjects created: ${subjects.length}`);
+
+  // 7. Courses (tanpa price karena schema tidak punya)
+  console.log('📚 Creating courses...');
+
+  const coursesData = Array.from({ length: 500 }).map((_, i) => ({
     subjectId: subjects[i % subjects.length].id,
     mentorId: mentors[i % mentors.length].id,
     title: faker.lorem.words(5),
-    description: faker.lorem.paragraph(3),
-    about: faker.lorem.paragraphs(2),
-    tools: JSON.stringify([
-      faker.company.buzzNoun(),
-      faker.company.buzzNoun(),
-      faker.company.buzzNoun(),
-    ]),
-    price: faker.number.float({ min: 100000, max: 5000000, fractionDigits: 0 }),
+    description: faker.lorem.paragraph(),
+    about: faker.lorem.paragraph(),
+    tools: faker.lorem.words(3),
     status: 'PUBLISHED' as const,
   }));
 
-  await prisma.course.createMany({
-    data: coursesData,
-  });
+  await prisma.course.createMany({ data: coursesData });
 
   const courses = await prisma.course.findMany({
-    select: { id: true, price: true },
+    select: { id: true },
   });
-  console.log(`✅ Created ${courses.length} courses`);
 
-  // 7. Bulk create course images
-  console.log('🖼️  Creating course images...');
+  console.log(`✅ Courses created: ${courses.length}`);
+
+  // 8. Course Images
+  debugger;
+
   const courseImagesData = courses.flatMap((course) => [
-    {
-      courseId: course.id,
-      imagePath: faker.image.url(),
-      orderIndex: 1,
-    },
-    {
-      courseId: course.id,
-      imagePath: faker.image.url(),
-      orderIndex: 2,
-    },
+    { courseId: course.id, imagePath: faker.image.url(), orderIndex: 1 },
+    { courseId: course.id, imagePath: faker.image.url(), orderIndex: 2 },
   ]);
 
-  await prisma.courseImage.createMany({
-    data: courseImagesData,
-  });
-  console.log(`✅ Created ${courseImagesData.length} course images`);
+  await prisma.courseImage.createMany({ data: courseImagesData });
 
-  // 8. Bulk create course key points
-  console.log('🔑 Creating course key points...');
+  console.log(`✅ Course Images: ${courseImagesData.length}`);
+
+  // 9. Course Key Points
   const keyPointsData = courses.flatMap((course) =>
-    Array.from({ length: 5 }, (_, i) => ({
+    Array.from({ length: 5 }).map(() => ({
       courseId: course.id,
       keyPoint: faker.lorem.sentence(),
-    }))
+    })),
   );
 
-  await prisma.courseKeyPoint.createMany({
-    data: keyPointsData,
-  });
-  console.log(`✅ Created ${keyPointsData.length} key points`);
+  await prisma.courseKeyPoint.createMany({ data: keyPointsData });
 
-  // 9. Bulk create sections and lessons for each course
-  console.log('📑 Creating sections and lessons for courses...');
+  console.log(`✅ Course Key Points: ${keyPointsData.length}`);
 
-  const sampleYoutubeIds = [
-    'dQw4w9WgXcQ',
-    'jNQXAC9IVRw',
-    '9bZkp7q19f0',
-    'kJQP7kiw5Fk',
-    'ZZ5LpwO-An4',
-    'e-ORhEE9VVg',
-    'OPf0YbXqDm0',
-    'CevxZvSJLk8',
-    'kXYiU_JCYtU',
-    'hT_nvWreIhg',
-  ];
+  // 10. Sections & Lessons
+  console.log('📑 Creating sections & lessons...');
+
+  const sampleYoutubeIds = ['dQw4w9WgXcQ', 'jNQXAC9IVRw', '9bZkp7q19f0'];
 
   let totalSections = 0;
   let totalLessons = 0;
 
   for (const course of courses) {
-    // Each course gets 3-5 sections
     const sectionCount = faker.number.int({ min: 3, max: 5 });
 
     for (let i = 0; i < sectionCount; i++) {
@@ -231,78 +194,57 @@ async function bulkFactorySeed() {
           title: faker.lorem.words(4),
           description: faker.lorem.paragraph(),
           orderIndex: i + 1,
-          totalLessons: 0,
         },
       });
+
       totalSections++;
 
-      // Each section gets 4-8 lessons
       const lessonCount = faker.number.int({ min: 4, max: 8 });
-      const lessonsData: Array<{
-        sectionId: number;
-        title: string;
-        contentType: 'VIDEO' | 'ARTICLE';
-        contentUrl: string | null;
-        contentText: string | null;
-        durationMinutes: number;
-        orderIndex: number;
-        isActive: boolean;
-      }> = [];
 
-      for (let j = 0; j < lessonCount; j++) {
-        const contentType = faker.helpers.arrayElement(['VIDEO', 'ARTICLE'] as const);
-        let contentUrl: string | null = null;
-        let contentText: string | null = null;
+      const lessonsData = Array.from({ length: lessonCount }).map((_, j) => {
+        const type = faker.helpers.arrayElement(['VIDEO', 'ARTICLE'] as const);
 
-        if (contentType === 'VIDEO') {
-          const randomYoutubeId = faker.helpers.arrayElement(sampleYoutubeIds);
-          contentUrl = `https://www.youtube.com/watch?v=${randomYoutubeId}`;
-        } else {
-          contentText = faker.lorem.paragraphs(5, '\n\n');
-        }
-
-        lessonsData.push({
+        return {
           sectionId: section.id,
           title: faker.lorem.words(5),
-          contentType,
-          contentUrl,
-          contentText,
+          contentType: type,
+          contentUrl:
+            type === 'VIDEO'
+              ? `https://www.youtube.com/watch?v=${faker.helpers.arrayElement(sampleYoutubeIds)}`
+              : null,
+          contentText: type === 'ARTICLE' ? faker.lorem.paragraphs(3) : null,
           durationMinutes: faker.number.int({ min: 5, max: 45 }),
           orderIndex: j + 1,
           isActive: true,
-        });
-      }
-
-      await prisma.lesson.createMany({
-        data: lessonsData,
+        };
       });
+
+      await prisma.lesson.createMany({ data: lessonsData });
+
       totalLessons += lessonCount;
-
-      // Update section totalLessons
-      await prisma.courseSection.update({
-        where: { id: section.id },
-        data: { totalLessons: lessonCount },
-      });
     }
   }
 
-  console.log(`✅ Created ${totalSections} sections and ${totalLessons} lessons`);
+  console.log(`✅ Sections: ${totalSections}, Lessons: ${totalLessons}`);
 
-  // 10. Bulk create enrollments (3000 enrollments)
-  console.log('📝 Creating 3000 enrollments...');
-  const enrollmentsData: Array<{
+  // 11. Enrollments
+  console.log('📝 Creating enrollments...');
+
+  const enrollmentsData: {
     studentId: number;
     courseId: number;
     status: 'ACTIVE' | 'COMPLETED';
     progressPercentage: number;
     completedAt: Date | null;
     certificateId: string | null;
-  }> = [];
+  }[] = [];
+
   const usedPairs = new Set<string>();
 
   while (enrollmentsData.length < 3000) {
-    const studentId = students[Math.floor(Math.random() * students.length)].id;
-    const courseId = courses[Math.floor(Math.random() * courses.length)].id;
+    const studentId = faker.helpers.arrayElement(students).id;
+    const courseId = faker.helpers.arrayElement(courses).id;
+
     const pair = `${studentId}-${courseId}`;
 
     if (!usedPairs.has(pair)) {
@@ -311,9 +253,16 @@ async function bulkFactorySeed() {
         studentId,
         courseId,
         status: faker.helpers.arrayElement(['ACTIVE', 'COMPLETED'] as const),
-        progressPercentage: faker.number.float({ min: 0, max: 100, fractionDigits: 2 }),
+        progressPercentage: faker.number.float({
+          min: 0,
+          max: 100,
+          fractionDigits: 2,
+        }),
         completedAt: Math.random() > 0.7 ? faker.date.past() : null,
-        certificateId: Math.random() > 0.7 ? faker.string.alphanumeric(16).toUpperCase() : null,
+        certificateId:
+          Math.random() > 0.7
+            ? faker.string.alphanumeric(16).toUpperCase()
+            : null,
       });
     }
   }
@@ -322,73 +271,32 @@ async function bulkFactorySeed() {
     data: enrollmentsData,
     skipDuplicates: true,
   });
-  console.log(`✅ Created ${enrollmentsData.length} enrollments`);
 
-  // 10. Bulk create transactions (3000 transactions)
-  console.log('💰 Creating 3000 transactions...');
-  const enrollments = await prisma.enrollment.findMany({
-    include: { course: true },
-    take: 3000,
-  });
+  console.log(`✅ Enrollments: ${enrollmentsData.length}`);
 
-  const transactionsData = enrollments.map((enrollment) => {
-    const basePrice = Number(enrollment.course.price);
-    const ppnRate = 0.11;
-    const ppnAmount = basePrice * ppnRate;
-    const platformFeeRate = 0.05;
-    const platformFee = basePrice * platformFeeRate;
-    const grossAmount = basePrice + ppnAmount;
-    const mentorNetAmount = basePrice - platformFee;
-    const status = faker.helpers.arrayElement(['PENDING', 'PAID', 'EXPIRED'] as const);
-    const orderId = `TRX-${Date.now()}-${faker.string.alphanumeric(6).toUpperCase()}`;
+  // 12. Reviews
+  console.log('⭐ Creating reviews...');
 
-    return {
-      studentId: enrollment.studentId,
-      courseId: enrollment.courseId,
-      amount: grossAmount,
-      basePrice,
-      ppnAmount,
-      ppnRate,
-      platformFee,
-      platformFeeRate,
-      mentorNetAmount,
-      status,
-      paymentMethod: status === 'PAID' ? faker.helpers.arrayElement(['bank_transfer', 'credit_card', 'gopay', 'shopeepay']) : null,
-      orderId,
-      snapToken: status === 'PENDING' ? faker.string.alphanumeric(64) : null,
-      snapRedirectUrl: status === 'PENDING' ? `https://app.sandbox.midtrans.com/snap/v2/vtweb/${faker.string.alphanumeric(32)}` : null,
-      grossAmount,
-      currency: 'IDR',
-      paidAt: status === 'PAID' ? faker.date.past() : null,
-      expiredAt: status === 'PENDING' ? faker.date.future() : null,
-    };
-  });
-
-  await prisma.transaction.createMany({
-    data: transactionsData,
-    skipDuplicates: true,
-  });
-  console.log(`✅ Created ${transactionsData.length} transactions`);
-
-  // 11. Bulk create reviews (1500 reviews)
-  console.log('⭐ Creating 1500 reviews...');
-  const reviewsData: Array<{
+  const reviewsData: {
     studentId: number;
     courseId: number;
     rating: number;
     reviewText: string;
-  }> = [];
+  }[] = [];
+
   const usedReviewPairs = new Set<string>();
 
   while (reviewsData.length < 1500) {
-    const enrollment = enrollments[Math.floor(Math.random() * enrollments.length)];
-    const pair = `${enrollment.studentId}-${enrollment.courseId}`;
+    const randomEnrollment =
+      enrollmentsData[Math.floor(Math.random() * enrollmentsData.length)];
+
+    const pair = `${randomEnrollment.studentId}-${randomEnrollment.courseId}`;
 
     if (!usedReviewPairs.has(pair)) {
       usedReviewPairs.add(pair);
       reviewsData.push({
-        studentId: enrollment.studentId,
-        courseId: enrollment.courseId,
+        studentId: randomEnrollment.studentId,
+        courseId: randomEnrollment.courseId,
         rating: faker.number.int({ min: 3, max: 5 }),
         reviewText: faker.lorem.sentences(3),
       });
@@ -399,92 +307,16 @@ async function bulkFactorySeed() {
     data: reviewsData,
     skipDuplicates: true,
   });
-  console.log(`✅ Created ${reviewsData.length} reviews`);
 
-  // 12. Update totalCourses for each subject
-  console.log('🔄 Updating totalCourses for subjects...');
-  for (const subject of subjects) {
-    const courseCount = await prisma.course.count({
-      where: { subjectId: subject.id },
-    });
-    await prisma.subject.update({
-      where: { id: subject.id },
-      data: { totalCourses: courseCount },
-    });
-  }
-  console.log(`✅ Updated totalCourses for ${subjects.length} subjects`);
+  console.log(`✅ Reviews: ${reviewsData.length}`);
 
-  // 13. Update totalStudents and totalLessons for each course
-  console.log('🔄 Updating totalStudents and totalLessons for courses...');
-  for (const course of courses) {
-    const studentCount = await prisma.enrollment.count({
-      where: { courseId: course.id },
-    });
-    const lessonCount = await prisma.lesson.count({
-      where: {
-        section: {
-          courseId: course.id,
-        },
-      },
-    });
-    await prisma.course.update({
-      where: { id: course.id },
-      data: {
-        totalStudents: studentCount,
-        totalLessons: lessonCount,
-      },
-    });
-  }
-  console.log(`✅ Updated totalStudents and totalLessons for ${courses.length} courses`);
-
-  const endTime = Date.now();
-  const duration = ((endTime - startTime) / 1000).toFixed(2);
-
-  const totalRecords =
-    students.length +
-    mentors.length +
-    mentorProfilesData.length +
-    topics.length +
-    subjects.length +
-    courses.length +
-    courseImagesData.length +
-    keyPointsData.length +
-    totalSections +
-    totalLessons +
-    enrollmentsData.length +
-    transactionsData.length +
-    reviewsData.length;
-
-  console.log('\n🎉 Bulk seeding completed!');
-  console.log('=====================================');
-  console.log(`   - Students: ${students.length}`);
-  console.log(`   - Mentors: ${mentors.length}`);
-  console.log(`   - Mentor Profiles: ${mentorProfilesData.length}`);
-  console.log(`   - Topics: ${topics.length}`);
-  console.log(`   - Subjects: ${subjects.length}`);
-  console.log(`   - Courses: ${courses.length}`);
-  console.log(`   - Course Images: ${courseImagesData.length}`);
-  console.log(`   - Course Key Points: ${keyPointsData.length}`);
-  console.log(`   - Sections: ${totalSections}`);
-  console.log(`   - Lessons: ${totalLessons}`);
-  console.log(`   - Enrollments: ${enrollmentsData.length}`);
-  console.log(`   - Transactions: ${transactionsData.length}`);
-  console.log(`   - Reviews: ${reviewsData.length}`);
-  console.log(`   - Total Records: ${totalRecords}`);
-  console.log(`   - Duration: ${duration}s`);
-  console.log('=====================================');
+  console.log('🎉 Bulk seeding completed successfully!');
 }
 
-// Run if called directly
 if (require.main === module) {
   bulkFactorySeed()
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
-    })
-    .finally(() => {
-      void prisma.$disconnect();
-    });
+    .catch((e) => console.error(e))
+    .finally(() => prisma.$disconnect());
 }
 
 export { bulkFactorySeed };

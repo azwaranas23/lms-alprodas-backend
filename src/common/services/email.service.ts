@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Transporter } from 'nodemailer';
 import * as nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as hbs from 'handlebars';
@@ -17,70 +17,84 @@ export interface EmailOptions {
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
-  private transporter: Transporter;
+  private transporter: nodemailer.Transporter;
 
   constructor(private configService: ConfigService) {
-    this.createTransporter();
+    this.createGoogleTransporter();
   }
 
-  private createTransporter(): void {
-    const smtpHost = this.configService.get<string>('SMTP_HOST');
-    const smtpPort = this.configService.get<number>('SMTP_PORT');
-    const smtpUser = this.configService.get<string>('SMTP_USER');
-    const smtpPassword = this.configService.get<string>('SMTP_PASSWORD');
-
-    if (!smtpHost || !smtpPort || !smtpUser || !smtpPassword) {
-      this.logger.warn(
-        'SMTP configuration is incomplete. Email service will not be available.',
-      );
-      return;
-    }
-
-    this.transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: {
-        user: smtpUser,
-        pass: smtpPassword,
-      },
+  async sendTestEmail(): Promise<boolean> {
+    return this.sendEmail({
+      to: 'azwarans23@gmail.com',
+      subject: 'Google OAuth2 Test',
+      html: '<h1>Google OAuth2 Works!</h1>',
     });
-
-    this.verifyConnection();
   }
 
-  private async verifyConnection(): Promise<void> {
+  private async createGoogleTransporter() {
     try {
+      const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
+      const clientSecret = this.configService.get<string>(
+        'GOOGLE_CLIENT_SECRET',
+      );
+      const redirectUri = this.configService.get<string>('GOOGLE_REDIRECT_URI');
+      const refreshToken = this.configService.get<string>(
+        'GOOGLE_REFRESH_TOKEN',
+      );
+      const emailSender = this.configService.get<string>('EMAIL_SENDER');
+
+      const oauth2Client = new google.auth.OAuth2(
+        clientId,
+        clientSecret,
+        redirectUri,
+      );
+
+      oauth2Client.setCredentials({
+        refresh_token: refreshToken,
+      });
+
+      const accessToken = await oauth2Client.getAccessToken();
+
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          type: 'OAuth2',
+          user: emailSender,
+          clientId,
+          clientSecret,
+          refreshToken,
+          accessToken: accessToken.token || undefined,
+        },
+      });
+
       await this.transporter.verify();
-      this.logger.log('SMTP connection established successfully.');
+      this.logger.log('Gmail OAuth2 transporter is ready.');
     } catch (error) {
-      this.logger.error('Failed to establish SMTP connection:', error);
+      this.logger.error('Failed to create Gmail transporter:', error);
     }
   }
 
   async sendEmail(options: EmailOptions): Promise<boolean> {
     if (!this.transporter) {
-      this.logger.error(
-        'Email transporter is not configured. Attempting to create transporter.',
-      );
+      this.logger.error('Transporter not initialized.');
       return false;
     }
 
     try {
-      const defaultFrom =
-        this.configService.get<string>('SMTP_EMAIL_SENDER') ||
-        '<default_sender@example.com>';
+      const from =
+        options.from ||
+        this.configService.get<string>('EMAIL_SENDER') ||
+        'no-reply@example.com';
 
-      const mailOptions = {
-        from: options.from || defaultFrom,
-        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+      const info = await this.transporter.sendMail({
+        from,
+        to: Array.isArray(options.to) ? options.to.join(',') : options.to,
         subject: options.subject,
         text: options.text,
         html: options.html,
-      };
+      });
 
-      const result = await this.transporter.sendMail(mailOptions);
-      this.logger.log(`Email sent to ${mailOptions.to}: ${result.messageId}`);
+      this.logger.log(`Email sent: ${info.messageId}`);
       return true;
     } catch (error) {
       this.logger.error('Error sending email:', error);
@@ -92,31 +106,16 @@ export class EmailService {
     try {
       const templatePath = path.join(
         process.cwd(),
-        'src',
-        'common',
-        'templates',
-        'email',
+        'src/common/templates/email',
         `${template}.hbs`,
       );
 
-      const templateSources = fs.readFileSync(templatePath, 'utf-8');
-      const compiledTemplate = hbs.compile(templateSources);
-      return compiledTemplate(data);
+      const source = fs.readFileSync(templatePath, 'utf8');
+      const compiled = hbs.compile(source);
+      return compiled(data);
     } catch (error) {
-      this.logger.error('Error compiling email template:', error);
-      return '<h1>Template Error</h1><p>Unable to load email content.</p>';
+      this.logger.error('Failed to compile template:', error);
+      return '<h1>Template Error</h1>';
     }
-  }
-
-  async sendTestEmail(): Promise<boolean> {
-    const html = this.compileTemplate('test', {
-      name: 'Test User',
-      timestamp: new Date().toISOString(),
-    });
-    return this.sendEmail({
-      to: '<recipient@example.com>',
-      subject: 'Test Email',
-      html,
-    });
   }
 }

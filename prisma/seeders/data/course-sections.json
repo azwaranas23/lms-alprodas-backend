@@ -1,88 +1,184 @@
 {
   "data": [
     {
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "Introduction to Web Development",
-      "description": "Getting started with web development basics and setup",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 1: Pengenalan & Konsep Dasar",
+      "description": "Pengantar Algoritma, Flowchart, dan Logika Pemrograman.",
       "orderIndex": 1
     },
     {
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "HTML & CSS Fundamentals",
-      "description": "Learn HTML structure and CSS styling",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 2: Flowchart & Pseudocode",
+      "description": "Mendalami notasi algoritma standard.",
       "orderIndex": 2
     },
     {
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "JavaScript Programming",
-      "description": "Master JavaScript programming language",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 3: Pengenalan Bahasa C++",
+      "description": "Struktur dasar program C++ dan IDE.",
       "orderIndex": 3
     },
     {
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "React.js Framework",
-      "description": "Build dynamic user interfaces with React",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 4: Variable & Tipe Data",
+      "description": "Deklarasi variabel, konstanta, dan tipe data primitive.",
       "orderIndex": 4
     },
     {
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "Backend Development",
-      "description": "Server-side development with Node.js and Express",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 5: Operator & Ekspresi",
+      "description": "Operator aritmatika, relasional, dan logika.",
       "orderIndex": 5
     },
     {
-      "courseTitle": "React Native Mobile App Development",
-      "title": "React Native Setup",
-      "description": "Setting up development environment for React Native",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 6: Percabangan (If-Else)",
+      "description": "Struktur kontrol keputusan sederhana dan bertingkat.",
+      "orderIndex": 6
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 7: Percabangan (Switch-Case)",
+      "description": "Alternatif struktur kontrol keputusan.",
+      "orderIndex": 7
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 8: Ujian Tengah Semester (UTS)",
+      "description": "Evaluasi tengah semester dengan Mini Project.",
+      "orderIndex": 8
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 9: Perulangan (For Loop)",
+      "description": "Struktur kontrol perulangan dengan For.",
+      "orderIndex": 9
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 10: Perulangan (While Loop)",
+      "description": "Struktur kontrol perulangan dengan While dan Do-While.",
+      "orderIndex": 10
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 11: Array 1 Dimensi",
+      "description": "Penyimpanan data sejenis dalam satu variabel.",
+      "orderIndex": 11
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 12: Array Multidimensi",
+      "description": "Array 2 dimensi (matriks) dan penggunaannya.",
+      "orderIndex": 12
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 13: Fungsi (Function)",
+      "description": "Modularisasi program dengan fungsi.",
+      "orderIndex": 13
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 14: Prosedur (Procedure)",
+      "description": "Perbedaan fungsi dan prosedur (void function).",
+      "orderIndex": 14
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 15: Review Materi",
+      "description": "Pembahasan latihan soal komprehensif.",
+      "orderIndex": 15
+    },
+    {
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pertemuan 16: Ujian Akhir Semester (UAS)",
+      "description": "Evaluasi akhir semester dengan Final Project.",
+      "orderIndex": 16
+    },
+    {
+      "courseTitle": "Struktur Data",
+      "title": "Array & Linked List",
+      "description": "Struktur data linear dasar",
       "orderIndex": 1
     },
     {
-      "courseTitle": "React Native Mobile App Development",
-      "title": "React Native Fundamentals",
-      "description": "Core concepts and components of React Native",
+      "courseTitle": "Struktur Data",
+      "title": "Stack & Queue",
+      "description": "Implementasi tumpukan dan antrian",
       "orderIndex": 2
     },
     {
-      "courseTitle": "React Native Mobile App Development",
-      "title": "Navigation & Routing",
-      "description": "Implementing navigation between screens",
-      "orderIndex": 3
-    },
-    {
-      "courseTitle": "React Native Mobile App Development",
-      "title": "State Management",
-      "description": "Managing application state effectively",
-      "orderIndex": 4
-    },
-    {
-      "courseTitle": "React Native Mobile App Development",
-      "title": "API Integration",
-      "description": "Connecting to REST APIs and handling data",
-      "orderIndex": 5
-    },
-    {
-      "courseTitle": "Modern UI/UX Design with Figma",
-      "title": "Design Fundamentals",
-      "description": "Basic principles of good design",
+      "courseTitle": "Organisasi & Arsitektur Komputer",
+      "title": "Gerbang Logika",
+      "description": "Dasar digital dan aljabar boolean",
       "orderIndex": 1
     },
     {
-      "courseTitle": "Modern UI/UX Design with Figma",
-      "title": "Figma Mastery",
-      "description": "Advanced Figma tools and techniques",
+      "courseTitle": "Sistem Operasi",
+      "title": "Manajemen Proses",
+      "description": "Process scheduling dan thread",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Pemrograman Web",
+      "title": "HTML5 Dasar",
+      "description": "Struktur halaman web",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Pemrograman Web",
+      "title": "CSS3 Styling",
+      "description": "Mempercantik tampilan web",
       "orderIndex": 2
     },
     {
-      "courseTitle": "Modern UI/UX Design with Figma",
-      "title": "User Research",
-      "description": "Understanding users and their needs",
-      "orderIndex": 3
+      "courseTitle": "E-Learning",
+      "title": "Konsep LMS",
+      "description": "Pengertian dan fungsi LMS",
+      "orderIndex": 1
     },
     {
-      "courseTitle": "Modern UI/UX Design with Figma",
-      "title": "Prototyping & Testing",
-      "description": "Creating interactive prototypes and user testing",
-      "orderIndex": 4
+      "courseTitle": "Pemrograman Berorientasi Objek",
+      "title": "Konsep Dasar OOP",
+      "description": "Class dan Object",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Rekayasa Perangkat Lunak",
+      "title": "SDLC",
+      "description": "Siklus hidup pengembangan sistem",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Komunikasi Data",
+      "title": "OSI Layer",
+      "description": "7 Layer OSI Model",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Jaringan Komputer",
+      "title": "IP Addressing",
+      "description": "IPv4 dan IPv6",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Keamanan Komputer",
+      "title": "Kriptografi Dasar",
+      "description": "Enkripsi dan Dekripsi",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Komputer Grafis",
+      "title": "Primitif Grafis",
+      "description": "Titik, Garis, dan Bentuk Dasar",
+      "orderIndex": 1
+    },
+    {
+      "courseTitle": "Pengolahan Citra Digital",
+      "title": "Konsep Citra Digital",
+      "description": "Pixel, Resolusi, dan Warna",
+      "orderIndex": 1
     }
   ]
 }

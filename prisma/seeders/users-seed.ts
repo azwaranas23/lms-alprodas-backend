@@ -14,10 +14,6 @@ interface UserData {
   bio?: string;
   avatar?: string;
   gender?: string;
-  expertise?: string;
-  experienceYears?: number;
-  linkedinUrl?: string;
-  githubUrl?: string;
 }
 
 interface UsersJsonData {
@@ -37,7 +33,7 @@ export async function usersSeed() {
 
     if (!role) {
       console.warn(
-        `⚠️  Role with key "${user.roleKey}" not found. Skipping user "${user.firstName || user.name}" (${user.email}).`,
+        `⚠️ Role "${user.roleKey}" not found. Skipping user "${user.firstName || user.name}" (${user.email}).`,
       );
       continue;
     }
@@ -55,43 +51,28 @@ export async function usersSeed() {
         isVerified: true,
         userProfile: {
           create: {
-            bio:
-              user.bio ||
-              `I am a ${user.roleKey} with expertise in various technologies.`,
+            bio: user.bio || `Hello, my name is ${user.name}.`,
             avatar:
               user.avatar ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`,
-            gender: (user.gender as Gender) || ('MALE' as Gender),
-            expertise:
-              user.expertise ||
-              (user.roleKey === 'mentor'
-                ? 'Full Stack Development'
-                : 'Learning'),
-            experienceYears:
-              user.experienceYears || (user.roleKey === 'mentor' ? 5 : 0),
-            linkedinUrl:
-              user.linkedinUrl ||
-              `https://linkedin.com/in/${user.name.toLowerCase().replace(' ', '-')}`,
-            githubUrl:
-              user.githubUrl ||
-              `https://github.com/${user.name.toLowerCase().replace(' ', '-')}`,
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                user.name,
+              )}&background=random`,
+            gender: (user.gender as Gender) || Gender.MALE,
           },
         },
       },
     });
 
-    console.log(`✅ User for role "${user.roleKey}" seeded`);
+    console.log(`✅ User "${user.email}" created`);
   }
 }
 
-// For running directly
+// Run directly
 if (require.main === module) {
   usersSeed()
     .catch((e) => {
       console.error(e);
       process.exit(1);
     })
-    .finally(() => {
-      void prisma.$disconnect();
-    });
+    .finally(() => prisma.$disconnect());
 }

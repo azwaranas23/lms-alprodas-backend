@@ -8,10 +8,10 @@ interface CourseData {
   title: string;
   description?: string;
   about?: string;
-  price: number;
   status: CourseStatus;
   subjectName: string;
   mentorEmail: string;
+  courseToken?: string;
   keyPoints?: string[];
   personas?: string[];
   images?: string[];
@@ -69,10 +69,10 @@ export async function coursesSeed() {
             title: course.title,
             description: course.description,
             about: course.about,
-            price: course.price,
             status: course.status,
             subjectId: subject.id,
             mentorId: mentor.id,
+            courseToken: course.courseToken || Math.random().toString(36).substring(7).toUpperCase(),
           },
         });
 

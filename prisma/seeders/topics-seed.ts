@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 interface TopicData {
   name: string;
   description: string;
+  image?: string;
 }
 
 interface TopicsJsonData {
@@ -32,7 +33,11 @@ export async function topicsSeed() {
 
   if (newTopics.length > 0) {
     await prisma.topic.createMany({
-      data: newTopics,
+      data: newTopics.map((t) => ({
+        name: t.name,
+        description: t.description,
+        image: t.image,
+      })),
       skipDuplicates: true,
     });
 

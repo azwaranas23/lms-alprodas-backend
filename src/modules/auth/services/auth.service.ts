@@ -12,7 +12,6 @@ import { BaseResponse } from 'src/common/interface/base-response.interface';
 import { AuthResponseDto } from '../dto/auth-response.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRole } from 'src/common/enums/user-role.enum';
-import { User } from '@prisma/client';
 import { UsersResponseDto } from 'src/modules/users/dto/users-response.dto';
 import { RegisterDto } from 'src/modules/users/dto/register.dto';
 import { RegisterResponseDto } from '../dto/register-response.dto';
@@ -20,7 +19,6 @@ import {
   CreateUserData,
   CreateUserProfileData,
 } from 'src/modules/users/types/users.types';
-
 import * as crypto from 'crypto';
 import { QueueService } from 'src/common/services/queue.service';
 
@@ -31,7 +29,7 @@ export class AuthService {
     private readonly jwtTokenService: JwtTokenService,
     private readonly prisma: PrismaService,
     private readonly queueService: QueueService,
-  ) {}
+  ) { }
 
   async login(loginDto: LoginDto): Promise<BaseResponse<AuthResponseDto>> {
     const user = await this.usersService.findByEmailWithPassword(
@@ -166,7 +164,7 @@ export class AuthService {
 
     await this.queueService.addEmailJob({
       to: user.email,
-      subject: 'Verifikasi Email - LMS Alprodas',
+      subject: 'Verifikasi Email - Alprodas LMS',
       template: 'verification',
       templateData: {
         name: user.name,
@@ -240,7 +238,7 @@ export class AuthService {
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
     await this.queueService.addEmailJob({
       to: user.email,
-      subject: 'Verifikasi Email - LMS Alprodas',
+      subject: 'Verifikasi Email - Alprodas LMS',
       template: 'verification',
       templateData: {
         name: user.name,
@@ -254,5 +252,15 @@ export class AuthService {
       message: 'Verification email resent successfully',
       data: null,
     };
+  }
+
+  async sendTestEmail() {
+    await this.queueService.addEmailJob({
+      to: 'azwarans23@gmail.com',
+      subject: 'Test Gmail OAuth2',
+      html: '<h1>Gmail OAuth2 Works!</h1>',
+    });
+
+    return { message: 'Email queued' };
   }
 }

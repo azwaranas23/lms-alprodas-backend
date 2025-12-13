@@ -1,84 +1,92 @@
 <html>
-  <head>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        color: #333;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      .header {
-        background-color: #4caf50;
-        color: white;
-        padding: 20px;
-        text-align: center;
-      }
-      .content {
-        padding: 20px;
-        background-color: #f9f9f9;
-      }
-      .button {
-        display: inline-block;
-        background-color: #4caf50;
-        color: white;
-        padding: 12px 30px;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 20px;
-      }
-      .footer {
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #ddd;
-        text-align: center;
-        color: #666;
-        font-size: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class='container'>
-      <div class='header'>
-        <h1>Pembayaran Kelas</h1>
-      </div>
-      <div class='content'>
-        <h2>Halo!</h2>
-        <p>Terima kasih telah mendaftar di kelas kami. Berikut detail pembayaran
-          Anda:</p>
 
-        <table style='width: 100%; margin: 20px 0;'>
-          <tr>
-            <td><strong>Order ID:</strong></td>
-            <td>{{orderId}}</td>
-          </tr>
-          <tr>
-            <td><strong>Nama Kelas:</strong></td>
-            <td>{{courseName}}</td>
-          </tr>
-          <tr>
-            <td><strong>Total Pembayaran:</strong></td>
-            <td>Rp {{totalAmount}}</td>
-          </tr>
-        </table>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
 
-        <p>Silakan lakukan pembayaran dengan klik tombol di bawah ini:</p>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        <div style='text-align: center;'>
-          <a href='{{paymentUrl}}' class='button'>Bayar Sekarang</a>
-        </div>
+    .header {
+      background-color: #4caf50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-        <p style='margin-top: 30px; color: #666;'>
-          Link pembayaran akan kadaluarsa dalam 24 jam. Jika Anda memiliki
-          pertanyaan, silakan hubungi tim support kami.
-        </p>
-      </div>
-      <div class='footer'>
-        <p>© 2024 LMS Alprodas. All rights reserved.</p>
-      </div>
+    .content {
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #4caf50;
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='container'>
+    <div class='header'>
+      <h1>Pembayaran Kelas</h1>
     </div>
-  </body>
+    <div class='content'>
+      <h2>Halo!</h2>
+      <p>Terima kasih telah mendaftar di kelas kami. Berikut detail pembayaran
+        Anda:</p>
+
+      <table style='width: 100%; margin: 20px 0;'>
+        <tr>
+          <td><strong>Order ID:</strong></td>
+          <td>{{orderId}}</td>
+        </tr>
+        <tr>
+          <td><strong>Nama Kelas:</strong></td>
+          <td>{{courseName}}</td>
+        </tr>
+        <tr>
+          <td><strong>Total Pembayaran:</strong></td>
+          <td>Rp {{totalAmount}}</td>
+        </tr>
+      </table>
+
+      <p>Silakan lakukan pembayaran dengan klik tombol di bawah ini:</p>
+
+      <div style='text-align: center;'>
+        <a href='{{paymentUrl}}' class='button'>Bayar Sekarang</a>
+      </div>
+
+      <p style='margin-top: 30px; color: #666;'>
+        Link pembayaran akan kadaluarsa dalam 24 jam. Jika Anda memiliki
+        pertanyaan, silakan hubungi tim support kami.
+      </p>
+    </div>
+    <div class='footer'>
+      <p>© 2024 Alprodas LMS. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+
 </html>

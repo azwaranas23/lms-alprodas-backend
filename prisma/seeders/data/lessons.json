@@ -1,48 +1,210 @@
 {
   "data": [
     {
-      "sectionTitle": "Introduction to Web Development",
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "What is Web Development?",
+      "sectionTitle": "Pertemuan 1: Pengenalan & Konsep Dasar",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Pengantar Algoritma",
       "contentType": "VIDEO",
       "contentUrl": "j681mj188M",
       "durationMinutes": 15,
       "orderIndex": 1
     },
     {
-      "sectionTitle": "Introduction to Web Development",
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "Setting up Development Environment",
-      "contentType": "VIDEO",
-      "contentUrl": "j681mj188M",
-      "durationMinutes": 20,
+      "sectionTitle": "Pertemuan 1: Pengenalan & Konsep Dasar",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Sejarah Bahasa Pemrograman",
+      "contentType": "ARTICLE",
+      "contentText": "Sejarah perkembangan bahasa pemrograman dari generasi ke generasi.",
+      "durationMinutes": 10,
       "orderIndex": 2
     },
     {
-      "sectionTitle": "HTML & CSS Fundamentals",
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "HTML Basics",
+      "sectionTitle": "Pertemuan 2: Flowchart & Pseudocode",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Simbol-Simbol Flowchart",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 3: Pengenalan Bahasa C++",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Instalasi CodeBlocks/VS Code",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 15,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 4: Variable & Tipe Data",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Konsep Variabel Memory",
+      "contentType": "ARTICLE",
+      "contentText": "Penjelasan bagaimana variabel disimpan dalam memori komputer.",
+      "durationMinutes": 10,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 5: Operator & Ekspresi",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Operator Aritmatika & Logika",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 25,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 6: Percabangan (If-Else)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Struktur If-Else",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 7: Percabangan (Switch-Case)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Struktur Switch-Case",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 15,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 8: Ujian Tengah Semester (UTS)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Instruksi UTS: Mini Project Kasir Sederhana",
+      "contentType": "ARTICLE",
+      "contentText": "# Ujian Tengah Semester: Mini Project Kasir\n\n**Deskripsi Tugas:**\nBuatlah program Kasir Sederhana menggunakan bahasa C++. Program hrus dapat menghitung total belanja, diskon, dan kembalian.\n\n**Ketentuan:**\n1. Gunakan variabel dan tipe data yang sesuai.\n2. Gunakan percabangan (If-Else/Switch) untuk menentukan diskon.\n3. Input: Nama barang, harga, jumlah beli.\n4. Output: Struk belanja sederhana.\n\n**Pengumpulan:**\nUpload file .cpp ke link yang disediakan.",
+      "durationMinutes": 90,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 9: Perulangan (For Loop)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Konsep Looping For",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 10: Perulangan (While Loop)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "While dan Do-While",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 11: Array 1 Dimensi",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Deklarasi dan Akses Array",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 25,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 12: Array Multidimensi",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Matriks dalam C++",
       "contentType": "VIDEO",
       "contentUrl": "j681mj188M",
       "durationMinutes": 30,
       "orderIndex": 1
     },
     {
-      "sectionTitle": "HTML & CSS Fundamentals",
-      "courseTitle": "Complete Web Development Bootcamp",
-      "title": "CSS Styling",
+      "sectionTitle": "Pertemuan 13: Fungsi (Function)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Membuat Fungsi",
       "contentType": "VIDEO",
       "contentUrl": "j681mj188M",
-      "durationMinutes": 35,
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 14: Prosedur (Procedure)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Fungsi Void (Prosedur)",
+      "contentType": "ARTICLE",
+      "contentText": "Perbedaan antara fungsi yang mengembalikan nilai (return) dan prosedur (void).",
+      "durationMinutes": 15,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 15: Review Materi",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Latihan Soal Komprehensif",
+      "contentType": "ARTICLE",
+      "contentText": "Kumpulan latihan soal untuk persiapan UAS.",
+      "durationMinutes": 60,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Pertemuan 16: Ujian Akhir Semester (UAS)",
+      "courseTitle": "Algoritma dan Pemrograman Dasar",
+      "title": "Instruksi UAS: Final Project Sistem Nilai",
+      "contentType": "ARTICLE",
+      "contentText": "# Ujian Akhir Semester: Project Sistem Pengelolaan Nilai\n\n**Deskripsi Tugas:**\nBuatlah aplikasi console sederhana untuk mengelola nilai mahasiswa.\n\n**Fitur Wajib:**\n1. Login system sederhana.\n2. Input data mahasiswa (Nama, NIM, Nilai Tugas, UTS, UAS).\n3. Hitung Nilai Akhir & Grade.\n4. Gunakan Array/Struct untuk menyimpan data.\n5. Menu interaktif (Looping).\n\n**Bobot Nilai:**\n- Fungsionalitas: 50%\n- Kerapian Kode: 20%\n- Kreativitas Fitur: 30%",
+      "durationMinutes": 120,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Array & Linked List",
+      "courseTitle": "Struktur Data",
+      "title": "Konsep Array",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 12,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "HTML5 Dasar",
+      "courseTitle": "Pemrograman Web",
+      "title": "Tag HTML Dasar",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 20,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "HTML5 Dasar",
+      "courseTitle": "Pemrograman Web",
+      "title": "Membuat Form",
+      "contentType": "ARTICLE",
+      "contentText": "Cara membuat form input dengan HTML.",
+      "durationMinutes": 10,
       "orderIndex": 2
     },
     {
-      "sectionTitle": "React Native Setup",
-      "courseTitle": "React Native Mobile App Development",
-      "title": "Installing React Native CLI",
+      "sectionTitle": "Manajemen Proses",
+      "courseTitle": "Sistem Operasi",
+      "title": "Apa itu Process?",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 14,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "IP Addressing",
+      "courseTitle": "Jaringan Komputer",
+      "title": "Subnetting IPv4",
+      "contentType": "VIDEO",
+      "contentUrl": "j681mj188M",
+      "durationMinutes": 30,
+      "orderIndex": 1
+    },
+    {
+      "sectionTitle": "Konsep Dasar OOP",
+      "courseTitle": "Pemrograman Berorientasi Objek",
+      "title": "Analogi Class dan Object",
       "contentType": "ARTICLE",
-      "contentText": "Step-by-step guide to install React Native CLI and set up your development environment.",
-      "durationMinutes": 10,
+      "contentText": "Penjelasan OOP menggunakan analogi dunia nyata.",
+      "durationMinutes": 8,
       "orderIndex": 1
     }
   ]

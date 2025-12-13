@@ -13,7 +13,6 @@ export interface CompleteCourseResponseDto {
     description: string | null;
     about: string | null;
     tools: string | null;
-    price: number;
     status: string;
     totalLessons: number;
     totalStudents: number;
@@ -34,7 +33,6 @@ export interface CompleteCourseResponseDto {
       profile: {
         bio: string | null;
         avatar: string | null;
-        expertise: string | null;
       } | null;
     };
     images: {

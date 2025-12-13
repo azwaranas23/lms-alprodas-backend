@@ -33,8 +33,4 @@ interface UserProfileResponseDto {
   bio: string | null;
   avatar: string | null;
   gender: string | null;
-  expertise: string | null;
-  experienceYears: number | null;
-  linkedInUrl: string | null;
-  githubUrl: string | null;
 }

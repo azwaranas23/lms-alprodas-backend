@@ -31,7 +31,6 @@ export interface LatestTransactionData {
 export interface LatestCourseData {
   id: number;
   title: string;
-  price: number;
   status: string;
   totalLessons: number;
   createdAt: Date;
@@ -79,7 +78,6 @@ export interface TransactionWithCourseAndStudent {
 export interface CourseWithSubject {
   id: number;
   title: string;
-  price: Decimal;
   status: string;
   totalLessons: number;
   createdAt: Date;
