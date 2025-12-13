@@ -1,6 +1,9 @@
 # Multi-stage build for production optimization
 FROM node:20-alpine3.19 AS builder
 
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
+
 # Install Chromium dependencies for Puppeteer
 RUN apk add --no-cache \
     chromium \
@@ -22,22 +25,25 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
 # Install all dependencies (including dev dependencies for build)
-RUN npm ci && npm cache clean --force
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY . .
 
 # Generate Prisma client
-RUN npx prisma generate
+RUN pnpm exec prisma generate
 
 # Build the application
-RUN npm run build
+RUN pnpm build
 
 # Production stage
 FROM node:20-alpine3.19 AS production
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 
 # Install dumb-init and Chromium dependencies for Puppeteer
 RUN apk add --no-cache \
@@ -60,8 +66,8 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /app
 
 # Copy package files and install production dependencies
-COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
 
 # Copy prisma schema and generate client
 COPY --from=builder /app/prisma ./prisma

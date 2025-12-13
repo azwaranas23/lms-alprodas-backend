@@ -38,11 +38,17 @@ export class ResponseTransformInterceptor implements NestInterceptor {
     } else if (data instanceof Date) {
       return moment(data).tz('Asia/Jakarta').format();
     } else if (isObject(data) && data !== null) {
-      const snakeCased = mapKeys(data, (_: any, key: string) => snakeCase(key));
+      const snakeCased: Record<string, any> = mapKeys(
+        data,
+        (_: any, key: string) => snakeCase(key),
+      );
+
       for (const key in snakeCased) {
         snakeCased[key] = this.transformKeysToSnakeCase(snakeCased[key]);
       }
+
       return snakeCased;
+
     }
     return data;
   }

@@ -64,7 +64,7 @@ export class PdfService {
 
       // Launch Puppeteer browser
       this.logger.log('Launching Puppeteer browser...');
-      const launchOptions: puppeteer.PuppeteerNodeLaunchOptions = {
+      const launchOptions = {
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
