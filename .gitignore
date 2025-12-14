@@ -64,3 +64,4 @@ uploads/*
 
 .env
 .env.*
+docker-compose.prod.yml

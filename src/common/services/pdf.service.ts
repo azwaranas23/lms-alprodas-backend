@@ -76,12 +76,8 @@ export class PdfService {
           '--disable-features=IsolateOrigins,site-per-process',
         ],
         headless: true,
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       };
-
-      // Use system Chromium in Docker/VPS environment
-      if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-        launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-      }
 
       browser = await puppeteer.launch(launchOptions);
 

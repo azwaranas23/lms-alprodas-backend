@@ -37,7 +37,7 @@ COPY . .
 RUN pnpm exec prisma generate
 
 # Build the application
-RUN pnpm build
+RUN NODE_OPTIONS="--max-old-space-size=2048" pnpm build
 
 # Production stage
 FROM node:20-alpine3.19 AS production
