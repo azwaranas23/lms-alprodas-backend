@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to VPS
         shell: bash
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          ssh -p ${{ secrets.VPS_SSH_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             set -e
             cd ${{ secrets.VPS_PATH }}
             git pull origin main
