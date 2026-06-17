@@ -41,9 +41,11 @@
     "date-fns-tz": "^3.2.0",
     "dotenv": "^17.2.2",
     "googleapis": "^168.0.0",
+    "handlebars": "^4.7.8",
     "hbs": "^4.2.0",
     "html-pdf-node": "^1.0.8",
     "ioredis": "^5.8.0",
+    "lodash": "^4.17.21",
     "midtrans-client": "^1.4.3",
     "moment-timezone": "^0.6.0",
     "multer": "^2.0.2",
@@ -51,12 +53,11 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^6.15.0",
+    "puppeteer": "^22.10.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "zod": "^4.1.4",
-    "lodash": "^4.17.21",
-    "handlebars": "^4.7.8",
-    "puppeteer": "^22.10.0"
+    "sharp": "^0.35.1",
+    "zod": "^4.1.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

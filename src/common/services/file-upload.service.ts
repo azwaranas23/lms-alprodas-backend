@@ -4,7 +4,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { unlink } from 'fs/promises';
 import * as fs from 'fs';
-import { diskStorage } from 'multer';
+import { StorageEngine } from 'multer';
+import sharp from 'sharp';
 import path, { basename, extname, join, resolve } from 'path';
 import { Request } from 'express';
 
@@ -20,6 +21,96 @@ interface FileUploadOptions {
   allowedTypes?: RegExp;
   maxSize?: number;
   allowedTypesMessage?: string;
+  maxWidth?: number;
+  quality?: number;
+}
+
+class WebpStorage implements StorageEngine {
+  private destination: string | ((req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => void);
+  private maxWidth?: number;
+  private quality: number;
+
+  constructor(options: {
+    destination: string | ((req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => void);
+    maxWidth?: number;
+    quality?: number;
+  }) {
+    this.destination = options.destination;
+    this.maxWidth = options.maxWidth;
+    this.quality = options.quality || 80;
+  }
+
+  _handleFile(
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error?: any, info?: Partial<Express.Multer.File>) => void,
+  ): void {
+    const getDest = typeof this.destination === 'function'
+      ? this.destination
+      : (_req: Request, _file: Express.Multer.File, callback: any) => callback(null, this.destination);
+
+    getDest(req, file, (err: Error | null, dest: string) => {
+      if (err) return cb(err);
+
+      try {
+        // Ensure destination folder exists
+        fs.mkdirSync(dest, { recursive: true });
+
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const isImage = file.mimetype.startsWith('image/');
+        const ext = isImage ? '.webp' : extname(file.originalname);
+        const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
+        const finalPath = join(dest, filename);
+
+        if (isImage) {
+          let pipeline = sharp().webp({ quality: this.quality });
+          if (this.maxWidth) {
+            pipeline = pipeline.resize({ width: this.maxWidth, withoutEnlargement: true });
+          }
+
+          const writeStream = fs.createWriteStream(finalPath);
+          file.stream.pipe(pipeline).pipe(writeStream);
+
+          writeStream.on('finish', () => {
+            cb(null, {
+              destination: dest,
+              filename,
+              path: finalPath,
+              size: writeStream.bytesWritten,
+              mimetype: 'image/webp',
+            });
+          });
+
+          writeStream.on('error', (writeErr) => cb(writeErr));
+        } else {
+          // Non-image files
+          const writeStream = fs.createWriteStream(finalPath);
+          file.stream.pipe(writeStream);
+
+          writeStream.on('finish', () => {
+            cb(null, {
+              destination: dest,
+              filename,
+              path: finalPath,
+              size: writeStream.bytesWritten,
+            });
+          });
+
+          writeStream.on('error', (writeErr) => cb(writeErr));
+        }
+      } catch (error) {
+        cb(error);
+      }
+    });
+  }
+
+  _removeFile(
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: Error | null) => void,
+  ): void {
+    fs.unlink(file.path, cb);
+  }
 }
 
 @Injectable()
@@ -27,7 +118,7 @@ export class FileUploadService {
   private readonly logger = new Logger(FileUploadService.name);
 
   // default untuk image (avatar, thumbnail, dsb.)
-  private static readonly DEFAULT_IMAGE_TYPES = /\.(jpg|jpeg|png|avif)$/i;
+  private static readonly DEFAULT_IMAGE_TYPES = /\.(jpg|jpeg|png|avif|webp)$/i;
 
   // khusus untuk Course Resources
   private static readonly COURSE_RESOURCE_TYPES =
@@ -38,20 +129,16 @@ export class FileUploadService {
       destination,
       allowedTypes = this.DEFAULT_IMAGE_TYPES,
       maxSize = 5 * 1024 * 1024,
-      allowedTypesMessage = 'Only image files are allowed (jpg, jpeg, png, avif)',
+      allowedTypesMessage = 'Only image files are allowed (jpg, jpeg, png, avif, webp)',
+      maxWidth = 800, // Default max width for generic image uploads
+      quality = 80,
     } = options;
 
     return {
-      storage: diskStorage({
+      storage: new WebpStorage({
         destination,
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          cb(
-            null,
-            file.fieldname + '-' + uniqueSuffix + extname(file.originalname),
-          );
-        },
+        maxWidth,
+        quality,
       }),
       fileFilter: (
         _req: Request,
@@ -73,6 +160,8 @@ export class FileUploadService {
   static getAvatarMulterConfig() {
     return this.getMulterConfig({
       destination: './uploads/avatars',
+      maxWidth: 300, // Limit avatar width to 300px
+      quality: 80,
     });
   }
 
