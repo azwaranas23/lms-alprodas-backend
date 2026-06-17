@@ -22,18 +22,31 @@ jobs:
           printf "%s\n" "${{ secrets.VPS_SSH_KEY }}" > "$HOME/.ssh/id_ed25519"
           chmod 600 "$HOME/.ssh/id_ed25519"
 
-          ssh-keyscan -p ${{ secrets.VPS_SSH_PORT }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
-
+          ssh-keyscan -p "${{ secrets.VPS_SSH_PORT }}" -H "${{ secrets.VPS_HOST }}" >> "$HOME/.ssh/known_hosts"
 
       - name: Deploy to VPS
         shell: bash
         run: |
-          ssh -p ${{ secrets.VPS_SSH_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e
-            cd ${{ secrets.VPS_PATH }}
-            git pull origin main
-            docker compose build
-            docker compose up -d
-          EOF
+          ssh \
+            -o ServerAliveInterval=30 \
+            -o ServerAliveCountMax=10 \
+            -o BatchMode=yes \
+            -i "$HOME/.ssh/id_ed25519" \
+            -p "${{ secrets.VPS_SSH_PORT }}" \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" << 'EOF'
+              set -e
 
+              cd ${{ secrets.VPS_PATH }}
+
+              echo "→ Pull latest code"
+              git fetch origin
+              git reset --hard origin/main
+
+              echo "→ Build Docker image"
+              docker compose build --progress=plain
+
+              echo "→ Start containers"
+              docker compose up -d --remove-orphans
+
+              echo "✅ Backend deployed successfully"
+          EOF
