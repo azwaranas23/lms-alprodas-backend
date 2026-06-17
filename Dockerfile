@@ -34,7 +34,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Generate Prisma client
-RUN pnpm exec prisma generate
+RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm exec prisma generate
 
 # Build the application
 RUN NODE_OPTIONS="--max-old-space-size=2048" pnpm build
