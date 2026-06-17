@@ -3,10 +3,12 @@ services:
     image: postgres:16-alpine
     container_name: lms_alprodas_postgres
     restart: unless-stopped
+    ports:
+      - "35432:5432"
     environment:
       POSTGRES_DB: lms_alprodas_db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Alprodas@POSTGRES123
+      POSTGRES_PASSWORD: postgres123
       TZ: Asia/Makassar
       PGTZ: Asia/Makassar
     command: >
@@ -20,6 +22,8 @@ services:
     image: redis:7-alpine
     container_name: lms_alprodas_redis
     restart: unless-stopped
+    ports:
+      - "36379:6379"
     volumes:
       - redis_data:/data
 

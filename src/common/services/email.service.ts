@@ -33,6 +33,25 @@ export class EmailService {
 
   private async createGoogleTransporter() {
     try {
+      const emailSender = this.configService.get<string>('EMAIL_SENDER');
+      const emailPassword = this.configService.get<string>('EMAIL_PASSWORD');
+
+      // 1. Jika EMAIL_PASSWORD di-set, gunakan Gmail App Password (lebih mudah & tahan lama untuk local development)
+      if (emailPassword) {
+        this.transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: emailSender,
+            pass: emailPassword,
+          },
+        });
+
+        await this.transporter.verify();
+        this.logger.log('Gmail SMTP transporter (App Password) is ready.');
+        return;
+      }
+
+      // 2. Jika tidak ada EMAIL_PASSWORD, gunakan Google OAuth2 (bawaan)
       const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
       const clientSecret = this.configService.get<string>(
         'GOOGLE_CLIENT_SECRET',
@@ -41,7 +60,6 @@ export class EmailService {
       const refreshToken = this.configService.get<string>(
         'GOOGLE_REFRESH_TOKEN',
       );
-      const emailSender = this.configService.get<string>('EMAIL_SENDER');
 
       const oauth2Client = new google.auth.OAuth2(
         clientId,

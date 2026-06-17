@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -21,6 +22,8 @@ import {
 } from 'src/modules/users/types/users.types';
 import * as crypto from 'crypto';
 import { QueueService } from 'src/common/services/queue.service';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -262,5 +265,80 @@ export class AuthService {
     });
 
     return { message: 'Email queued' };
+  }
+
+  async forgotPassword(
+    forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<BaseResponse<null>> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: forgotPasswordDto.email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Email tidak terdaftar.');
+    }
+
+    const resetPasswordToken = crypto.randomBytes(32).toString('hex');
+    const resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken,
+        resetPasswordExpires,
+      },
+    });
+
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetPasswordToken}`;
+
+    await this.queueService.addEmailJob({
+      to: user.email,
+      subject: 'Reset Password - Alprodas LMS',
+      template: 'forgot-password',
+      templateData: {
+        name: user.name,
+        email: user.email,
+        resetUrl,
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    return {
+      message: 'Instruksi reset password telah dikirim ke email Anda.',
+      data: null,
+    };
+  }
+
+  async resetPassword(
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<BaseResponse<null>> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        resetPasswordToken: resetPasswordDto.token,
+        resetPasswordExpires: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Token reset password tidak valid atau telah kedaluwarsa.');
+    }
+
+    const hashedPassword = await bcrypt.hash(resetPasswordDto.password, 10);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
+
+    return {
+      message: 'Password berhasil direset. Silakan login kembali.',
+      data: null,
+    };
   }
 }

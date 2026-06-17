@@ -54,6 +54,8 @@ model User {
   isVerified        Boolean  @default(false) @map("is_verified")
   verificationToken String?  @map("verification_token") @db.VarChar(255)
   isActive          Boolean  @default(true) @map("is_active")
+  resetPasswordToken   String?  @map("reset_password_token") @db.VarChar(255)
+  resetPasswordExpires DateTime? @map("reset_password_expires") @db.Timestamptz
   createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
