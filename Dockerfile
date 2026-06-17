@@ -40,7 +40,7 @@ RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm exec prisma
 RUN NODE_OPTIONS="--max-old-space-size=2048" pnpm build
 
 # Production stage
-FROM node:20-alpine3.19 AS production
+FROM node:20-alpine3.22 AS production
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
