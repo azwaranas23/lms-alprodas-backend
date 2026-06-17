@@ -43,7 +43,7 @@ jobs:
               git reset --hard origin/main
 
               echo "→ Build Docker image"
-              docker compose build --pull --no-cache --progress=plain
+              docker compose build --pull --progress=plain
 
               echo "→ Start containers"
               docker compose up -d --remove-orphans
