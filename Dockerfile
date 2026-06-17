@@ -1,5 +1,5 @@
 # Multi-stage build for production optimization
-FROM node:20-alpine3.19 AS builder
+FROM node:20-alpine3.22 AS builder
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
