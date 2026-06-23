@@ -26,23 +26,23 @@ export const CreateCourseSchema = z.object({
     .describe('Course status - PUBLISHED or DRAFT'),
   subject_id: z
     .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
+    .transform((val) => (typeof val === 'string' ? Number.parseInt(val, 10) : val))
     .refine(
-      (val) => !isNaN(val) && val > 0,
+      (val) => !Number.isNaN(val) && val > 0,
       'Subject ID must be a positive integer',
     ),
   mentor_id: z
     .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
+    .transform((val) => (typeof val === 'string' ? Number.parseInt(val, 10) : val))
     .refine(
-      (val) => !isNaN(val) && val > 0,
+      (val) => !Number.isNaN(val) && val > 0,
       'Mentor ID must be a positive integer',
     ),
   course_token: z.string().min(1, 'Class token is required'),
 });
 
 export class CreateCourseDto {
-  static schema = CreateCourseSchema;
+  static readonly schema = CreateCourseSchema;
 
   title: string;
   description?: string;

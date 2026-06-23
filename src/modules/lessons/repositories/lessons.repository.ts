@@ -44,12 +44,7 @@ export class LessonsRepository {
   }
 
   async findByIdWithSection(id: number): Promise<LessonWithSection | null> {
-    return this.prisma.lesson.findUnique({
-      where: { id },
-      include: {
-        section: true,
-      },
-    });
+    return this.findById(id);
   }
 
   async findByIdWithSectionAndCourse(

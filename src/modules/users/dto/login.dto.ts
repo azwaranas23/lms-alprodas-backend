@@ -6,7 +6,7 @@ export const LoginSchema = z.object({
 });
 
 export class LoginDto {
-  static schema = LoginSchema;
+  static readonly schema = LoginSchema;
   email: string;
   password: string;
 }

@@ -8,12 +8,10 @@ import { QuerySubjectsDto } from '../dto/query-subjects.dto';
 import { BaseResponse } from 'src/common/interface/base-response.interface';
 import { PaginatedResponse } from 'src/common/interface/pagination.interface';
 import { SubjectsResponseDto } from '../dto/subjects-response.dto';
-import { Readable } from 'stream';
+import { Readable } from 'node:stream';
 
 describe('SubjectsController', () => {
   let controller: SubjectsController;
-  let service: SubjectsService;
-  let fileUploadService: FileUploadService;
 
   const mockSubjectResponseDto: SubjectsResponseDto = {
     id: 1,
@@ -78,8 +76,6 @@ describe('SubjectsController', () => {
       .compile();
 
     controller = module.get<SubjectsController>(SubjectsController);
-    service = module.get<SubjectsService>(SubjectsService);
-    fileUploadService = module.get<FileUploadService>(FileUploadService);
 
     jest.clearAllMocks();
   });
@@ -331,7 +327,7 @@ describe('SubjectsController', () => {
 
       mockSubjectsService.create.mockResolvedValue(expectedResponse);
 
-      await controller.create(createDto, undefined);
+      await controller.create(createDto);
 
       expect(mockSubjectsService.create).toHaveBeenCalledWith(createDto);
     });

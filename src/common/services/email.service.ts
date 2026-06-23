@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { google } from 'googleapis';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import * as hbs from 'handlebars';
 
 export interface EmailOptions {
@@ -15,12 +15,14 @@ export interface EmailOptions {
 }
 
 @Injectable()
-export class EmailService {
+export class EmailService implements OnModuleInit {
   private readonly logger = new Logger(EmailService.name);
   private transporter: nodemailer.Transporter;
 
-  constructor(private configService: ConfigService) {
-    this.createGoogleTransporter();
+  constructor(private readonly configService: ConfigService) {}
+
+  async onModuleInit() {
+    await this.createGoogleTransporter();
   }
 
   async sendTestEmail(): Promise<boolean> {
@@ -39,7 +41,9 @@ export class EmailService {
       // 1. Jika EMAIL_PASSWORD di-set, gunakan Gmail App Password (lebih mudah & tahan lama untuk local development)
       if (emailPassword) {
         this.transporter = nodemailer.createTransport({
-          service: 'gmail',
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true,
           auth: {
             user: emailSender,
             pass: emailPassword,
@@ -74,7 +78,9 @@ export class EmailService {
       const accessToken = await oauth2Client.getAccessToken();
 
       this.transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
           type: 'OAuth2',
           user: emailSender,

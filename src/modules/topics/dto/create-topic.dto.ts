@@ -10,7 +10,7 @@ export const CreateTopicSchema = z.object({
 });
 
 export class CreateTopicDto {
-  static schema = CreateTopicSchema;
+  static readonly schema = CreateTopicSchema;
 
   name: string;
   description?: string | null;

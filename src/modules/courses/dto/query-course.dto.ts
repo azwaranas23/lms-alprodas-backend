@@ -9,7 +9,7 @@ export const QueryCourseSchema = BaseQuerySchema.extend({
 });
 
 export class QueryCourseDto extends BaseQueryDto {
-  static schema = QueryCourseSchema;
+  static readonly schema = QueryCourseSchema;
 
   status?: CourseStatus;
   subjectId?: number;

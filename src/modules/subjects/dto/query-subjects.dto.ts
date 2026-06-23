@@ -6,7 +6,7 @@ export const QuerySubjectsSchema = BaseQuerySchema.extend({
 });
 
 export class QuerySubjectsDto extends BaseQueryDto {
-  static schema = QuerySubjectsSchema;
+  static readonly schema = QuerySubjectsSchema;
 
   topicId?: number;
 }

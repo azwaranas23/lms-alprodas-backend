@@ -5,7 +5,7 @@ export const VerifyEmailSchema = z.object({
 });
 
 export class VerifyEmailDto {
-  static schema = VerifyEmailSchema;
+  static readonly schema = VerifyEmailSchema;
 
   token: string;
 }

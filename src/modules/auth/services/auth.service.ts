@@ -20,7 +20,7 @@ import {
   CreateUserData,
   CreateUserProfileData,
 } from 'src/modules/users/types/users.types';
-import * as crypto from 'crypto';
+import * as crypto from 'node:crypto';
 import { QueueService } from 'src/common/services/queue.service';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';

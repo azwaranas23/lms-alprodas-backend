@@ -116,8 +116,6 @@ export class EnrollmentService {
       throw new NotFoundException('Course not found');
     }
 
-    // TODO: sesuaikan nama field token di model Course Anda
-    // misal: course.courseToken / course.classToken / course.token
     if (!course.courseToken || course.courseToken !== token) {
       throw new ForbiddenException('Invalid course token');
     }

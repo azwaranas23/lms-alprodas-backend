@@ -6,7 +6,7 @@ export const CreateCourseResourceSchema = z.object({
 });
 
 export class CreateCourseResourceDto {
-  static schema = CreateCourseResourceSchema;
+  static readonly schema = CreateCourseResourceSchema;
 
   resource_type?: string;
   name?: string;

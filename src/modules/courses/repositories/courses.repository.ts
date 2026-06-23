@@ -105,10 +105,11 @@ export class CoursesRepository {
   }
 
   async findByIdWithRelations(id: number): Promise<CourseWithRelations | null> {
-    return (await this.prisma.course.findUnique({
+    const course = await this.prisma.course.findUnique({
       where: { id },
       include: this.includeCourseRelations,
-    })) as CourseWithRelations | null;
+    });
+    return course as unknown as CourseWithRelations | null;
   }
 
   async create(

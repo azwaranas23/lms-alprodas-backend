@@ -6,7 +6,7 @@ export const ResetPasswordSchema = z.object({
 });
 
 export class ResetPasswordDto {
-  static schema = ResetPasswordSchema;
+  static readonly schema = ResetPasswordSchema;
 
   token: string;
   password: string;

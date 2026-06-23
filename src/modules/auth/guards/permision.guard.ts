@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PrismaService } from 'src/common/prisma/prisma.service';
@@ -13,11 +14,13 @@ import { PERMISSION_KEY } from '../decorators/permission.decorator';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
+  private readonly logger = new Logger(PermissionsGuard.name);
+
   constructor(
-    private reflector: Reflector,
-    private prisma: PrismaService,
-    private jwtTokenService: JwtTokenService,
-    private authService: AuthService,
+    private readonly reflector: Reflector,
+    private readonly prisma: PrismaService,
+    private readonly jwtTokenService: JwtTokenService,
+    private readonly authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -42,6 +45,7 @@ export class PermissionsGuard implements CanActivate {
 
       request.user = user;
     } catch (error) {
+      this.logger.error('Token verification failed:', error);
       throw new UnauthorizedException('Invalid token');
     }
 

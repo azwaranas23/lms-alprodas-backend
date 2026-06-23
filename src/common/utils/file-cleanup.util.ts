@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { promises as fs } from 'fs';
+import { promises as fs } from 'node:fs';
 
 const logger = new Logger('FileCleanupUtil');
 

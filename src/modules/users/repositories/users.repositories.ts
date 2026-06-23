@@ -85,14 +85,13 @@ export class UsersRepository {
     userData: CreateUserData,
     profileData?: CreateUserProfileData,
   ): Promise<UserWithRoleAndPermissions> {
-    const user = await this.prisma.user.create({
+    return this.prisma.user.create({
       data: {
         ...userData,
         userProfile: profileData ? { create: profileData } : undefined,
       },
       include: this.usersInclude,
     });
-    return user as UserWithRoleAndPermissions;
   }
 
   async findByRole(

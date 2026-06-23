@@ -7,7 +7,7 @@ import { EmailJobData } from '../queues/email.queue';
 export class QueueService {
   private readonly logger = new Logger(QueueService.name);
 
-  constructor(@InjectQueue('email') private emailQueue: Queue<EmailJobData>) {}
+  constructor(@InjectQueue('email') private readonly emailQueue: Queue<EmailJobData>) {}
 
   async addEmailJob(
     jobData: EmailJobData,

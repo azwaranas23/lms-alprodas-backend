@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersResponseDto } from 'src/modules/users/dto/users-response.dto';
 
@@ -11,6 +11,8 @@ export interface JwtPayload {
 
 @Injectable()
 export class JwtTokenService {
+  private readonly logger = new Logger(JwtTokenService.name);
+
   constructor(private readonly jwtService: JwtService) {}
 
   generateToken(user: UsersResponseDto): string {
@@ -33,6 +35,7 @@ export class JwtTokenService {
     try {
       return this.jwtService.decode<JwtPayload>(token);
     } catch (error) {
+      this.logger.error('Failed to decode JWT token', error);
       return null;
     }
   }

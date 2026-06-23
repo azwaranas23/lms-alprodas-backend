@@ -5,19 +5,19 @@ export const BaseQuerySchema = z.object({
     .string()
     .optional()
     .default('1')
-    .transform((val) => parseInt(val, 10))
+    .transform((val) => Number.parseInt(val, 10))
     .refine((val) => val > 0, 'Page must be greater than 0'),
   limit: z
     .string()
     .optional()
     .default('10')
-    .transform((val) => parseInt(val, 10))
+    .transform((val) => Number.parseInt(val, 10))
     .refine((val) => val > 0, 'Limit must be greater than 0'),
   search: z.string().optional(),
 });
 
 export class BaseQueryDto {
-  static schema = BaseQuerySchema;
+  static readonly schema = BaseQuerySchema;
 
   page: number;
   limit: number;

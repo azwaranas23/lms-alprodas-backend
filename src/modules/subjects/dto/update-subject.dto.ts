@@ -1,10 +1,9 @@
-import { z } from 'zod';
 import { CreateSubjectSchema } from './create-subject.dto';
 
 export const UpdateSubjectSchema = CreateSubjectSchema.partial();
 
 export class UpdateSubjectDto {
-  static schema = UpdateSubjectSchema;
+  static readonly schema = UpdateSubjectSchema;
 
   name?: string;
   description?: string;

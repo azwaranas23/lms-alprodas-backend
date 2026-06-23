@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+
 export interface UserFromToken {
   id: number;
   role: {
@@ -6,10 +8,12 @@ export interface UserFromToken {
 }
 
 export class JwtUtil {
+  private static readonly logger = new Logger(JwtUtil.name);
+
   static extractUserFromToken(
     authorization?: string,
   ): UserFromToken | undefined {
-    if (!authorization || !authorization.startsWith('Bearer ')) {
+    if (!authorization?.startsWith('Bearer ')) {
       return undefined;
     }
 
@@ -29,6 +33,7 @@ export class JwtUtil {
         };
       }
     } catch (error) {
+      this.logger.error('Failed to parse JWT payload', error);
       return undefined;
     }
   }

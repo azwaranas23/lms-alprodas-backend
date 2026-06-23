@@ -9,16 +9,16 @@ export const UpdateSectionSchema = z.object({
   description: z.string().optional(),
   order_index: z
     .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
+    .transform((val) => (typeof val === 'string' ? Number.parseInt(val, 10) : val))
     .refine(
-      (val) => !isNaN(val) && val >= 0,
+      (val) => !Number.isNaN(val) && val >= 0,
       'Order index must be a non-negative integer',
     )
     .optional(),
 });
 
 export class UpdateSectionDto {
-  static schema = UpdateSectionSchema;
+  static readonly schema = UpdateSectionSchema;
 
   title?: string;
   description?: string;

@@ -2,22 +2,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { unlink } from 'fs/promises';
-import * as fs from 'fs';
+import { unlink } from 'node:fs/promises';
+import * as fs from 'node:fs';
 import { StorageEngine } from 'multer';
 import sharp from 'sharp';
-import path, { basename, extname, join, resolve } from 'path';
+import path, { basename, extname, join, resolve } from 'node:path';
 import { Request } from 'express';
+import { randomInt } from 'node:crypto';
 
 interface FileUploadOptions {
   // bisa string (static folder) atau function (dynamic folder, mis. berdasarkan courseId)
   destination:
-    | string
-    | ((
-        req: Request,
-        file: Express.Multer.File,
-        cb: (error: Error | null, destination: string) => void,
-      ) => void);
+  | string
+  | ((
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: Error | null, destination: string) => void,
+  ) => void);
   allowedTypes?: RegExp;
   maxSize?: number;
   allowedTypesMessage?: string;
@@ -26,9 +27,9 @@ interface FileUploadOptions {
 }
 
 class WebpStorage implements StorageEngine {
-  private destination: string | ((req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => void);
-  private maxWidth?: number;
-  private quality: number;
+  private readonly destination: string | ((req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => void);
+  private readonly maxWidth?: number;
+  private readonly quality: number;
 
   constructor(options: {
     destination: string | ((req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => void);
@@ -56,7 +57,7 @@ class WebpStorage implements StorageEngine {
         // Ensure destination folder exists
         fs.mkdirSync(dest, { recursive: true });
 
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const uniqueSuffix = Date.now() + '-' + randomInt(0, 1000000000);
         const isImage = file.mimetype.startsWith('image/');
         const ext = isImage ? '.webp' : extname(file.originalname);
         const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
@@ -145,7 +146,7 @@ export class FileUploadService {
         file: Express.Multer.File,
         cb: (error: Error | null, acceptFile: boolean) => void,
       ) => {
-        if (!file.originalname.match(allowedTypes)) {
+        if (!allowedTypes.test(file.originalname)) {
           return cb(new BadRequestException(allowedTypesMessage), false);
         }
         cb(null, true);

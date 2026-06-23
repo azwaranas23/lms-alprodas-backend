@@ -19,5 +19,5 @@ export const TRANSACTION_CONSTANTS = {
   EXPIRY_DURATION_MINUTES: 1440, // 24 hours
   EXPIRY_DURATION_HOURS: 24,
   PPN_RATE: 0.11, // 11% PPN Indonesia
-  PLATFORM_FEE_RATE: 0.10, // 10% Platform Fee
+  PLATFORM_FEE_RATE: 0.1, // 10% Platform Fee
 } as const;

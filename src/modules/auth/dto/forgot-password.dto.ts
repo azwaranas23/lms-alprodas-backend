@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 export const ForgotPasswordSchema = z.object({
-  email: z.string().email({ message: 'Invalid email format' }),
+  email: z.string().email('Invalid email format'),
 });
 
 export class ForgotPasswordDto {
-  static schema = ForgotPasswordSchema;
+  static readonly schema = ForgotPasswordSchema;
 
   email: string;
 }

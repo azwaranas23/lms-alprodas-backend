@@ -11,8 +11,8 @@ import { Observable, of, tap } from 'rxjs';
 @Injectable()
 export class CacheInterceptor implements NestInterceptor {
   constructor(
-    private reflector: Reflector,
-    private cacheService: CacheService,
+    private readonly reflector: Reflector,
+    private readonly cacheService: CacheService,
   ) {}
 
   async intercept(

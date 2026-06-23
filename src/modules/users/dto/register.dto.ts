@@ -33,13 +33,13 @@ export const RegisterSchema = z
     experienceYears: z.number().min(0).max(50).optional(),
     linkedInUrl: z
       .string()
-      .url({ message: 'Invalid LinkedIn URL' })
+      .url('Invalid LinkedIn URL')
       .max(255)
       .optional()
       .or(z.literal('')),
     githubUrl: z
       .string()
-      .url({ message: 'Invalid GitHub URL' })
+      .url('Invalid GitHub URL')
       .max(255)
       .optional()
       .or(z.literal('')),
@@ -50,7 +50,7 @@ export const RegisterSchema = z
   });
 
 export class RegisterDto {
-  static schema = RegisterSchema;
+  static readonly schema = RegisterSchema;
 
   name: string;
   email: string;

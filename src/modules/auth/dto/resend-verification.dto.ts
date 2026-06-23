@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 export const ResendVerificationSchema = z.object({
-  email: z.string().email({ message: 'Invalid email format' }),
+  email: z.string().email('Invalid email format'),
 });
 
 export class ResendVerificationDto {
-  static schema = ResendVerificationSchema;
+  static readonly schema = ResendVerificationSchema;
 
   email: string;
 }

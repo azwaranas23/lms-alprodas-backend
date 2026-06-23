@@ -8,7 +8,6 @@ import { UpdateSubjectDto } from '../dto/update-subject.dto';
 
 describe('SubjectsRepository', () => {
   let repository: SubjectsRepository;
-  let prisma: PrismaService;
 
   const mockTopic: Topic = {
     id: 1,
@@ -30,11 +29,7 @@ describe('SubjectsRepository', () => {
     updatedAt: new Date('2024-01-01'),
   };
 
-  const mockSubjectWithTopic: SubjectWithTopic = {
-    ...mockSubject,
-    topic: mockTopic,
-    totalStudents: 25,
-  };
+
 
   const mockPrismaService = {
     subject: {
@@ -59,7 +54,6 @@ describe('SubjectsRepository', () => {
     }).compile();
 
     repository = module.get<SubjectsRepository>(SubjectsRepository);
-    prisma = module.get<PrismaService>(PrismaService);
 
     // Reset all mocks before each test
     jest.clearAllMocks();

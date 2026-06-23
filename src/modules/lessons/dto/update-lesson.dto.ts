@@ -9,9 +9,7 @@ export const UpdateLessonSchema = z
       .max(255, 'Title is too long')
       .optional(),
     content_type: z
-      .nativeEnum(ContentType, {
-        message: 'Content type must be VIDEO, Or ARTICLE',
-      })
+      .nativeEnum(ContentType, 'Content type must be VIDEO, Or ARTICLE')
       .optional(),
     content_url: z.string().optional().nullable(),
     content_text: z.string().optional().nullable(),
@@ -50,7 +48,7 @@ export const UpdateLessonSchema = z
   );
 
 export class UpdateLessonDto {
-  static schema = UpdateLessonSchema;
+  static readonly schema = UpdateLessonSchema;
 
   title: string;
   content_type: ContentType;

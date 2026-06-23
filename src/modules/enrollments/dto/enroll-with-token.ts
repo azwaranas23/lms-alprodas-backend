@@ -7,7 +7,7 @@ export const EnrollWithTokenSchema = z.object({
 });
 
 export class EnrollWithTokenDto {
-  static schema = EnrollWithTokenSchema;
+  static readonly schema = EnrollWithTokenSchema;
 
   course_id: number;
   token: string;

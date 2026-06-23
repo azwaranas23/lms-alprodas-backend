@@ -2,8 +2,6 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { DashboardRepository } from '../repositories/dashboard.repository';
 import {
   DashboardStatistics,
-  LatestTransactionData,
-  TransactionWithCourseAndStudent,
 } from '../interfaces/dashboard.interface';
 import { UserRole } from 'src/common/enums/user-role.enum';
 import {

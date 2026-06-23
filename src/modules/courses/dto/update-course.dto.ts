@@ -26,9 +26,9 @@ export const UpdateCourseSchema = z.object({
     .optional(),
   subject_id: z
     .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
+    .transform((val) => (typeof val === 'string' ? Number.parseInt(val, 10) : val))
     .refine(
-      (val) => !isNaN(val) && val > 0,
+      (val) => !Number.isNaN(val) && val > 0,
       'Subject ID must be a positive integer',
     )
     .optional(),
@@ -36,7 +36,7 @@ export const UpdateCourseSchema = z.object({
 });
 
 export class UpdateCourseDto {
-  static schema = UpdateCourseSchema;
+  static readonly schema = UpdateCourseSchema;
 
   title?: string;
   description?: string;

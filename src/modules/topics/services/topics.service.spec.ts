@@ -11,7 +11,6 @@ import { PaginationUtil } from 'src/common/utils/pagination.util';
 
 describe('TopicsService', () => {
   let service: TopicsService;
-  let repository: TopicsRepository;
 
   const mockTopic: Topic = {
     id: 1,
@@ -64,7 +63,6 @@ describe('TopicsService', () => {
     }).compile();
 
     service = module.get<TopicsService>(TopicsService);
-    repository = module.get<TopicsRepository>(TopicsRepository);
 
     jest.clearAllMocks();
   });

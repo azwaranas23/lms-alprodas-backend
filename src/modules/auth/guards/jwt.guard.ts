@@ -3,14 +3,16 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { JwtTokenService } from '../services/jwt.service';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  private readonly logger = new Logger(JwtAuthGuard.name);
+
   constructor(
     private readonly jwtTokenService: JwtTokenService,
     private readonly authService: AuthService,
@@ -39,6 +41,7 @@ export class JwtAuthGuard implements CanActivate {
       request.user = user;
       return true;
     } catch (error) {
+      this.logger.error('JWT validation failed:', error);
       throw new UnauthorizedException('Invalid token');
     }
   }

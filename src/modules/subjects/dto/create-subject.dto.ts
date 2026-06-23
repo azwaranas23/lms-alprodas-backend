@@ -6,15 +6,15 @@ export const CreateSubjectSchema = z.object({
   image: z.string().optional(),
   topic_id: z
     .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseInt(val, 10) : val))
+    .transform((val) => (typeof val === 'string' ? Number.parseInt(val, 10) : val))
     .refine(
-      (val) => !isNaN(val) && val > 0,
+      (val) => !Number.isNaN(val) && val > 0,
       'Topic ID must be a positive integer',
     ),
 });
 
 export class CreateSubjectDto {
-  static schema = CreateSubjectSchema;
+  static readonly schema = CreateSubjectSchema;
 
   name: string;
   description?: string;

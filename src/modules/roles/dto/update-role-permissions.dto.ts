@@ -7,7 +7,7 @@ export const UpdateRolePermissionsSchema = z.object({
 });
 
 export class UpdateRolePermissionsDto {
-  static schema = UpdateRolePermissionsSchema;
+  static readonly schema = UpdateRolePermissionsSchema;
 
   permission_ids: number[];
 }

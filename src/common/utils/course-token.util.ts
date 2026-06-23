@@ -1,11 +1,13 @@
-const TOKEN_CHARS =
+import { randomInt } from 'node:crypto';
+
+const CHARACTER_POOL =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 function randomSegment(length: number): string {
   let result = '';
   for (let i = 0; i < length; i++) {
-    const idx = Math.floor(Math.random() * TOKEN_CHARS.length);
-    result += TOKEN_CHARS[idx];
+    const idx = randomInt(0, CHARACTER_POOL.length);
+    result += CHARACTER_POOL[idx];
   }
   return result;
 }

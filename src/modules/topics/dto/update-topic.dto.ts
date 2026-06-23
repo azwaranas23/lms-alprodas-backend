@@ -10,7 +10,7 @@ export const UpdateTopicSchema = z.object({
 });
 
 export class UpdateTopicDto {
-  static schema = UpdateTopicSchema;
+  static readonly schema = UpdateTopicSchema;
 
   name: string;
   description?: string | null;
