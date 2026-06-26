@@ -81,8 +81,8 @@ export class AuthController {
   }
 
   @Throttle({
-    short: { ttl: 30000, limit: 1 }, // 1 request per 30 seconds
-    long: { ttl: 3600000, limit: 3 }, // 3 requests per hour
+    short: { ttl: 30000, limit: 2 }, // 2 requests per 30 seconds
+    long: { ttl: 3600000, limit: 5 }, // 5 requests per hour
   })
   @Post('resend-verification')
   async resendVerification(
@@ -96,8 +96,8 @@ export class AuthController {
   }
 
   @Throttle({
-    short: { ttl: 10000, limit: 1 }, // 1 request per 10 seconds
-    medium: { ttl: 900000, limit: 3 }, // 3 requests per 15 minutes
+    short: { ttl: 10000, limit: 3 }, // 3 requests per 10 seconds
+    medium: { ttl: 900000, limit: 10 }, // 10 requests per 15 minutes
   })
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
