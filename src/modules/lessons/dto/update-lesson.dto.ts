@@ -9,7 +9,7 @@ export const UpdateLessonSchema = z
       .max(255, 'Title is too long')
       .optional(),
     content_type: z
-      .nativeEnum(ContentType, 'Content type must be VIDEO, Or ARTICLE')
+      .enum(ContentType, 'Content type must be VIDEO, Or ARTICLE')
       .optional(),
     content_url: z.string().optional().nullable(),
     content_text: z.string().optional().nullable(),

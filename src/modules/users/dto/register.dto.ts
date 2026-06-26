@@ -12,7 +12,7 @@ import {
 export const RegisterSchema = z
   .object({
     name: z.string().min(1, 'Name is required').max(255, 'Name is too long'),
-    email: z.string().email('Invalid email format'),
+    email: z.email({ error: 'Invalid email format' }),
     password: z
       .string()
       .min(8, 'Password must be at least 8 characters')
@@ -26,20 +26,18 @@ export const RegisterSchema = z
         VALIDATION_MESSAGES.INDONESIAN_PHONE,
       )
       .optional(),
-    gender: z.nativeEnum(Gender).optional(),
+    gender: z.enum(Gender).optional(),
     avatar: z.string().optional(),
     bio: z.string().max(500, 'Bio is too long').optional(),
     expertise: z.string().max(255, 'Expertise is too long').optional(),
     experienceYears: z.number().min(0).max(50).optional(),
     linkedInUrl: z
-      .string()
-      .url('Invalid LinkedIn URL')
+      .url({ error: 'Invalid LinkedIn URL' })
       .max(255)
       .optional()
       .or(z.literal('')),
     githubUrl: z
-      .string()
-      .url('Invalid GitHub URL')
+      .url({ error: 'Invalid GitHub URL' })
       .max(255)
       .optional()
       .or(z.literal('')),

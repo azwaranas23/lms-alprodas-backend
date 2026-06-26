@@ -8,7 +8,7 @@ export const CreateLessonSchema = z
       .int()
       .positive('Section ID must be a positive integer'),
     title: z.string().min(1, 'Title is required').max(255, 'Title is too long'),
-    content_type: z.nativeEnum(ContentType, 'Content type must be VIDEO, Or ARTICLE'),
+    content_type: z.enum(ContentType, 'Content type must be VIDEO, Or ARTICLE'),
     content_url: z.string().optional().nullable(),
     content_text: z.string().optional().nullable(),
     duration_minutes: z.number().min(1, 'Duration must be at least 1 minute'),
