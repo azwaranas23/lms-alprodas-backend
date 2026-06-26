@@ -37,7 +37,7 @@ COPY . .
 RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm exec prisma generate
 
 # Build the application
-RUN NODE_OPTIONS="--max-old-space-size=2048" pnpm build
+RUN NODE_OPTIONS="--max-old-space-size=1024" pnpm build
 
 # Production stage
 FROM node:20-alpine3.22 AS production
