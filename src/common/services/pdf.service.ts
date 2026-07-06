@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import * as hbs from 'handlebars';
 import * as puppeteer from 'puppeteer';
@@ -23,6 +23,31 @@ export class PdfService {
     );
   }
 
+  private getBrowserExecutablePath(): string | undefined {
+    const envPath = process.env.PUPPETEER_EXECUTABLE_PATH;
+
+    if (envPath && existsSync(envPath)) {
+      return envPath;
+    }
+
+    const possiblePaths =
+      process.platform === 'win32'
+        ? [
+          'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+          `${process.env.LOCALAPPDATA}\\Google\\Chrome\\Application\\chrome.exe`,
+          'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+        ]
+        : [
+          '/usr/bin/chromium',
+          '/usr/bin/chromium-browser',
+          '/usr/bin/google-chrome',
+          '/usr/bin/google-chrome-stable',
+        ];
+
+    return possiblePaths.find((browserPath) => existsSync(browserPath));
+  }
+
   /**
    * Generate a certificate PDF as a buffer
    */
@@ -34,13 +59,9 @@ export class PdfService {
         `Generating certificate for ${data.studentName} - ${data.certificateId}`,
       );
 
-      // Read the Handlebars template
       const templateSource = readFileSync(this.templatePath, 'utf-8');
-
-      // Compile the template
       const template = hbs.compile(templateSource);
 
-      // Format the completion date
       const completedDate = new Date(data.completedAt).toLocaleDateString(
         'id-ID',
         {
@@ -50,20 +71,24 @@ export class PdfService {
         },
       );
 
-      // Prepare template data
       const templateData = {
         studentName: data.studentName,
         courseName: data.courseName,
-        completedDate: completedDate,
+        completedDate,
         certificateId: data.certificateId,
       };
 
-      // Generate HTML from template
       const html = template(templateData);
       this.logger.debug('HTML template compiled successfully');
 
-      // Launch Puppeteer browser
-      this.logger.log('Launching Puppeteer browser...');
+      const executablePath = this.getBrowserExecutablePath();
+
+      this.logger.log(
+        executablePath
+          ? `Launching Puppeteer browser: ${executablePath}`
+          : 'Launching Puppeteer browser using default bundled browser',
+      );
+
       const launchOptions = {
         args: [
           '--no-sandbox',
@@ -76,21 +101,24 @@ export class PdfService {
           '--disable-features=IsolateOrigins,site-per-process',
         ],
         headless: true,
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+        ...(executablePath ? { executablePath } : {}),
       };
 
       browser = await puppeteer.launch(launchOptions);
 
-      // Create new page
+      if (executablePath) {
+        launchOptions.executablePath = executablePath;
+      }
+
+      browser = await puppeteer.launch(launchOptions);
+
       const page = await browser.newPage();
 
-      // Set content and wait for it to load
       this.logger.log('Setting page content...');
       await page.setContent(html, {
         waitUntil: 'networkidle0',
       });
 
-      // Generate PDF
       this.logger.log('Generating PDF...');
       const pdfBuffer = await page.pdf({
         format: 'a4',
@@ -110,10 +138,11 @@ export class PdfService {
 
       return Buffer.from(pdfBuffer);
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+
       this.logger.error('Error generating PDF:', error);
-      throw new Error(`Failed to generate certificate PDF: ${error.message}`);
+      throw new Error(`Failed to generate certificate PDF: ${message}`);
     } finally {
-      // Always close the browser to prevent resource leaks
       if (browser) {
         this.logger.debug('Closing browser...');
         await browser.close();
